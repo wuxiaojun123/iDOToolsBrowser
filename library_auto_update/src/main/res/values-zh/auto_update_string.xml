@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="updateTitle">发现新版本</string>
+	<string name="updateMessage"><i>%1$s</i><i>%2$s</i><i>%3$s</i><i>%4$s</i></string>
+	<string name="appName">应用名称&#058;&#160;%1$s\n</string>
+	<string name="versionDownloadable">最新版本&#058;&#160;%1$s\n</string>
+	<string name="sizeDownloadable">新版本大小&#058;&#160;%1$s\n</string>
+	<string name="releaseNotes">\n更新内容&#058;&#160;\n%1$s\n</string>
+
+	<string name="UpdateNow">立即更新</string>
+	<string name="NotNow">以后再说</string>
+	<string name="Ignore">忽略该版</string>
+
+	<string name="download_progress">新版本下载中:%1$d%%</string>
+	<string name="download_success">新版本下载完成，请点击安装.</string>
+	<string name="download_failed">新版本下载失败, 点击重试.</string>
+
+	<string name="ido_no_update_version">已是最新版本</string>
+	<string name="ido_disable_repeat_click">请不要重复点击</string>
+	<string name="string_network_error">网络异常</string>
+</resources>

@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/build/intermediates/res/merged/debug/values-w820dp-v13/values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/res/values-w820dp/tae_sdk_ui_dimens.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 302,
+                        "endColumn": 57,
+                        "endOffset": 355
+                    }
+                }
+            }
+        ]
+    }
+]

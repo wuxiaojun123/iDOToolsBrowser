@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/build/intermediates/res/merged/debug/anim/popup_window_out.xml",
+        "source": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/res/anim/popup_window_out.xml"
+    },
+    {
+        "merged": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/build/intermediates/res/merged/debug/anim/popup_window_in.xml",
+        "source": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/res/anim/popup_window_in.xml"
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/build/intermediates/res/merged/debug/values-zh-rCN/values-zh-rCN.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 50,
+                    "endOffset": 101
+                },
+                "from": {
+                    "file": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/res/values-zh-rCN/alibaba_strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 50,
+                        "endOffset": 102
+                    }
+                }
+            }
+        ]
+    }
+]

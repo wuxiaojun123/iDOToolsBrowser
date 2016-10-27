@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="updateTitle">New version found</string>
+	<string name="updateMessage"><i>%1$s</i><i>%2$s</i><i>%3$s</i><i>%4$s</i></string>
+	<string name="appName">Applicaion&#058;&#160;%1$s\n</string>
+	<string name="versionDownloadable">Latest version&#058;&#160;%1$s\n</string>
+	<string name="sizeDownloadable">Update size&#058;&#160;%1$s\n</string>
+	<string name="releaseNotes">\nUpdate content&#058;&#160;\n%1$s\n</string>
+
+	<string name="UpdateNow">Update now</string>
+	<string name="NotNow">Not now</string>
+	<string name="Ignore">Ingore this</string>
+
+	<string name="download_progress">Downloading:%1$d%%</string>
+	<string name="download_success">Download finished, click to install it.</string>
+	<string name="download_failed">Download failed, click to retry.</string>
+	<string name="ido_no_update_version">Is the latest version</string>
+	<string name="string_network_error">Network anomaly</string>
+</resources>

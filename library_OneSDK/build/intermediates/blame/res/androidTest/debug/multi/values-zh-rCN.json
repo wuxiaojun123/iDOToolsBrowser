@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/build/intermediates/res/merged/androidTest/debug/values-zh-rCN/values-zh-rCN.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 50,
+                    "endOffset": 101
+                },
+                "from": {
+                    "file": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/build/intermediates/bundles/debug/res/values-zh-rCN/values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 50,
+                        "endOffset": 101
+                    }
+                }
+            }
+        ]
+    }
+]

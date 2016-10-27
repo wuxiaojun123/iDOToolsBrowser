@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_title_height"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <com.idotools.browser.view.SearchEditTextView
+        android:id="@+id/id_et_search"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.96"
+        android:background="@drawable/shape_search_bg"
+        android:drawableLeft="@mipmap/img_edittest_search"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:hint="@string/app_name"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:singleLine="true"
+        android:textColorHint="@color/color_9" />
+
+    <ImageView
+        android:id="@+id/id_iv_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="2dp"
+        android:layout_weight="0.04"
+        android:padding="5dp"
+        android:src="@drawable/selector_go" />
+
+</LinearLayout>
