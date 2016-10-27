@@ -9,7 +9,7 @@ public class Constant {
     public static final String PATH = "http://m.dmzj.com/";
 //    public static final String PATH = "http://www.baidu.com/";
 //    public static final String PATH = "http://nativead.baidu.com:8080/native_ad/demo/versite/versite_2.0.html";
-
+    //
     public static final String HTTP = "http://";
     public static final String HTTPS = "https://";
     public static final String FILE = "file://";
