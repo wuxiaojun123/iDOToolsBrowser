@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.base.browser">
+
+
+
+    <application android:allowBackup="true">
+        <!--<activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/theme.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/style_AppTheme" />
+
+        <activity
+            android:name=".activity.HistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/style_AppTheme" />
+        &lt;!&ndash; 友盟 START &ndash;&gt;
+        &lt;!&ndash; 国内 key 十元购 5818123975ca35300b001844 &ndash;&gt;
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5818123975ca35300b001844" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="111" />
+        &lt;!&ndash; 友盟 END &ndash;&gt;
+
+        &lt;!&ndash;个推　start&ndash;&gt;
+        <receiver
+            android:name=".receiver.GeTuiPushReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
+            </intent-filter>
+        </receiver>
+        &lt;!&ndash;个推　end&ndash;&gt;-->
+    </application>
+
+
+
+</manifest>

@@ -147,11 +147,6 @@ public class MainPopupWindow implements View.OnClickListener {
                 //历史记录
                 exitStartAnim();
                 ((MainActivity) mContext).startActivity(new Intent(((MainActivity) mContext), HistoryActivity.class));
-                /*//清除缓存
-                if (mWebViewManager == null) {
-                    mWebViewManager = ((MainActivity) mContext).getWebViewManager();
-                }
-                mWebViewManager.cleanCache();*/
 
                 break;
             case R.id.id_add_shortcut:

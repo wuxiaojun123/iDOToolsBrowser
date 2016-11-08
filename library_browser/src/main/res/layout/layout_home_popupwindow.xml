@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/id_ll_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:alpha="0"
+        android:background="#80000000"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:id="@+id/id_ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_home_more_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_while"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.base.browser.view.ImageTextViewGroup
+                android:id="@+id/id_share"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_bg_popupwindow"
+                app:image_text_viewgroup_src="@mipmap/img_share_normal"
+                app:image_text_viewgroup_text="@string/string_share" />
+
+            <com.base.browser.view.ImageTextViewGroup
+                android:id="@+id/id_history"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_bg_popupwindow"
+                app:image_text_viewgroup_src="@mipmap/img_history_normal"
+                app:image_text_viewgroup_text="@string/string_history" />
+
+            <com.base.browser.view.ImageTextViewGroup
+                android:id="@+id/id_add_shortcut"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_bg_popupwindow"
+                app:image_text_viewgroup_src="@mipmap/img_add_normal"
+                app:image_text_viewgroup_text="@string/string_add_shortcut" />
+
+            <com.base.browser.view.ImageTextViewGroup
+                android:id="@+id/id_check_update"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_bg_popupwindow"
+                app:image_text_viewgroup_src="@mipmap/img_update_normal"
+                app:image_text_viewgroup_text="@string/string_check_update" />
+
+            <!--<com.base.browser.view.ImageTextViewGroup
+                android:id="@+id/id_night_mode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_bg_popupwindow"
+                app:image_text_viewgroup_src="@mipmap/img_night_normal"
+                app:image_text_viewgroup_text="@string/string_night_mode" />-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.base.browser.view.ImageTextViewGroup
+                android:id="@+id/id_about"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_bg_popupwindow"
+                app:image_text_viewgroup_src="@mipmap/img_about_normal"
+                app:image_text_viewgroup_text="@string/string_about" />
+
+            <com.base.browser.view.ImageTextViewGroup
+                android:id="@+id/id_exit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_bg_popupwindow"
+                app:image_text_viewgroup_src="@mipmap/img_exit"
+                app:image_text_viewgroup_text="@string/string_exit" />
+
+            <com.base.browser.view.ImageTextViewGroup
+                android:id="@+id/id_feedback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <!--android:background="@drawable/selector_bg_popupwindow"
+            app:image_text_viewgroup_src="@mipmap/img_feedback_normal"
+            app:image_text_viewgroup_text="@string/string_feedback"-->
+
+            <com.base.browser.view.ImageTextViewGroup
+                android:id="@+id/id_night_mode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+//        applicationId "com.base.browser"
+        minSdkVersion 14
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    sourceSets {
+        main {
+            //manifest.srcFile 'AndroidManifest.xml'
+            //java.srcDirs = ['src']
+            //res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    //基本library
+    compile project(':library_base')
+    //自动更新
+    compile project(':library_auto_update')
+
+//    compile project(':library_demo_resource')
+    //解析html工具类
+//    compile 'org.jsoup:jsoup:1.9.2'
+    //butterknife
+//    compile 'com.jakewharton:butterknife:8.0.1'
+//    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    //glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //compile 'com.android.support:support-v4:19.1.0'
+
+}

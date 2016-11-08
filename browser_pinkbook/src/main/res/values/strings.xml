@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">粉色书城</string>
+    <string name="string_main_title">粉色书城</string>
+    <string name="string_clean_success">清除完成</string>
+    
+    <string name="string_praise">给个好评</string>
+
+    <string name="string_qq">QQ:348042571</string>
+    <string name="string_user_test">用户交流群</string>
+    <string name="string_about">关于</string>
+
+    <!--更多弹窗-->
+    <string name="string_share">分享</string>
+    <string name="string_clean_cache">清空缓存</string>
+    <string name="string_add_shortcut">添加到桌面</string>
+    <string name="string_night_mode">夜间模式</string>
+    <string name="string_night_day_mode">白天模式</string>
+    <string name="string_check_update">检查更新</string>
+    <string name="string_feedback">反馈</string>
+    <string name="string_exit">退出</string>
+    
+    <!--弹窗提示-->
+    <string name="string_prompt">提示</string>
+    <string name="string_confirm">确定</string>
+    <string name="string_cancel">取消</string>
+    <string name="string_title">标题</string>
+    <string name="string_content">内容</string>
+    <string name="string_confirm_cancel">确定要取消吗?</string>
+    <string name="string_confirm_add_shortcut">确定要添加到桌面吗?</string>
+    <string name="string_confirm_clean_all_cache">确认清除所有缓存?</string>
+    <string name="string_confirm_exit_app">确定要退出吗?</string>
+
+    <!--历史记录-->
+    <string name="string_history">历史记录</string>
+    <!--添加桌面快捷方式-->
+    <string name="string_create_shortcut_success">创建成功</string>
+
+    <!--首页-->
+    <string name="string_no_network_check_setting">咦...没网了...快去检查下网络</string>
+    <string name="string_address_error">到了荒漠之地，去逛逛别的~</string>
+
+    <string name="string_press_again">请再按一次退出</string>
+
+    <!--点击背景变深色-->
+    <drawable name="color_normal">#e365a3</drawable>
+    <drawable name="color_normal_night">#474747</drawable>
+    <drawable name="color_pressed">#d14f8f</drawable>
+    <drawable name="color_pressed_night">#565656</drawable>
+
+    <drawable name="color_normal_day">#ffffff</drawable>
+    <drawable name="color_pressed_day">#e8e8e8</drawable>
+</resources>

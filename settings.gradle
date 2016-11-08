@@ -1,5 +1,10 @@
-include ':app'
+include ':app', ':library_getui'
+include ':browser_pinkbook'
+include ':browser_tenyuan'
+include ':browser_demo'
+
 include ':library_analyticsone'
 include ':library_base'
 include ':library_OneSDK'
 include ':library_auto_update'
+include ':library_browser'

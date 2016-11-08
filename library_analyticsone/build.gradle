@@ -30,5 +30,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
     //umeng统计
-    compile 'com.umeng.analytics:analytics:6.0.0'
+//    compile 'com.umeng.analytics:analytics:6.0.0'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

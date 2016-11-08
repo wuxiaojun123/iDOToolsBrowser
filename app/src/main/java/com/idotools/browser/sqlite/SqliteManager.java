@@ -54,9 +54,9 @@ public class SqliteManager {
         Cursor cursor = readableDatabase.rawQuery(SELECT_ALL, null);
         while (cursor.moveToNext()) {
             String title = cursor.getString(cursor.getColumnIndex("title"));
-            String img = cursor.getString(cursor.getColumnIndex("img"));
+            byte[] bytes = cursor.getBlob(cursor.getColumnIndex("img"));
             String url = cursor.getString(cursor.getColumnIndex("url"));
-            list.add(new CartoonDetailsBean(title, img, url));
+            list.add(new CartoonDetailsBean(title, bytes, url));
         }
         cursor.close();
         return list;

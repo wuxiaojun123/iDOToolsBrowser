@@ -8,10 +8,10 @@ public class CartoonDetailsBean {
 
 
     public String title;
-    public String img;
+    public byte[] img;
     public String url;
 
-    public CartoonDetailsBean(String title,String img,String url){
+    public CartoonDetailsBean(String title,byte[] img,String url){
         this.title = title;
         this.img = img;
         this.url = url;

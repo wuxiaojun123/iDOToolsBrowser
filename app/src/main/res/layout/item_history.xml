@@ -17,8 +17,7 @@
             android:layout_width="@dimen/dimen_history_img_width"
             android:layout_height="@dimen/dimen_history_img_height"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/img_history_default"
-            />
+            android:src="@mipmap/img_history_default" />
 
         <LinearLayout
             android:id="@+id/ll_text"
@@ -32,9 +31,10 @@
                 android:id="@+id/id_tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:ellipsize="end"
-                android:maxLines="2"
-                android:text="哈哈哈"
+                android:maxLines="1"
+                android:text="百度一下"
                 android:textColor="@color/color_about_text"
                 android:textSize="@dimen/dimen_text_16" />
 
@@ -42,10 +42,11 @@
                 android:id="@+id/id_tv_laster_chapter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_marginTop="6dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="嘿嘿嘿"
+                android:text="https://www.baidu.com"
                 android:textColor="@color/color_9"
                 android:textSize="@dimen/dimen_text_12" />
 

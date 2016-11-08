@@ -1,0 +1,88 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+        applicationId "com.buku001.tenyuan"
+        minSdkVersion 14
+        targetSdkVersion 24
+        versionCode 2
+        versionName "1.1"
+        manifestPlaceholders = [
+                /*GETUI_APP_ID    : "DNgtEwWCLu8dubjQTuyIH7",
+                GETUI_APP_KEY   : "sNqD9bIhz7ABdwXtSpJNb5",
+                GETUI_APP_SECRET: "hfM69PYBT7APKV4ntyXEO2",*/
+                GETUI_APP_ID    : "GfV4CESKfiAYFrz17mL8E7",
+                GETUI_APP_KEY   : "q3oXJXyJtLABOIBnQx0Zl8",
+                GETUI_APP_SECRET: "pwWX8nVtTG9KrYUCVvqn56",
+                PACKAGE_NAME    : applicationId
+        ]
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "mips", "mips64", "x86", "x86_64"
+        }
+    }
+    sourceSets {
+        main {
+            //manifest.srcFile 'AndroidManifest.xml'
+            //java.srcDirs = ['src']
+            //res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    signingConfigs {
+        myConfig {
+            storeFile file("17sy-keystore.keystore")
+            storePassword "c88076a26001612bd0da718ed62f1df4"
+            keyAlias "17sy"
+            keyPassword "c88076a26001612bd0da718ed62f1df4"
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+
+            signingConfig signingConfigs.myConfig
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+//            debuggable true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.myConfig
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile project(':library_base')
+    //阿里百川意见反馈
+    //compile project(':library_OneSDK')
+    //自动更新
+    compile project(':library_auto_update')
+
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    //解析html工具类
+//    compile 'org.jsoup:jsoup:1.9.2'
+    //butterknife
+    compile 'com.jakewharton:butterknife:8.0.1'
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    //glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //compile 'com.android.support:support-v4:19.1.0'
+    //个推
+    compile 'com.android.support:support-v4:+'
+    compile 'com.getui:sdk:+'
+}

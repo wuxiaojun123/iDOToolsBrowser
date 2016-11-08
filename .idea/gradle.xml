@@ -10,10 +10,15 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/browser_demo" />
+            <option value="$PROJECT_DIR$/browser_pinkbook" />
+            <option value="$PROJECT_DIR$/browser_tenyuan" />
             <option value="$PROJECT_DIR$/library_OneSDK" />
             <option value="$PROJECT_DIR$/library_analyticsone" />
             <option value="$PROJECT_DIR$/library_auto_update" />
             <option value="$PROJECT_DIR$/library_base" />
+            <option value="$PROJECT_DIR$/library_browser" />
+            <option value="$PROJECT_DIR$/library_getui" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -22,6 +22,7 @@ import com.idotools.browser.sqlite.SqliteManager;
 import com.idotools.browser.utils.Constant;
 import com.idotools.browser.utils.IntentUtils;
 import com.idotools.browser.utils.Utils;
+import com.idotools.utils.ImageFormatUtils;
 import com.idotools.utils.LogUtils;
 
 import org.jsoup.Jsoup;
@@ -116,7 +117,7 @@ public class BrowserWebClient extends WebViewClient {
         }*/
         //保存到数据库中
         LogUtils.e("保存到数据库的title是"+view.getTitle());
-        saveOrUpdateHistory(view.getTitle(),url);
+        saveOrUpdateHistory(view.getTitle(),url,view.getFavicon());
     }
 
 
@@ -124,7 +125,6 @@ public class BrowserWebClient extends WebViewClient {
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
         if (mOnPageStartedListener != null) {
-            LogUtils.e("加载网页" + url);
             mOnPageStartedListener.onPageStarted(url);
         }
     }
@@ -134,11 +134,15 @@ public class BrowserWebClient extends WebViewClient {
      * @param title
      * @param url
      */
-    private void saveOrUpdateHistory(String title, String url) {
+    private void saveOrUpdateHistory(String title, String url,Bitmap bitmap) {
         try {
             boolean isExist = mSqliteManager.selectByTitle(url);
             if (!isExist) {
-                mSqliteManager.insert(new CartoonDetailsBean(title, "", url));
+                //将bitmap转换成byte数组,判断bytes为null的情况
+                if(bitmap != null){
+                    byte[] bytes = ImageFormatUtils.bitmap2Bytes(bitmap);
+                    mSqliteManager.insert(new CartoonDetailsBean(title, bytes, url));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

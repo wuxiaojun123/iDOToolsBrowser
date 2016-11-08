@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_main_title"
+    >
+
+    <!--<include
+        android:id="@+id/id_layout_title"
+        layout="@layout/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_title_height"
+        android:background="@color/color_while" />-->
+    <include
+        android:id="@+id/id_layout_title"
+        layout="@layout/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_title_height"
+        android:layout_alignParentTop="true" />
+
+    <com.base.browser.view.AnimatedProgressBar
+        android:id="@+id/progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/id_layout_title"
+        android:background="@android:color/darker_gray"
+        custom:bidirectionalAnimate="false"
+        custom:progressColor="?attr/colorAccent" />
+
+    <FrameLayout
+        android:id="@+id/id_fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/progress_view"
+        android:layout_marginBottom="@dimen/dimen_control_bottom_total_height"
+        android:background="@android:color/darker_gray" />
+
+    <include
+        android:id="@+id/id_layout_no_network"
+        layout="@layout/layout_home_no_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/progress_view"
+        android:layout_marginBottom="@dimen/dimen_control_bottom_total_height"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/id_layout_network_error"
+        layout="@layout/layout_network_address_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/progress_view"
+        android:layout_marginBottom="@dimen/dimen_control_bottom_total_height"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/id_layout_bottom"
+        layout="@layout/layout_control_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_control_bottom_total_height"
+        android:layout_alignParentBottom="true" />
+
+    <ImageView
+        android:id="@+id/id_iv_night_toogle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/img_night_mode"
+        android:visibility="gone" />
+
+
+    <ImageView
+        android:id="@+id/id_iv_start_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/img_start_page" />
+
+</RelativeLayout>

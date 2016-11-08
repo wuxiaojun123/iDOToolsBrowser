@@ -1,0 +1,146 @@
+<resources>
+    <!-- Policy version -->
+    <PolicyVersion>1.1.1</PolicyVersion>
+
+    <!-- Tracking global switch -->
+    <EnableTracking>true</EnableTracking>
+
+    <!-- Log Policy -->
+
+    <!-- Log output to logcat or not -->
+    <EnableDebugLogging>true</EnableDebugLogging>
+
+    <!-- Log output to logback or not -->
+    <EnableTrackDebug>false</EnableTrackDebug>
+
+    <!-- Log output to logback or not, the log indicates sdk internal exception or error -->
+    <EnableTrackInterError>true</EnableTrackInterError>
+
+    <!-- Log output to logback or not, the log indicates application exception or error -->
+    <EnableTrackExterError>true</EnableTrackExterError>
+
+    <!-- Whether track the uncaught exception or not -->
+    <EnableTrackUncaughtError>true</EnableTrackUncaughtError>
+
+    <!-- Transmit Policy -->
+
+    <!-- Remote fixed data transmit url -->
+    <FixedDataEndpoint>https://log.idotools.com:9467/putDataHttp</FixedDataEndpoint>
+
+    <!-- Remote fixed data transmit url for debugging -->
+    <!--<FixedDataEndpoint>https://data1.idotools.com:9465/putDataHttp</FixedDataEndpoint>-->
+
+    <!-- Remote variable data transmit url -->
+    <VariableDataEndpoint>https://log.idotools.com:9467/putDataHttp</VariableDataEndpoint>
+
+    <!-- Remote variable data transmit url for debugging -->
+    <!--<VariableDataEndpoint>https://data1.idotools.com:9465/putDataHttp</VariableDataEndpoint>-->
+
+    <!-- Remote policy download url -->
+    <PolicyEndpoint>https://info.idotools.com:9460/config/policy</PolicyEndpoint>
+
+    <!-- The byte occupancy shreshold which trigger transmit data to remote, Pn indicate priority number -->
+    <BulkUploadLimitP0>1</BulkUploadLimitP0> <!-- unit: Byte, 1 is 25Bytes, flush faster for priority high -->
+    <BulkUploadLimitP1>1</BulkUploadLimitP1> <!-- unit: Byte, 1 is 25Bytes, flush faster for priority middle -->
+    <BulkUploadLimitP2>20972</BulkUploadLimitP2> <!-- unit: Byte, 20972 is 20KB -->
+
+    <!-- Gzip compression ratio, use to calculator gzip file length reversely(maxFileSize = BulkUploadLimitPn / CompressionRatio) -->
+    <CompressionRatio>0.04</CompressionRatio> <!-- unit: percentage, 0.04 is 4% -->
+
+    <!-- The byte occupancy shreshold which trigger FNATPPolicy to rollover -->
+    <RolloverLimitP0>25</RolloverLimitP0> <!-- unit: Byte, 25Byte -->
+    <RolloverLimitP1>25</RolloverLimitP1> <!-- unit: Byte, 25Byte -->
+    <RolloverLimitP2>10240</RolloverLimitP2> <!-- unit: Byte, 10KB -->
+
+    <!-- Enable high frequency id correction mechanism or not, default on DotAnalytics instance creating -->
+    <IDSuperCorrection>false</IDSuperCorrection>
+
+    <!-- Whether wakeup device to handle alarm on an alarm timeout or not -->
+    <AlarmWakeup>false</AlarmWakeup>
+
+    <!-- The time interval shreshold which trigger transmit data to remote -->
+    <FlushVariableInterval>86400000</FlushVariableInterval> <!-- unit: ms, 86400000 is 24 hours -->
+
+    <!-- SDK will make a random time interval between FlushVariableSince and FlushVariableUntil to transmit variable data to remote -->
+    <FlushVariableSince>0</FlushVariableSince> <!-- unit: ms, 0 is 0 hours -->
+
+    <!-- SDK will make a random time interval between FlushVariableSince and FlushVariableUntil to transmit variable data to remote -->
+    <FlushVariableUntil>3600000</FlushVariableUntil> <!-- unit: ms, 3600000 is 1 hours -->
+
+    <!-- If the data can not be transmit for the reason network offline or something, FNATPPolicy will transmit it first,
+         but the transmitting will start between FlushRepairSince and FlushRepairUntil. -->
+    <FlushRepairSince>0</FlushRepairSince> <!-- unit: ms -->
+
+    <!-- If the data can not be transmit for the reason network offline or something, FNATPPolicy will transmit it first,
+             but the transmitting will start between FlushRepairSince and FlushRepairUntil. -->
+    <FlushRepairUntil>600000</FlushRepairUntil> <!-- unit: ms, 600000 is 10 minutes -->
+
+    <!-- SDK will make a random time interval between FlushFixedSince and FlushFixedUntil to transmit fixed data to remote -->
+    <FlushFixedSince>1800000</FlushFixedSince> <!-- unit: ms, 1800000 is 0.5 hours -->
+
+    <!-- SDK will make a random time interval between FlushFixedSince and FlushFixedUntil to transmit fixed data to remote -->
+    <FlushFixedUntil>3600000</FlushFixedUntil> <!-- unit: ms, 3600000 is 1 hours -->
+
+    <!-- SDK will make a random time interval between LoadIntervalSince and LoadIntervalUntil to load policy.xml from remote -->
+    <LoadIntervalSince>14400000</LoadIntervalSince> <!-- unit: ms, 14400000 is 4 hours -->
+
+    <!-- SDK will make a random time interval between LoadIntervalSince and LoadIntervalUntil to load policy.xml from remote -->
+    <LoadIntervalUntil>21600000</LoadIntervalUntil> <!-- unit: ms, 21600000 is 6 hours -->
+
+    <!-- After load policy file from remote, effecting immediately or not -->
+    <EffectImmediately>true</EffectImmediately>
+
+    <!-- SDK will make a random time between FailRetrySince and FailRetryUntil to retry if transmitting or loading failed -->
+    <FailRetrySince>3600000</FailRetrySince> <!-- unit: ms, 3600000 is 1 hours -->
+
+    <!-- SDK will make a random time between FailRetrySince and FailRetryUntil to retry if transmitting or loading failed -->
+    <FailRetryUntil>7200000</FailRetryUntil> <!-- unit: ms, 7200000 is 2 hours -->
+
+    <!-- The max time of fail retry -->
+    <FailRetryTimesLimit>3</FailRetryTimesLimit>
+
+    <!-- The max stored time of gzip data -->
+    <DataExpiration>604800000</DataExpiration> <!-- unit: ms, 604800000 is 7 days -->
+
+    <!-- The max time of session expired -->
+    <SessionExpiredLimit>30000</SessionExpiredLimit> <!-- unit: ms, 30000 is 30 secondes -->
+
+    <!-- The encode of transmited-data -->
+    <Encode>UTF-8</Encode>
+
+    <!-- The policy of data transmitting -->
+    <TransmitPolicy>1</TransmitPolicy> <!-- TRANSMIT_WIFI_PREFERRED -->
+
+    <!-- The max retry times of waiting network online -->
+    <WaitOnlineTimesLimit>3</WaitOnlineTimesLimit> <!-- 3 * FailRetrySince ~ 3 * FailRetryUntil <==> 3 ~ 6 hours -->
+
+    <!-- The max retry times of waiting wifi online -->
+    <WaitWifiTimesLimit>16</WaitWifiTimesLimit> <!-- 16 * FailRetrySince ~ 16 * FailRetryUntil <==> 16 ~ 32 hours -->
+
+    <!-- The interval of reporting the application is alive -->
+    <!--<AliveReportInterval>86400000</AliveReportInterval> &lt;!&ndash; unit: ms, 86400000 is 24 hours &ndash;&gt;-->
+    <AliveReportInterval>86400000</AliveReportInterval> <!-- unit: ms, 86400000 is 24 hours -->
+
+    <!-- The max time of connect to remote server -->
+    <HttpConnectTimeout>30000</HttpConnectTimeout> <!-- unit: ms, 30000 is 30 secondes -->
+
+    <!-- The max time of reading from remote server -->
+    <HttpReadingTimeout>30000</HttpReadingTimeout> <!-- unit: ms, 30000 is 30 secondes -->
+
+    <!-- Watch package install, replace, removed -->
+    <WatchPackage>false</WatchPackage>
+
+    <!-- Use to generate a common intent broadcast -->
+    <BroadcastIntent>false</BroadcastIntent>
+    <IntentAction1>com.dot.analytics.ACTION1</IntentAction1>
+    <IntentExtra1>com.dot.analytics.ACTION2</IntentExtra1>
+
+    <IntentAction2>com.dot.analytics.EXTRA1</IntentAction2>
+    <IntentExtra2>com.dot.analytics.EXTRA2</IntentExtra2>
+
+    <!-- The three elements use to reserved,  -->
+    <RevervedPolicy1>A Policy Object1</RevervedPolicy1>
+    <RevervedPolicy2>A Policy Object2</RevervedPolicy2>
+
+</resources>
+

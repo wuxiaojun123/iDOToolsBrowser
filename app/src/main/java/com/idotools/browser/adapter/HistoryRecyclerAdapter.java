@@ -43,7 +43,8 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         CartoonDetailsBean bean = list.get(position);
         if (bean != null) {
-//            Glide.with(mContext).load(bean.img).placeholder(R.mipmap.img_default).centerCrop().crossFade().into(holder.iv_img);
+            if (bean.img != null)
+                Glide.with(mContext).load(bean.img).centerCrop().crossFade().into(holder.iv_img);
             holder.tv_title.setText(bean.title);
             holder.tv_laster_chapter.setText(bean.url);
         }

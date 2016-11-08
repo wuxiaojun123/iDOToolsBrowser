@@ -81,27 +81,6 @@ public class MobileScreenUtils {
     }
 
     /**
-     * 获取虚拟功能键高度
-     */
-    public static int getVirtualBarHeigh(Context context) {
-        int vh = 0;
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        DisplayMetrics dm = new DisplayMetrics();
-        try {
-            @SuppressWarnings("rawtypes")
-            Class c = Class.forName("android.view.Display");
-            @SuppressWarnings("unchecked")
-            Method method = c.getMethod("getRealMetrics", DisplayMetrics.class);
-            method.invoke(display, dm);
-            vh = dm.heightPixels - windowManager.getDefaultDisplay().getHeight();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return vh;
-    }
-
-    /**
      * 获取虚拟按键高度
      *
      * @param context
@@ -142,47 +121,15 @@ public class MobileScreenUtils {
         } catch (Exception e) {
             LogUtils.e(e);
         }
-        LogUtils.e("是否包含虚拟按键"+hasNavigationBar);
+        LogUtils.e("是否包含虚拟按键" + hasNavigationBar);
         return hasNavigationBar;
 
     }
 
-    public static int getNavigationBarHeight2(Context context) {
-        int result = 0;
-        if (hasNavBar(context)){
-            Resources res = context.getResources();
-            int resourceId = res.getIdentifier("navigation_bar_height", "dimen", "android");
-            if (resourceId > 0) {
-                result = res.getDimensionPixelSize(resourceId);
-            }
-        }
-        return result;
-    }
 
     /**
-     * 检查是否存在虚拟按键栏
-     * @param context
-     * @return
-     */
-    private static boolean hasNavBar(Context context) {
-        Resources res = context.getResources();
-        int resourceId = res.getIdentifier("config_showNavigationBar", "bool", "android");
-        if (resourceId != 0) {
-            boolean hasNav = res.getBoolean(resourceId);
-            // check override flag
-            String sNavBarOverride = getNavBarOverride();
-            if ("1".equals(sNavBarOverride)) {
-                hasNav = false;
-            } else if ("0".equals(sNavBarOverride)) {
-                hasNav = true;
-            }
-            return hasNav;
-        } else { // fallback
-            return !ViewConfiguration.get(context).hasPermanentMenuKey();
-        }
-    }
-    /**
      * 判断虚拟按键栏是否重写
+     *
      * @return
      */
     private static String getNavBarOverride() {
@@ -200,21 +147,21 @@ public class MobileScreenUtils {
     }
 
     /***
-     * 获取状态栏高度
-     *
-     * @param activity
-     * @return
+     * 设置是否全屏
+     * @param enable
      */
-    public static int getTitleHeight(Activity activity) {
-        Rect frame = new Rect();
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        int statusBarHeight = frame.top;
-        int contentTop = activity.getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
-        //statusBarHeight是上面所求的状态栏的高度
-        LogUtils.e("statusBarHeight=" + statusBarHeight + "contentTop=" + contentTop);
-        int titleBarHeight = contentTop - statusBarHeight;
-        return titleBarHeight;
+    public static void full(Activity activity,boolean enable) {
+        if (enable) {
+            WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            activity.getWindow().setAttributes(lp);
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            WindowManager.LayoutParams attr = activity.getWindow().getAttributes();
+            attr.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            activity.getWindow().setAttributes(attr);
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
     }
-
 
 }
