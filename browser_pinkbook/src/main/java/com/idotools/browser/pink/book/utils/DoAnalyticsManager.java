@@ -2,7 +2,6 @@ package com.idotools.browser.pink.book.utils;
 
 import android.app.Activity;
 
-
 import com.idotools.browser.pink.book.App;
 
 import java.util.Map;

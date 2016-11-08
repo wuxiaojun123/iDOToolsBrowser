@@ -65,8 +65,8 @@
 }
 
 #####################自定义view还有和js交互的类 不混淆 ############################
--keep class com.idotools.browser.pink.book.view.** { *; }
--keep class com.idotools.browser.pink.book.manager.webview.BrowserJsInterface { *; }
+-keep class com.base.browser.view.** { *; }
+-keep class com.base.browser.manager.webview.BrowserJsInterface { *; }
 #####################自定义view 不混淆 ############################
 
 ###################AutoUpdate#######################
@@ -168,20 +168,6 @@
 }
 #######################小强统计 end####################
 
-
-#################### butterknife start################
--keep class butterknife.** { *; }
--dontwarn butterknife.internal.**
--keep class **$$ViewBinder { *; }
-
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
-}
-
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
-}
-##################### butterknife end################
 
 #####################glide start###################
 #glide

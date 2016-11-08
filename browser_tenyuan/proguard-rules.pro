@@ -64,9 +64,9 @@
     public static final int *;
 }
 
-#####################自定义view还有和js交互的类 不混淆 ############################
--keep class com.buku001.tenyuan.view.** { *; }
--keep class com.buku001.tenyuan.manager.webview.BrowserJsInterface { *; }
+#####################自定义view还有和js交互的类 不混淆 ##############
+-keep class com.base.browser.view.** { *; }
+-keep class com.base.browser.manager.webview.BrowserJsInterface { *; }
 #####################自定义view 不混淆 ############################
 
 ###################AutoUpdate#######################
@@ -167,21 +167,6 @@
     public <init>(org.json.JSONObject);
 }
 #######################小强统计 end####################
-
-
-#################### butterknife start################
--keep class butterknife.** { *; }
--dontwarn butterknife.internal.**
--keep class **$$ViewBinder { *; }
-
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
-}
-
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
-}
-##################### butterknife end################
 
 #####################glide start###################
 #glide

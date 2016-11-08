@@ -3,6 +3,7 @@ package com.idotools.browser.pink.book;
 import android.app.Application;
 import android.content.Context;
 
+import com.base.browser.utils.Constant;
 import com.dot.analyticsone.AnalyticsOne;
 
 /**
@@ -16,6 +17,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         analytics = AnalyticsOne.getInstance(this);
+        Constant.PATH = "http://m1book.com:16040/a04410fe00d748c6b68f595656577851";
     }
 
     public static App get(Context context) {

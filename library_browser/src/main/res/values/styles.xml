@@ -20,13 +20,7 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
     
-    <!--activity之间的跳转动画-->
-    <!--<style name="style_activity_toggle_anim">
-        <item name="android:activityOpenEnterAnimation">@anim/anim_activity_enter</item>
-        <item name="android:activityOpenExitAnimation">@anim/anim_slide_left_out</item>
-        <item name="android:activityCloseEnterAnimation">@anim/anim_slide_left_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/anim_activity_exit</item>
-    </style>-->
+
     <!--启动白屏问题-->
     <style name="theme.Splash" parent="style_BaseAppTheme">
         <!--<item name="android:windowBackground">@mipmap/img_start_page</item>-->

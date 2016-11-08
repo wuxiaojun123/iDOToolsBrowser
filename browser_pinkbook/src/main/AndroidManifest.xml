@@ -2,25 +2,46 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.idotools.browser.pink.book">
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 添加快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <!-- 移除快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
     <!-- 查询快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <!--个推所需要的权限 start-->
-    <!-- iBeancon功能所需权限 -->;
+
+    <!-- 解决Android L上通知显示异常问题，targetSdkVersion需要设置成22 -->
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="22" />
+    <!-- 个推SDK权限配置开始 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <!-- iBeancon功能与个推3.0电子围栏功能所需要的权限为非必需的可选择权限，可以选择性配置，以便使用个推3.0电子围栏功能 -->;
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <!-- 个推3.0电子围栏功能所需权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 浮动通知权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 自定义权限 -->
+    <uses-permission android:name="getui.permission.GetuiService.com.idotools.browser.pink.book" />
+    <!--替换为第三方应用的包名-->
+    <permission
+        android:name="getui.permission.GetuiService.com.idotools.browser.pink.book"
+        android:protectionLevel="normal"></permission>
+    <!--替换为第三方应用的包名-->
+    <!-- 个推SDK权限配置结束 -->
     <!--个推所需要的权限 end-->
 
 
@@ -44,12 +65,12 @@
         </activity>
 
         <activity
-            android:name=".activity.AboutActivity"
+            android:name="com.base.browser.activity.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/style_AppTheme" />
 
         <activity
-            android:name=".activity.HistoryActivity"
+            android:name="com.base.browser.activity.HistoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/style_AppTheme" />
         <!-- 友盟 START -->
@@ -62,15 +83,97 @@
             android:value="111" />
         <!-- 友盟 END -->
 
-        <!--个推　start-->
-        <receiver
-            android:name=".receiver.GeTuiPushReceiver"
-            android:exported="false">
+        <!-- 个推SDK配置开始 -->
+        <!-- 配置的第三方参数属性 -->
+        <meta-data
+            android:name="PUSH_APPID"
+            android:value="twsIHOC0nb9OivGES7mAe7" />
+        <!-- 替换为第三方应用的APPID -->
+        <meta-data
+            android:name="PUSH_APPKEY"
+            android:value="RUg5z9clnC9f8bwgcyacG3" />
+        <!-- 替换为第三方应用的APPKEY -->
+        <meta-data
+            android:name="PUSH_APPSECRET"
+            android:value="sK8cjzQjzLA7oOOGmJsyR1" />
+        <!-- 替换为第三方应用的APPSECRET -->
+        <!-- 配置SDK核心服务 -->
+        <service
+            android:name="com.igexin.sdk.PushService"
+            android:exported="true"
+            android:label="NotificationCenter"
+            android:process=":pushservice">
             <intent-filter>
-                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
+                <action android:name="com.igexin.sdk.action.service.message" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.igexin.sdk.PushServiceUser"
+            android:exported="true"
+            android:label="NotificationCenterUser">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.user.message" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.igexin.sdk.PushReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="com.igexin.sdk.action.refreshls" />
+                <!-- 以下三项为可选的action声明，可大大提高service存活率和消息到达速度 -->
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
-        <!--个推　end-->
+        <receiver
+            android:name="com.igexin.sdk.PushManagerReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.pushmanager" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.igexin.sdk.PushActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:process=":pushservice"
+            android:taskAffinity="com.igexin.sdk.PushActivityTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.igexin.sdk.GActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:process=":pushservice"
+            android:taskAffinity="com.igexin.sdk.PushActivityTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <service
+            android:name="com.igexin.download.DownloadService"
+            android:process=":pushservice" />
+        <receiver android:name="com.igexin.download.DownloadReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="com.igexin.download.DownloadProvider"
+            android:authorities="downloads.com.idotools.browser.pink.book"
+            android:exported="true"
+            android:process=":pushservice" />
+
+        <receiver
+            android:name="com.idotools.browser.pink.book.receiver.GeTuiPushReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.twsIHOC0nb9OivGES7mAe7" />
+            </intent-filter>
+        </receiver>
+        <!-- 个推SDK配置结束 -->
 
     </application>
 

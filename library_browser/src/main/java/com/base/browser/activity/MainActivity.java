@@ -24,6 +24,7 @@ import com.base.browser.manager.webview.WebviewInteface;
 import com.base.browser.minterface.OnPageStartedListener;
 import com.base.browser.minterface.OnReceivedErrorListener;
 import com.base.browser.utils.Constant;
+import com.base.browser.utils.StatusBarUtils;
 import com.base.browser.view.AnimatedProgressBar;
 import com.base.browser.view.BrowserWebView;
 import com.dot.autoupdater.utils.NetworkUtils;
@@ -65,18 +66,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        PushManager.getInstance().initialize(this.getApplicationContext());
         initView();
         startPageAnim();
         initData();
     }
 
+    @Override
+    protected void setStatusColor() {
+        StatusBarUtils.setTranslucent(this);
+    }
+
     protected void startPageAnim() {
+        MobileScreenUtils.full(MainActivity.this, true);
         id_iv_start_page.animate().alpha(0f).scaleX(3.0f).scaleY(3.0f).setDuration(1000).setStartDelay(2000).
                 setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         id_iv_start_page.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        MobileScreenUtils.full(MainActivity.this, false);
                     }
                 }).start();
     }

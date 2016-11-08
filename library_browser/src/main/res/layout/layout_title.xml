@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:background="@drawable/selector_press_bg"
-        android:padding="15dp"
-        android:src="@mipmap/img_history" />
+        android:padding="15dp" />
 
     <TextView
         android:id="@+id/id_tv_title"

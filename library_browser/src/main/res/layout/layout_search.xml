@@ -32,7 +32,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="2dp"
         android:layout_weight="0.04"
-        android:padding="5dp"
-        android:src="@drawable/selector_go" />
+        android:padding="5dp" />
 
 </LinearLayout>

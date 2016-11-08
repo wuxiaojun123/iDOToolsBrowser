@@ -3,6 +3,7 @@ package com.buku001.tenyuan;
 import android.app.Application;
 import android.content.Context;
 
+import com.base.browser.utils.Constant;
 import com.dot.analyticsone.AnalyticsOne;
 
 /**
@@ -16,7 +17,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         analytics = AnalyticsOne.getInstance(this);
-//        FeedBackConstant.initFeedBackAnnoy(this, FeedBackConstant.APPKEY_BROWSER);
+        Constant.PATH = "http://10.cat429.com/";
     }
 
     public static App get(Context context) {

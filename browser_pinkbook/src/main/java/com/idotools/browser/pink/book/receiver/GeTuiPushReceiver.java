@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
-import com.idotools.browser.pink.book.R;
+import com.base.browser.R;
 import com.idotools.browser.pink.book.activity.MainActivity;
 import com.idotools.utils.LogUtils;
 import com.igexin.sdk.PushConsts;
@@ -18,10 +18,11 @@ import com.igexin.sdk.PushManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-/**
+/*
+*
  * Created by wuxiaojun on 16-11-1.
  */
+
 public class GeTuiPushReceiver extends BroadcastReceiver {
 
     @Override
@@ -75,8 +76,14 @@ public class GeTuiPushReceiver extends BroadcastReceiver {
         }
     }
 
+
     /***
      * 通知栏通知
+     *
+     * @param context
+     * @param title
+     * @param info
+     * @param url
      */
     private void sendNotifycation(Context context, String title, String info, String url) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -86,7 +93,7 @@ public class GeTuiPushReceiver extends BroadcastReceiver {
         mBuilder.setSmallIcon(R.mipmap.icon);//小图标
         mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);//优先级
         mBuilder.setWhen(System.currentTimeMillis());//即时发送通知
-        mBuilder.setDefaults(NotificationCompat.DEFAULT_VIBRATE);//设置通知的声音,震动
+        mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);//设置通知的声音,震动
         //启动mainactivity
         Intent mIntent = new Intent(context, MainActivity.class);
         mIntent.putExtra("url", url);

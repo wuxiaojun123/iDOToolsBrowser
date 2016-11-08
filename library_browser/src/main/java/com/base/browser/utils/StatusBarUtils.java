@@ -1,4 +1,5 @@
-package com.idotools.browser.pink.book.utils;
+package com.base.browser.utils;
+
 
 import android.app.Activity;
 import android.os.Build;
@@ -6,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-
 /**
- * Created by wuxiaojun on 16-11-3.
+ * Created by wuxiaojun on 16-11-8.
  */
 public class StatusBarUtils {
 
