@@ -59,22 +59,11 @@ public class DeviceUtil {
         return new Rect(0, 0, w, h);
     }
 
-
     /**
      * 获得系统版本
      */
     public static int getSDKVersion() {
         return Build.VERSION.SDK_INT;
-    }
-
-    /**
-     * 获得系统版本号
-     *
-     * @return
-     */
-    public static int getSDKVersionInt() {
-//		return NumberUtil.toInt(Build.VERSION.SDK);
-        return android.os.Build.VERSION.SDK_INT;
     }
 
     /**
@@ -85,6 +74,25 @@ public class DeviceUtil {
         imm.hideSoftInputFromWindow(editTxt.getWindowToken(), 0);
     }
 
+    /***
+     * 获取versionName
+     * @param cxt
+     * @return
+     */
+    public static String getPackageName(Context cxt) {
+        try {
+            return cxt.getPackageManager().getPackageInfo(cxt.getPackageName(), 0).packageName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /***
+     * 获取versionName
+     * @param cxt
+     * @return
+     */
     public static String getVersionName(Context cxt) {
         try {
             return cxt.getPackageManager().getPackageInfo(cxt.getPackageName(), 0).versionName;
@@ -92,6 +100,20 @@ public class DeviceUtil {
             e.printStackTrace();
         }
         return "";
+    }
+
+    /***
+     * 获取versionCode
+     * @param cxt
+     * @return
+     */
+    public static int getVersionCode(Context cxt) {
+        try {
+            return cxt.getPackageManager().getPackageInfo(cxt.getPackageName(), 0).versionCode;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
 

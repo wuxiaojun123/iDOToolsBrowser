@@ -21,10 +21,28 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    signingConfigs {
+        myConfig {
+            storeFile file("17sy-keystore.keystore")
+            storePassword "c88076a26001612bd0da718ed62f1df4"
+            keyAlias "17sy"
+            keyPassword "c88076a26001612bd0da718ed62f1df4"
+        }
+    }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+
+            signingConfig signingConfigs.myConfig
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.myConfig
         }
     }
 }
@@ -32,13 +50,15 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile project(':library_base')
-    compile project(':library_OneSDK')
-    compile project(':library_auto_update')
-
 
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
+    //基本工具类
+    compile project(':library_base')
+    //阿里百川意见反馈
+    compile project(':library_OneSDK')
+    //自动更新和小强的二合一统计
+    compile project(':library_auto_update')
     //解析html工具类
     compile 'org.jsoup:jsoup:1.9.2'
     //butterknife
@@ -46,6 +66,15 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
     //glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    //个推
+    compile project(":library_getui")
     //compile 'com.android.support:support-v4:19.1.0'
+    //rxjava和retrofit框架
+//    compile 'io.reactivex:rxandroid:1.2.1'
+//    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    //这是添加retrofit对rxjava的支持
+//    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
 
 }

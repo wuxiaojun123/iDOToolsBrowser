@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.webkit.WebBackForwardList;
+import android.webkit.WebHistoryItem;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,6 +26,8 @@ import com.idotools.browser.manager.webview.WebViewManager;
 import com.idotools.browser.manager.webview.WebviewInteface;
 import com.idotools.browser.minterface.OnPageStartedListener;
 import com.idotools.browser.minterface.OnReceivedErrorListener;
+import com.idotools.browser.utils.ActivitySlideAnim;
+import com.idotools.browser.utils.ActivityUtils;
 import com.idotools.browser.utils.Constant;
 import com.idotools.browser.view.AnimatedProgressBar;
 import com.idotools.browser.view.BrowserWebView;
@@ -43,8 +47,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @BindView(R.id.id_rl_main)
     RelativeLayout id_rl_main;
-    @BindView(R.id.id_iv_start_page)
-    ImageView id_iv_start_page;
+    /*@BindView(R.id.id_iv_start_page)
+    ImageView id_iv_start_page;*/
     @BindView(R.id.id_iv_back)
     ImageView iv_back;
     @BindView(R.id.id_iv_forward)
@@ -91,7 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        startPageAnim();
+//        startPageAnim();
         initData();
     }
 
@@ -108,10 +112,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mWebView = mWebViewManager.getWebView();
         mWebView.requestFocus();
         id_fl_content.addView(mWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-        loadUrl(Constant.PATH);
+        String url = getIntent().getStringExtra("url");
+        if (TextUtils.isEmpty(url)) {
+            loadUrl(Constant.PATH);
+        } else {
+            loadUrl(url);
+        }
     }
 
-    private void startPageAnim() {
+    /*private void startPageAnim() {
         id_iv_start_page.animate().alpha(0f).scaleX(3.0f).scaleY(3.0f).setDuration(1000).setStartDelay(2000).
                 setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -119,7 +128,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         id_iv_start_page.setVisibility(View.GONE);
                     }
                 }).start();
-    }
+    }*/
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -152,11 +161,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.id_iv_home:
                 isPopupShowing();
-                //加载主页
-                if (mWebViewManager != null && !mWebViewManager.getCurrentUrl().equals(Constant.PATH)) {
+                //回到native的首页
+                startActivity(new Intent(MainActivity.this, DmzjActivity.class));
+                ActivitySlideAnim.slideOutAnim(MainActivity.this);
+                /*if (mWebViewManager != null && !mWebViewManager.getCurrentUrl().equals(Constant.PATH)) {
                     goHomePage();
                     loadUrl(Constant.PATH);
-                }
+                }*/
 
                 break;
             case R.id.id_iv_refresh:
@@ -211,8 +222,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 设置图标是否可以点击
      */
     public void setImgButtonEnable() {
-        iv_back.setEnabled(mWebView.canGoBack());
-        iv_forward.setEnabled(mWebView.canGoForward());
+        if (mWebView.canGoBack()) {
+            iv_back.setImageResource(R.drawable.selector_control_back_clickable);
+        } else {
+            iv_back.setImageResource(R.mipmap.img_back_normal);
+        }
+        if (mWebView.canGoForward()) {
+            iv_forward.setImageResource(R.drawable.selector_control_forward_click);
+        } else {
+            iv_forward.setImageResource(R.mipmap.img_forward_normal);
+        }
     }
 
     @Override
@@ -261,6 +280,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (mWebView.canGoBack()) {
             showNetworkAddressErrorLayout(false);
             showOrHiddrenLayoutNoNetwork(true);
+            /*WebBackForwardList webBackForwardList = mWebView.copyBackForwardList();
+            int size = webBackForwardList.getSize();
+            for (int i = 0; i < size; i++) {
+                WebHistoryItem itemAtIndex = webBackForwardList.getItemAtIndex(i);
+                LogUtils.e("itemAtIndex.getUrl()=" + itemAtIndex.getUrl());
+            }*/
             mWebView.goBack();
         }
     }
@@ -405,6 +430,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         //设置动画图片为太阳
         iv_night_toogle.setImageResource(R.mipmap.img_day_mode);
     }
+
 
     @Override
     public void onBackPressed() {

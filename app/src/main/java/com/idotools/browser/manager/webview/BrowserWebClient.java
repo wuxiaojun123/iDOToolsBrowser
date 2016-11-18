@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.MailTo;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.idotools.browser.R;
 import com.idotools.browser.bean.CartoonDetailsBean;
 import com.idotools.browser.minterface.OnPageStartedListener;
 import com.idotools.browser.minterface.OnReceivedErrorListener;
@@ -58,6 +60,7 @@ public class BrowserWebClient extends WebViewClient {
     @SuppressWarnings("deprecation")
     @Override
     public boolean shouldOverrideUrlLoading(@NonNull WebView view, @NonNull String url) {
+//        LogUtils.e("网页链接是：" + url+"返回结果是"+(shouldOverrideLoading(view, url) || super.shouldOverrideUrlLoading(view, url)));
         return shouldOverrideLoading(view, url) || super.shouldOverrideUrlLoading(view, url);
     }
 
@@ -116,8 +119,7 @@ public class BrowserWebClient extends WebViewClient {
                     "document.getElementsByTagName('html')[0].innerHTML+'</head>','" + url + "');");
         }*/
         //保存到数据库中
-        LogUtils.e("保存到数据库的title是"+view.getTitle());
-        saveOrUpdateHistory(view.getTitle(),url,view.getFavicon());
+        saveOrUpdateHistory(view.getTitle(), url, view.getFavicon());
     }
 
 
@@ -131,18 +133,20 @@ public class BrowserWebClient extends WebViewClient {
 
     /***
      * 保存到数据库中
+     *
      * @param title
      * @param url
      */
-    private void saveOrUpdateHistory(String title, String url,Bitmap bitmap) {
+    private void saveOrUpdateHistory(String title, String url, Bitmap bitmap) {
         try {
             boolean isExist = mSqliteManager.selectByTitle(url);
             if (!isExist) {
                 //将bitmap转换成byte数组,判断bytes为null的情况
-                if(bitmap != null){
-                    byte[] bytes = ImageFormatUtils.bitmap2Bytes(bitmap);
-                    mSqliteManager.insert(new CartoonDetailsBean(title, bytes, url));
+                if (bitmap == null) {
+                    bitmap = BitmapFactory.decodeResource(mActivity.getResources(), R.mipmap.icon);
                 }
+                byte[] bytes = ImageFormatUtils.bitmap2Bytes(bitmap);
+                mSqliteManager.insert(new CartoonDetailsBean(title, bytes, url));
             }
         } catch (Exception e) {
             e.printStackTrace();

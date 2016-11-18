@@ -20,6 +20,7 @@ public class SqliteManager {
     public static final String SELECT_BY_TITLE = "select * from " + SqliteOpenHelper.TABLE_NAME + " where url = ?";
 //    public static final String UPDATE = "update " + SqliteOpenHelper.TABLE_NAME + " set lasterChapter=? where title=?";
     public static final String DELETE = "delete from "+SqliteOpenHelper.TABLE_NAME + " where url=?";
+    public static final String DELETE_ALL = "delete from "+SqliteOpenHelper.TABLE_NAME;
 
     private Context mContext;
     private SqliteOpenHelper sqliteOpenHelper;
@@ -97,6 +98,13 @@ public class SqliteManager {
         if(!TextUtils.isEmpty(url)){
             writeableDatabase.execSQL(DELETE,new Object[]{url});
         }
+    }
+
+    /***
+     * 删除所有
+     */
+    public void deleteAll(){
+        writeableDatabase.execSQL(DELETE_ALL,new Object[]{});
     }
 
     /**

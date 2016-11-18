@@ -30,9 +30,10 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
     TextView id_tv_title;
     TextView id_tv_clean_cache;
     SideSlipRecyclerView recyclerView;
-    private List<CartoonDetailsBean> list;
+    protected List<CartoonDetailsBean> list;
     private HistoryRecyclerAdapter mAdapter;
     private SqliteManager mSqliteManager;
+    private String className;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
         initView();
         id_iv_right.setImageResource(R.mipmap.img_title_back);
         id_tv_title.setText(R.string.string_history);
+        className = getIntent().getStringExtra("className");
         initData();
     }
 
@@ -102,6 +104,15 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
                             mWebView.clearCache(true);
                             ToastUtils.show(mContext, mContext.getResources().getString(R.string.string_clean_success));
                         }*/
+                        //删除所有历史记录
+                        if(list != null && !list.isEmpty()){
+                            if (mSqliteManager == null) {
+                                mSqliteManager = new SqliteManager(mContext);
+                            }
+                            mSqliteManager.deleteAll();
+                            list.clear();
+                            mAdapter.notifyDataSetChanged();
+                        }
                         ToastUtils.show(mContext, mContext.getResources().getString(R.string.string_clean_success));
                     }
                 }).setNegativeButton(R.string.string_cancel, new View.OnClickListener() {
@@ -117,9 +128,11 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
         //打开url
         CartoonDetailsBean bean = list.get(position);
         if (bean != null) {
-            Intent mIntent = new Intent(HistoryActivity.this, MainActivity.class);
+            Intent mIntent = new Intent();
+            mIntent.setClassName(HistoryActivity.this, className);
             mIntent.putExtra("url", bean.url);
             startActivity(mIntent);
+            ActivitySlideAnim.slideOutAnim(HistoryActivity.this);
         }
     }
 

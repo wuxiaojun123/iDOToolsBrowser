@@ -68,6 +68,10 @@
         </activity>
 
         <activity
+            android:name="com.base.browser.activity.MainActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.base.browser.activity.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/style_AppTheme" />

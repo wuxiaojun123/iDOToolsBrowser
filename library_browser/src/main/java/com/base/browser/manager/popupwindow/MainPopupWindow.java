@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.base.browser.R;
 import com.base.browser.activity.AboutActivity;
+import com.base.browser.activity.BaseActivity;
 import com.base.browser.activity.HistoryActivity;
 import com.base.browser.activity.MainActivity;
 import com.base.browser.manager.dialog.AlertDialog;
@@ -24,8 +25,6 @@ import com.base.browser.view.ImageTextViewGroup;
 import com.ido.autoupdate.AutoUpdate;
 import com.idotools.utils.MetricsUtils;
 import com.idotools.utils.MobileScreenUtils;
-import com.idotools.utils.SharedPreferencesHelper;
-import com.idotools.utils.ToastUtils;
 
 
 /**
@@ -64,9 +63,12 @@ public class MainPopupWindow implements View.OnClickListener {
     public int isDayNightModeToogle;
     //获取当前webview的标题和url
     private WebViewManager mWebViewManager;
+    //创建快捷方式打开的第一个activity的名称
+    private String className;
 
-    public MainPopupWindow(Context context) {
+    public MainPopupWindow(Context context,String className) {
         this.mContext = context;
+        this.className = className;
         translationY = MetricsUtils.dipToPx(180);
         bottomHeight = MetricsUtils.dipToPx(45.0f);
         init();
@@ -150,7 +152,9 @@ public class MainPopupWindow implements View.OnClickListener {
 
         } else if (id == R.id.id_history) {//历史记录
             exitStartAnim();
-            ((MainActivity) mContext).startActivity(new Intent(((MainActivity) mContext), HistoryActivity.class));
+            Intent mIntent = new Intent(((MainActivity) mContext), HistoryActivity.class);
+            mIntent.putExtra("className",className);
+            ((MainActivity) mContext).startActivity(mIntent);
             ActivitySlideAnim.slideInAnim((MainActivity) mContext);
 
 
@@ -171,7 +175,6 @@ public class MainPopupWindow implements View.OnClickListener {
         } else if (id == R.id.id_exit) {//退出
             exitApp();
 
-
         }
     }
 
@@ -189,7 +192,7 @@ public class MainPopupWindow implements View.OnClickListener {
      * 添加桌面快捷方式
      * 获取当前页面的网址
      */
-    private void addShortcut(final String title, final String url) {
+    protected void addShortcut(final String title, final String url) {
         new AlertDialog((MainActivity) mContext).builder().setTitle(R.string.string_prompt)
                 .setMsg(R.string.string_confirm_add_shortcut)
                 .setPositiveButton(R.string.string_confirm, new View.OnClickListener() {
@@ -197,10 +200,9 @@ public class MainPopupWindow implements View.OnClickListener {
                     public void onClick(View v) {
                         //确定添加桌面快捷方式
                         Intent mIntent = new Intent();
-                        mIntent.setClass(mContext, MainActivity.class);
+                        mIntent.setClassName(mContext,className);
                         mIntent.putExtra("url", url);
                         ShortCutUtils.addShortCut(mContext, title, R.mipmap.icon, mIntent);
-                        ToastUtils.show(mContext, R.string.string_create_shortcut_success);
                     }
                 }).setNegativeButton(R.string.string_cancel, new View.OnClickListener() {
             @Override

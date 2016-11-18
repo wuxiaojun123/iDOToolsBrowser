@@ -3,9 +3,12 @@ package com.idotools.browser.manager.webview;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
 
 import com.idotools.browser.App;
@@ -60,10 +63,20 @@ public class WebViewManager {
         mBrowserWebClient.setmOnReceivedErrorListener((OnReceivedErrorListener) mActivity);
         mWebView.setWebViewClient(mBrowserWebClient);
         mWebView.addJavascriptInterface(new BrowserJsInterface(mActivity.getApplicationContext()), "BrowserJsInterface");
-//        mWebView.setDownloadListener(new LightningDownloadListener(activity));
+        mWebView.setDownloadListener(new CustomDownloadListener());
         //mGestureDetector = new GestureDetector(activity, new CustomGestureListener());
         //mWebView.setOnTouchListener(new TouchListener());
         initializeSettings();
+    }
+
+    private class CustomDownloadListener implements android.webkit.DownloadListener {
+
+        @Override
+        public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            mContext.startActivity(intent);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

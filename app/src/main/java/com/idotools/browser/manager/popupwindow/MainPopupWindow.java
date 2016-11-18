@@ -23,10 +23,13 @@ import com.alibaba.sdk.android.FeedBackConstant;
 import com.ido.autoupdate.AutoUpdate;
 import com.idotools.browser.R;
 import com.idotools.browser.activity.AboutActivity;
+import com.idotools.browser.activity.DmzjActivity;
 import com.idotools.browser.activity.HistoryActivity;
 import com.idotools.browser.activity.MainActivity;
 import com.idotools.browser.manager.dialog.AlertDialog;
 import com.idotools.browser.manager.webview.WebViewManager;
+import com.idotools.browser.utils.ActivitySlideAnim;
+import com.idotools.browser.utils.ActivityUtils;
 import com.idotools.browser.utils.ShareUtils;
 import com.idotools.browser.utils.ShortCutUtils;
 import com.idotools.browser.view.ImageTextViewGroup;
@@ -147,6 +150,7 @@ public class MainPopupWindow implements View.OnClickListener {
                 //历史记录
                 exitStartAnim();
                 ((MainActivity) mContext).startActivity(new Intent(((MainActivity) mContext), HistoryActivity.class));
+                ActivitySlideAnim.slideInAnim((MainActivity) mContext);
 
                 break;
             case R.id.id_add_shortcut:
@@ -176,6 +180,7 @@ public class MainPopupWindow implements View.OnClickListener {
             case R.id.id_about:
                 exitStartAnim();
                 mContext.startActivity(new Intent(mContext, AboutActivity.class));
+                ActivitySlideAnim.slideInAnim((MainActivity) mContext);
 
                 break;
             case R.id.id_exit:
@@ -208,10 +213,10 @@ public class MainPopupWindow implements View.OnClickListener {
                     public void onClick(View v) {
                         //确定添加桌面快捷方式
                         Intent mIntent = new Intent();
-                        mIntent.setClass(mContext, MainActivity.class);
+                        mIntent.setClass(mContext, DmzjActivity.class);
                         mIntent.putExtra("url", url);
                         ShortCutUtils.addShortCut(mContext, title, R.mipmap.icon, mIntent);
-                        ToastUtils.show(mContext, R.string.string_create_shortcut_success);
+//                        ToastUtils.show(mContext, R.string.string_create_shortcut_success);
                     }
                 }).setNegativeButton(R.string.string_cancel, new View.OnClickListener() {
             @Override
@@ -265,7 +270,7 @@ public class MainPopupWindow implements View.OnClickListener {
                     @Override
                     public void onClick(View v) {
                         exitStartAnim();
-                        System.exit(0);
+                        ActivityUtils.finishAll();
                     }
                 }).setNegativeButton(R.string.string_cancel, new View.OnClickListener() {
             @Override

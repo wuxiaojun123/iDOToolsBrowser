@@ -13,6 +13,7 @@ import com.idotools.browser.bean.CartoonDetailsBean;
 import com.idotools.browser.manager.dialog.AlertDialog;
 import com.idotools.browser.minterface.OnItemDeleteClickListener;
 import com.idotools.browser.sqlite.SqliteManager;
+import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.view.SideSlipRecyclerView;
 import com.idotools.utils.LogUtils;
 import com.idotools.utils.ToastUtils;
@@ -73,6 +74,7 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
         switch (id) {
             case R.id.id_iv_right:
                 finish();
+                ActivitySlideAnim.slideOutAnim(HistoryActivity.this);
                 break;
             case R.id.id_tv_clean_cache:
                 //清除缓存
@@ -100,6 +102,15 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
                             mWebView.clearCache(true);
                             ToastUtils.show(mContext, mContext.getResources().getString(R.string.string_clean_success));
                         }*/
+                        //删除所有历史记录
+                        if(list != null && !list.isEmpty()){
+                            if (mSqliteManager == null) {
+                                mSqliteManager = new SqliteManager(mContext);
+                            }
+                            mSqliteManager.deleteAll();
+                            list.clear();
+                            mAdapter.notifyDataSetChanged();
+                        }
                         ToastUtils.show(mContext, mContext.getResources().getString(R.string.string_clean_success));
                     }
                 }).setNegativeButton(R.string.string_cancel, new View.OnClickListener() {

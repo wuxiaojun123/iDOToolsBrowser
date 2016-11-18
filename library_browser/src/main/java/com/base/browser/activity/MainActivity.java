@@ -33,7 +33,7 @@ import com.idotools.utils.MetricsUtils;
 import com.idotools.utils.MobileScreenUtils;
 import com.idotools.utils.ToastUtils;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, WebviewInteface, OnPageStartedListener, OnReceivedErrorListener {
+public abstract class MainActivity extends BaseActivity implements View.OnClickListener, WebviewInteface, OnPageStartedListener, OnReceivedErrorListener {
 
     protected RelativeLayout id_rl_main;
     protected ImageView id_iv_start_page;
@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected LinearLayout id_layout_no_network;//无网络状况下显示
     protected LinearLayout id_layout_network_error;//网址错误的时候显示布局
     //底部导航管理
-    private MainPopupWindow mPopupWindow;
+    protected MainPopupWindow mPopupWindow;
     //webview管理
     private WebViewManager mWebViewManager;
     private BrowserWebView mWebView;
@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onNewIntent(Intent intent) {
         String url = intent.getStringExtra("url");
-        LogUtils.e("获取到的url是"+url);
+        LogUtils.e("获取到的url是" + url);
         if (!TextUtils.isEmpty(url)) {
             loadUrl(url);
         }
@@ -159,7 +159,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         } else if (id == R.id.id_iv_home) {
             isPopupShowing();
             //加载主页
-            if (mWebViewManager != null && !mWebViewManager.getCurrentUrl().equals(Constant.PATH)) {
+            if (mWebViewManager != null && !Constant.PATH.equals(mWebViewManager.getCurrentUrl())) {
                 goHomePage();
                 loadUrl(Constant.PATH);
             }
@@ -169,9 +169,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             refresh();
 
         } else if (id == R.id.id_iv_more) {
-            if (mPopupWindow == null) {
-                mPopupWindow = new MainPopupWindow(MainActivity.this);
-            }
+            initPopupwindow();
             if (mPopupWindow.isShow()) {
                 mPopupWindow.exitStartAnim();
             } else {
@@ -179,6 +177,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         }
     }
+
+    public abstract void initPopupwindow();
 
     /**
      * 判断popup是否为显示状态

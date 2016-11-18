@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class SqliteOpenHelper extends SQLiteOpenHelper {
 
-    public static final String DATA_NAME = "brawser";
+    public static final String DATA_NAME = "dmbrawser";
     public static final int VERSION = 1;
     public static final String TABLE_NAME = "history";
     public static final String CREATE_TABLE_HISTORY = "create table "+TABLE_NAME+" (_id integer primary key autoincrement " +

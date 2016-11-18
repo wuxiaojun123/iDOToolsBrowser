@@ -5,7 +5,7 @@
     
     <string name="string_praise">给个好评</string>
 
-    <string name="string_qq">QQ:123456788</string>
+    <string name="string_qq">QQ:450862959</string>
     <string name="string_user_test">用户测试群</string>
     <string name="string_about">关于</string>
 
@@ -38,6 +38,8 @@
     <!--首页-->
     <string name="string_no_network_check_setting">咦...没网了...快去检查下网络</string>
     <string name="string_address_error">到了荒漠之地，去逛逛别的~</string>
+
+    <string name="string_press_again">请再按一次退出</string>
 
     <!--点击背景变深色-->
     <drawable name="color_normal">#ffffff</drawable>

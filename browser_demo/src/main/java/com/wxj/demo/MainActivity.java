@@ -15,6 +15,11 @@ public class MainActivity extends com.base.browser.activity.MainActivity {
     }
 
     @Override
+    public void initPopupwindow() {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         DoAnalyticsManager.pageResume(this, "MainActivity");

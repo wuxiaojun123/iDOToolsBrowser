@@ -1,4 +1,4 @@
-include ':app', ':library_getui'
+include ':app', ':library_getui', ':testjava'
 include ':browser_pinkbook'
 include ':browser_tenyuan'
 include ':browser_demo'

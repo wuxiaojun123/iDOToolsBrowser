@@ -12,11 +12,11 @@
         "source": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/res/drawable-xxhdpi/com_taobao_tae_sdk_web_view_title_bar_close.9.png"
     },
     {
-        "merged": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/build/intermediates/res/merged/release/drawable-xxhdpi-v4/com_taobao_tae_sdk_web_view_activity_sendfeedback_addpicture.9.png",
-        "source": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/res/drawable-xxhdpi/com_taobao_tae_sdk_web_view_activity_sendfeedback_addpicture.9.png"
-    },
-    {
         "merged": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/build/intermediates/res/merged/release/drawable-xxhdpi-v4/com_taobao_tae_sdk_web_view_title_bar_back.9.png",
         "source": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/res/drawable-xxhdpi/com_taobao_tae_sdk_web_view_title_bar_back.9.png"
+    },
+    {
+        "merged": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/build/intermediates/res/merged/release/drawable-xxhdpi-v4/com_taobao_tae_sdk_web_view_activity_sendfeedback_addpicture.9.png",
+        "source": "/home/wuxiaojun/androidDemo/AS_iDOBrowser/library_OneSDK/res/drawable-xxhdpi/com_taobao_tae_sdk_web_view_activity_sendfeedback_addpicture.9.png"
     }
 ]

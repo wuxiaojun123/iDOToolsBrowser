@@ -9,4 +9,6 @@
     <color name="color_about_text">#c9c9c9</color>
     <color name="color_9">#8a8a8a</color>
 
+    <color name="color_black">@android:color/white</color>
+
 </resources>

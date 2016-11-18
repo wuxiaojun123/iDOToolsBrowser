@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.idotools.browser.R;
+import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.utils.DeviceUtil;
 
 import butterknife.BindView;
@@ -47,6 +48,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         switch (id) {
             case R.id.id_iv_right:
                 finish();
+                ActivitySlideAnim.slideOutAnim(AboutActivity.this);
                 break;
             case R.id.id_rl_praize:
                 //给个好评

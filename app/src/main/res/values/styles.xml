@@ -1,13 +1,20 @@
 <resources>
 
     <!-- Base application theme. Theme.AppCompat.Light.NoActionBar  parent="Theme.AppCompat.Light.NoActionBar"-->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="style_BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/color_9</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowAnimationStyle">@style/style_activity_toggle_anim</item>
     </style>
+
+    <!--启动白屏问题-->
+    <style name="style_splash" parent="style_BaseAppTheme">
+        <!--<item name="android:windowBackground">@mipmap/img_start_page</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="style_AppTheme" parent="style_BaseAppTheme"></style>
 
     <!-- 自定义仿IOS的AlertDialog的样式 -->
     <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">
@@ -19,14 +26,26 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
-    
-    <!--activity之间的跳转动画-->
-    <style name="style_activity_toggle_anim">
-        <item name="android:activityOpenEnterAnimation">@anim/anim_activity_enter</item>
-        <item name="android:activityOpenExitAnimation">@anim/anim_slide_left_out</item>
-        <item name="android:activityCloseEnterAnimation">@anim/anim_slide_left_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/anim_activity_exit</item>
+
+    <!--第二个头部imageview的样式-->
+    <style name="style_header2_imageview">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">130dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:src">@mipmap/img_default</item>
     </style>
-    
+
+    <!--第二个头部textview的样式-->
+    <style name="style_header2_textview">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
 
 </resources>

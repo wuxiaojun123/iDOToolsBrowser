@@ -13,6 +13,7 @@
       <module fileurl="file://$PROJECT_DIR$/library_base/library_base.iml" filepath="$PROJECT_DIR$/library_base/library_base.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_browser/library_browser.iml" filepath="$PROJECT_DIR$/library_browser/library_browser.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_getui/library_getui.iml" filepath="$PROJECT_DIR$/library_getui/library_getui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testjava/testjava.iml" filepath="$PROJECT_DIR$/testjava/testjava.iml" />
     </modules>
   </component>
 </project>

@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp"
-            android:src="@drawable/selector_control_back" />
+            android:src="@mipmap/img_back_normal" />
 
         <ImageView
             android:id="@+id/id_iv_forward"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp"
-            android:src="@drawable/selector_control_forward" />
+            android:src="@mipmap/img_forward_normal" />
 
         <ImageView
             android:id="@+id/id_iv_home"

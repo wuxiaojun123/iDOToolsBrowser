@@ -2,7 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="true" android:drawable="@mipmap/img_back_press"  />
-    <item android:state_focused="true" android:drawable="@mipmap/img_back_press"  />
-    <item android:drawable="@mipmap/img_back_normal" />
+    <item android:drawable="@mipmap/img_back_normal_clickable" />
 
 </selector>
