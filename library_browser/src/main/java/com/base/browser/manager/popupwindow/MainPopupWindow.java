@@ -221,7 +221,8 @@ public class MainPopupWindow implements View.OnClickListener {
                     @Override
                     public void onClick(View v) {
                         exitStartAnim();
-                        System.exit(0);
+
+//                        System.exit(0);
                     }
                 }).setNegativeButton(R.string.string_cancel, new View.OnClickListener() {
             @Override

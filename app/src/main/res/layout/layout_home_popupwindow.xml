@@ -38,13 +38,13 @@
                 app:image_text_viewgroup_text="@string/string_share" />
 
             <com.idotools.browser.view.ImageTextViewGroup
-                android:id="@+id/id_history"
+                android:id="@+id/id_records"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_bg_popupwindow"
-                app:image_text_viewgroup_src="@mipmap/img_delete_normal"
-                app:image_text_viewgroup_text="@string/string_history" />
+                app:image_text_viewgroup_src="@mipmap/img_records"
+                app:image_text_viewgroup_text="@string/string_records" />
 
             <com.idotools.browser.view.ImageTextViewGroup
                 android:id="@+id/id_add_shortcut"
@@ -83,15 +83,6 @@
                 app:image_text_viewgroup_text="@string/string_check_update" />
 
             <com.idotools.browser.view.ImageTextViewGroup
-                android:id="@+id/id_feedback"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/selector_bg_popupwindow"
-                app:image_text_viewgroup_src="@mipmap/img_feedback_normal"
-                app:image_text_viewgroup_text="@string/string_feedback" />
-
-            <com.idotools.browser.view.ImageTextViewGroup
                 android:id="@+id/id_about"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -108,6 +99,17 @@
                 android:background="@drawable/selector_bg_popupwindow"
                 app:image_text_viewgroup_src="@mipmap/img_exit"
                 app:image_text_viewgroup_text="@string/string_exit" />
+
+            <com.idotools.browser.view.ImageTextViewGroup
+                android:id="@+id/id_feedback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_bg_popupwindow"
+                 />
+
+            <!--app:image_text_viewgroup_src="@mipmap/img_feedback_normal"
+            app:image_text_viewgroup_text="@string/string_feedback"-->
 
         </LinearLayout>
 

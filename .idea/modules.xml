@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/browser_demo/browser_demo.iml" filepath="$PROJECT_DIR$/browser_demo/browser_demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/browser_pinkbook/browser_pinkbook.iml" filepath="$PROJECT_DIR$/browser_pinkbook/browser_pinkbook.iml" />
       <module fileurl="file://$PROJECT_DIR$/browser_tenyuan/browser_tenyuan.iml" filepath="$PROJECT_DIR$/browser_tenyuan/browser_tenyuan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easypermissions/easypermissions.iml" filepath="$PROJECT_DIR$/easypermissions/easypermissions.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_OneSDK/library_OneSDK.iml" filepath="$PROJECT_DIR$/library_OneSDK/library_OneSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_analyticsone/library_analyticsone.iml" filepath="$PROJECT_DIR$/library_analyticsone/library_analyticsone.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_auto_update/library_auto_update.iml" filepath="$PROJECT_DIR$/library_auto_update/library_auto_update.iml" />

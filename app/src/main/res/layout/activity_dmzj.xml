@@ -4,15 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/id_rl_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.wxj.browser.MainActivity">
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/id_layout_title"
         layout="@layout/layout_search"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_title_height"
-        android:background="@color/color_while" />
+         />
+
+    <include
+        android:id="@+id/id_layout_no_network"
+        layout="@layout/layout_home_no_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/id_layout_title"
+        android:visibility="gone" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/id_swiperefresh"
@@ -38,11 +45,11 @@
         android:src="@drawable/selector_return_to_top"
         android:visibility="gone" />
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/id_iv_start_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:scaleType="fitXY"
-        android:src="@mipmap/img_start_page" />
+        android:src="@mipmap/img_start_page" />-->
 </RelativeLayout>

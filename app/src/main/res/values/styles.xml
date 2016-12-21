@@ -27,17 +27,27 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <!--第二个头部linearlayout的样式-->
+    <style name="style_header2_linearlayout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/dimen_item_dmzj_head2_layout_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <!--第二个头部imageview的样式-->
     <style name="style_header2_imageview">
-        <item name="android:layout_width">100dp</item>
-        <item name="android:layout_height">130dp</item>
+        <item name="android:layout_width">@dimen/dimen_item_dmzj_head2_img_width</item>
+        <item name="android:layout_height">@dimen/dimen_item_dmzj_head2_img_height</item>
         <item name="android:layout_margin">5dp</item>
         <item name="android:src">@mipmap/img_default</item>
+        <item name="android:scaleType">fitXY</item>
     </style>
 
     <!--第二个头部textview的样式-->
     <style name="style_header2_textview">
-        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_width">@dimen/dimen_item_dmzj_head2_img_width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">left</item>
         <item name="android:textColor">@color/color_black</item>

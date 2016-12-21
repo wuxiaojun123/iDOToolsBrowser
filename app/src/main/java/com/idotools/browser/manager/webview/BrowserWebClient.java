@@ -60,8 +60,8 @@ public class BrowserWebClient extends WebViewClient {
     @SuppressWarnings("deprecation")
     @Override
     public boolean shouldOverrideUrlLoading(@NonNull WebView view, @NonNull String url) {
-//        LogUtils.e("网页链接是：" + url+"返回结果是"+(shouldOverrideLoading(view, url) || super.shouldOverrideUrlLoading(view, url)));
-        return shouldOverrideLoading(view, url) || super.shouldOverrideUrlLoading(view, url);
+        boolean result = shouldOverrideLoading(view, url) || super.shouldOverrideUrlLoading(view, url);
+        return result;
     }
 
     private boolean shouldOverrideLoading(WebView view, String url) {
@@ -69,7 +69,6 @@ public class BrowserWebClient extends WebViewClient {
             // If this is an about page, immediately load, we don't need to leave the app
             return false;
         }
-
         if (isMailOrIntent(url, view) || mIntentUtils.startActivityForUrl(view, url)) {
             // If it was a mailto: link, or an intent, or could be launched elsewhere, do that
             return true;
@@ -139,7 +138,7 @@ public class BrowserWebClient extends WebViewClient {
      */
     private void saveOrUpdateHistory(String title, String url, Bitmap bitmap) {
         try {
-            boolean isExist = mSqliteManager.selectByTitle(url);
+            boolean isExist = mSqliteManager.selectByUrl(url);
             if (!isExist) {
                 //将bitmap转换成byte数组,判断bytes为null的情况
                 if (bitmap == null) {
@@ -157,21 +156,21 @@ public class BrowserWebClient extends WebViewClient {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-        if (mOnReceivedErrorListener != null) {
-            LogUtils.e("网络出错啦");
+        /*if (mOnReceivedErrorListener != null) {
+            LogUtils.e("网络出错啦onReceivedError方法"+error.getErrorCode());
             mOnReceivedErrorListener.onReceivedError(view, error.getErrorCode());
         }
-        super.onReceivedError(view, request, error);
+        super.onReceivedError(view, request, error);*/
+        onReceivedError(view,error.getErrorCode(),error.getDescription().toString(),request.getUrl().toString());
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         if (mOnReceivedErrorListener != null) {
-            LogUtils.e("网络出错啦!!!!!onReceivedError过时的方法");
+            LogUtils.e("网络出错啦!!!!!onReceivedError过时的方法"+errorCode);
             mOnReceivedErrorListener.onReceivedError(view, errorCode);
         }
-        LogUtils.e("onReceivedError过时的方法中返回结果是" + errorCode);
         super.onReceivedError(view, errorCode, description, failingUrl);
     }
 

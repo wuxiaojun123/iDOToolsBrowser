@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.idotools.browser.R;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.ActivityUtils;
+import com.idotools.browser.utils.DoAnalyticsManager;
 
 /**
  * Created by wuxiaojun on 16-10-2.
@@ -23,6 +24,18 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         ActivityUtils.addActivitys(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DoAnalyticsManager.pageResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DoAnalyticsManager.pagePause(this);
     }
 
     @Override

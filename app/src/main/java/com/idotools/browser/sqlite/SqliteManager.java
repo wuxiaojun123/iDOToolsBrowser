@@ -15,20 +15,17 @@ import java.util.List;
  */
 public class SqliteManager {
 
-    public static final String INSERT = "insert into " + SqliteOpenHelper.TABLE_NAME + " (title,img,url) values (?,?,?)";
-    public static final String SELECT_ALL = "select * from " + SqliteOpenHelper.TABLE_NAME;
-    public static final String SELECT_BY_TITLE = "select * from " + SqliteOpenHelper.TABLE_NAME + " where url = ?";
-//    public static final String UPDATE = "update " + SqliteOpenHelper.TABLE_NAME + " set lasterChapter=? where title=?";
-    public static final String DELETE = "delete from "+SqliteOpenHelper.TABLE_NAME + " where url=?";
-    public static final String DELETE_ALL = "delete from "+SqliteOpenHelper.TABLE_NAME;
+    public static final String INSERT = "insert into " + SqliteOpenHelper.TABLE_NAME_HISTORY + " (title,img,url) values (?,?,?)";
+    public static final String SELECT_ALL = "select * from " + SqliteOpenHelper.TABLE_NAME_HISTORY + " order by _id desc";
+    public static final String SELECT_BY_TITLE = "select * from " + SqliteOpenHelper.TABLE_NAME_HISTORY + " where url = ?";
+    public static final String DELETE = "delete from " + SqliteOpenHelper.TABLE_NAME_HISTORY + " where url=?";
+    public static final String DELETE_ALL = "delete from " + SqliteOpenHelper.TABLE_NAME_HISTORY;
 
-    private Context mContext;
     private SqliteOpenHelper sqliteOpenHelper;
     private SQLiteDatabase readableDatabase;
     private SQLiteDatabase writeableDatabase;
 
     public SqliteManager(Context context) {
-        this.mContext = context;
         sqliteOpenHelper = new SqliteOpenHelper(context);
         readableDatabase = sqliteOpenHelper.getReadableDatabase();
         writeableDatabase = sqliteOpenHelper.getWritableDatabase();
@@ -64,12 +61,12 @@ public class SqliteManager {
     }
 
     /***
-     * 根据title查找数据库是否存在这条数据
+     * 根据url查找数据库是否存在这条数据
      *
      * @param url
      * @return 数据库中最新章节, 判断是否需要更新数据
      */
-    public boolean selectByTitle(String url) {
+    public boolean selectByUrl(String url) {
         if (!TextUtils.isEmpty(url)) {
             Cursor cursor = readableDatabase.rawQuery(SELECT_BY_TITLE, new String[]{url});
             if (cursor.moveToNext()) {
@@ -80,40 +77,28 @@ public class SqliteManager {
     }
 
     /***
-     * 更新数据
-     *
-     * @param lasterChapter
-     */
-    /*public void update(String title,String lasterChapter) {
-        if (!TextUtils.isEmpty(lasterChapter) && !TextUtils.isEmpty(title)) {
-            writeableDatabase.execSQL(UPDATE, new Object[]{lasterChapter, title});
-        }
-    }*/
-
-    /***
      * 删除记录
+     *
      * @param url
      */
-    public void delete(String url){
-        if(!TextUtils.isEmpty(url)){
-            writeableDatabase.execSQL(DELETE,new Object[]{url});
+    public void delete(String url) {
+        if (!TextUtils.isEmpty(url)) {
+            writeableDatabase.execSQL(DELETE, new Object[]{url});
         }
     }
 
     /***
      * 删除所有
      */
-    public void deleteAll(){
-        writeableDatabase.execSQL(DELETE_ALL,new Object[]{});
+    public void deleteAll() {
+        writeableDatabase.execSQL(DELETE_ALL, new Object[]{});
     }
 
     /**
      * 释放资源
      */
-    public void closeData(){
-        mContext = null;
+    public void closeData() {
         readableDatabase.close();
         writeableDatabase.close();
     }
-
 }

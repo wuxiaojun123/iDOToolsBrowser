@@ -40,4 +40,7 @@ dependencies {
 //    compile 'com.android.support:appcompat-v7:24.2.0'
     compile project(":library_browser")
     compile project(":library_getui")
+    compile project(":library_analyticsone")
+    //权限处理
+    compile project(':easypermissions')
 }

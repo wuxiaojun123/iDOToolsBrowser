@@ -4,6 +4,7 @@ import android.app.Activity;
 
 
 import com.idotools.browser.App;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Map;
 
@@ -12,30 +13,18 @@ import java.util.Map;
  */
 public class DoAnalyticsManager {
 
-    public static void capture(String eventStr) {
-        App.analytics.capture(eventStr);
+    public static void pageResume(Activity activity) {
+//        MobclickAgent.onPageStart(activity.getClass().getSimpleName()); //统计页面(仅有Activity的应用中SDK自动调用，不需要单独写。"SplashScreen"为页面名称，可自定义)
+        MobclickAgent.onResume(activity);          //统计时长
     }
 
-    public static void pageResume(Activity activity, String pagename) {
-        App.analytics.pageResume(activity, pagename);
-        App.analytics.sessionResume(activity);
+    public static void pagePause(Activity activity) {
+//        MobclickAgent.onPageEnd(activity.getClass().getSimpleName()); // （仅有Activity的应用中SDK自动调用，不需要单独写）保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息。"SplashScreen"为页面名称，可自定义
+        MobclickAgent.onPause(activity);
     }
 
-    public static void pagePause(Activity activity, String pagename) {
-        App.analytics.pagePause(activity, pagename);
-        App.analytics.sessionPause(activity);
-    }
-
-    public static void pageResumeFragment(Activity activity,String name) {
-        App.analytics.pageResume(activity, name);
-    }
-
-    public static void pagePauseFragment(Activity activity,String name) {
-        App.analytics.pagePause(activity, name);
-    }
-
-    public static void capture(String eventStr, Map<String, String> map) {
-        App.analytics.capture(eventStr, map);
+    public static void pageEvent(Activity activity, String eventId) {
+        MobclickAgent.onEvent(activity, eventId);
     }
 
 }

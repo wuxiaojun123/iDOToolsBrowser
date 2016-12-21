@@ -5,6 +5,6 @@ package com.idotools.browser.minterface;
  */
 public interface OnItemClickListener {
 
-    void onItemClickListener(String url);
+    void onItemClickListener(String url,String imgUrl,String title);
 
 }

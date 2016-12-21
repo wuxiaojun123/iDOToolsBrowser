@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.dot.analyticsone.AnalyticsOne;
 import com.dot.autoupdater.AutoUpdater;
 import com.dot.autoupdater.checker.UpdateResultCallback;
 import com.dot.autoupdater.version.VersionProfile;
@@ -21,12 +20,12 @@ public class AutoUpdate {
         AutoUpdater.getInstance(context, new AutoUpdater.AnalyticsCallback() {
             @Override
             public void capture(Context context, String s) {
-                AnalyticsOne.getInstance(context).capture(s);
+//                AnalyticsOne.getInstance(context).capture(s);
             }
 
             @Override
             public void capture(Context context, String s, Map<String, String> map) {
-                AnalyticsOne.getInstance(context).capture(s,map);
+//                AnalyticsOne.getInstance(context).capture(s,map);
             }
         }).update(context);
     }
@@ -35,12 +34,12 @@ public class AutoUpdate {
         AutoUpdater.getInstance(context, new AutoUpdater.AnalyticsCallback() {
             @Override
             public void capture(Context context, String s) {
-                AnalyticsOne.getInstance(context).capture(s);
+//                AnalyticsOne.getInstance(context).capture(s);
             }
 
             @Override
             public void capture(Context context, String s, Map<String, String> map) {
-                AnalyticsOne.getInstance(context).capture(s,map);
+//                AnalyticsOne.getInstance(context).capture(s,map);
             }
         }).update(context,new UpdateResultCallback(){
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">動漫瀏覽器</string>
+    <string name="string_main_title">動漫瀏覽器</string>
+
+    <!--热门推荐和最新更新-->
+    <string name="string_hot">熱門推薦</string>
+    <string name="string_new_update">最新更新</string>
+    <string name="string_classification">分類</string>
+    <string name="string_brief_introduction">簡介</string>
+
+
+    <string name="string_clean_success">清除完成</string>
+    <string name="string_praise">給個好評</string>
+    <string name="string_qq">QQ:450862959</string>
+    <string name="string_user_test">用户测试群</string>
+    <string name="string_about">關於</string>
+
+    <!--更多弹窗-->
+    <string name="string_share">分享</string>
+    <string name="string_clean_cache">清除緩存</string>
+    <string name="string_add_shortcut">添加到桌面</string>
+    <string name="string_night_mode">夜間模式</string>
+    <string name="string_night_day_mode">白天模式</string>
+    <string name="string_check_update">檢查更新</string>
+    <string name="string_feedback">反饋</string>
+    <string name="string_exit">退出</string>
+
+    <!--弹窗提示-->
+    <string name="string_confirm">確定</string>
+    <string name="string_cancel">取消</string>
+    <string name="string_title">标题</string>
+    <string name="string_content">内容</string>
+    <string name="string_confirm_cancel">確定要取消吗?</string>
+    <string name="string_confirm_add_shortcut">確定要添加到桌面嗎?</string>
+    <string name="string_confirm_clean_all_cache">確認清除所有緩存?</string>
+    <string name="string_confirm_clean_all_records">确认删除所有收藏吗?</string>
+    <string name="string_confirm_exit_app">確定要退出嗎?</string>
+
+    <!--历史记录-->
+    <string name="string_history">歷史记录</string>
+    <string name="string_records">收藏</string>
+    <string name="string_alread_records">已收藏</string>
+    <string name="string_delete_all">全部删除</string>
+    <string name="string_no_history">無歷史記錄</string>
+    <string name="string_no_records">無收藏記錄</string>
+    <string name="string_remove">删除</string>
+    <!--添加桌面快捷方式-->
+    <string name="string_create_shortcut_success">創建成功</string>
+
+    <!--首页-->
+    <string name="string_no_network_check_setting">咦...沒網了...快去檢查下網絡</string>
+    <string name="string_address_error">到了荒漠之地，去逛逛別的~</string>
+
+    <string name="string_press_again">請再按一次退出</string>
+    <string name="string_loading">正在加載</string>
+
+    <string name="string_remove_all_history">刪除所有歷史記錄</string>
+
+</resources>

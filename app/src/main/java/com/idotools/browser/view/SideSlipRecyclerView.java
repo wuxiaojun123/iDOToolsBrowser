@@ -12,6 +12,7 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.idotools.browser.adapter.HistoryRecyclerAdapter;
+import com.idotools.browser.adapter.viewHolder.HistoryAndRecordsViewHolder;
 import com.idotools.browser.minterface.OnItemDeleteClickListener;
 import com.idotools.utils.LogUtils;
 
@@ -73,6 +74,8 @@ public class SideSlipRecyclerView extends RecyclerView {
      */
     @Override
     public boolean onTouchEvent(MotionEvent e) {
+        getParent().requestDisallowInterceptTouchEvent(true);
+
         mVelocityTracker.addMovement(e);
         int x = (int) e.getX();
         int y = (int) e.getY();
@@ -86,7 +89,7 @@ public class SideSlipRecyclerView extends RecyclerView {
                         return false;
                     }
                     //获取viewHolder
-                    HistoryRecyclerAdapter.RecyclerViewHolder viewHolder = (HistoryRecyclerAdapter.RecyclerViewHolder) getChildViewHolder(view);
+                    HistoryAndRecordsViewHolder viewHolder = (HistoryAndRecordsViewHolder) getChildViewHolder(view);
                     mCurrentItemLayout = viewHolder.ll_layout;
                     mCurrentItemPosition = viewHolder.getAdapterPosition();
                     mdeleteTextView = viewHolder.deleteTextView;
@@ -117,13 +120,14 @@ public class SideSlipRecyclerView extends RecyclerView {
                 //滑动，根据滑动距离
                 int dx = lastX - x;
                 int dy = lastY - y;
-                if(mCurrentItemLayout != null){
+                if (mCurrentItemLayout != null) {
                     int scrollX = mCurrentItemLayout.getScrollX();
                     if (Math.abs(dx) > Math.abs(dy)) {
                         isItemMoving = true;
                         if (scrollX + dx <= 0) {
-                            mCurrentItemLayout.scrollTo(0, 0);
-                            return true;
+//                            mCurrentItemLayout.scrollTo(0, 0);return true;//这里需要研究一下
+                            getParent().requestDisallowInterceptTouchEvent(false);
+                            return false;
                         } else if (scrollX + dx >= mMaxScrollDis) {
                             mCurrentItemLayout.scrollTo(mMaxScrollDis, 0);
                             return true;
@@ -137,7 +141,7 @@ public class SideSlipRecyclerView extends RecyclerView {
                 int upScrollX = mCurrentItemLayout.getScrollX();
 
                 long currentTime = System.currentTimeMillis();
-                if((currentTime-pressTime) < 100){
+                if ((currentTime - pressTime) < 100) {
                     if (!isDragging && !isItemMoving && mItemClickListener != null) {
                         mItemClickListener.onItemClickListener(mCurrentItemPosition);
                     }
@@ -145,7 +149,8 @@ public class SideSlipRecyclerView extends RecyclerView {
 
                 isItemMoving = false;
 
-                if(mCurrentItemLayout != null){
+                if (mCurrentItemLayout != null) {
+
                     mVelocityTracker.computeCurrentVelocity(1000);//计算手指滑动的速度
                     int xVelocity = (int) mVelocityTracker.getXVelocity();//x方向的速度（向左为负）
                     int yVelocity = (int) mVelocityTracker.getYVelocity();//y方向的速度
@@ -173,6 +178,7 @@ public class SideSlipRecyclerView extends RecyclerView {
                     isStartScroll = true;
 
                     mVelocityTracker.clear();
+
                 }
                 break;
         }

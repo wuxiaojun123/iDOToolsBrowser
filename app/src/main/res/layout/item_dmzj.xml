@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="131dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/id_ll_item"
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_marginTop="14dp"
         android:paddingBottom="3dp"
         android:paddingTop="3dp">
 
@@ -24,8 +25,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:gravity="center"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -38,8 +39,8 @@
                 android:singleLine="true"
                 android:text="标题:某漫画"
                 android:textColor="@color/color_about_text"
-                android:textStyle="bold"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/id_tv_tag"
@@ -61,9 +62,9 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="13dp"
                 android:ellipsize="end"
-                android:textColor="@color/color_6"
                 android:maxLines="3"
                 android:text="简介:这是一篇非常好的漫画，非常值得一看非常值得一看非常值得一看非常值得一看非常值得一看非常值得一看非常值得一看非常值得一看非常值得一看非常值得一看"
+                android:textColor="@color/color_6"
                 android:textSize="12dp" />
         </LinearLayout>
 
@@ -72,7 +73,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_line_height_min"
-        android:layout_marginBottom="14dp"
         android:layout_marginTop="14dp"
         android:background="@color/color_line" />
 

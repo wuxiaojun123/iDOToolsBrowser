@@ -165,7 +165,7 @@ public class WebViewManager {
      * @return
      */
     public void cleanCache() {
-        new AlertDialog((MainActivity) mContext).builder().setTitle(R.string.string_prompt)
+        new AlertDialog((MainActivity) mContext).builder()
                 .setMsg(R.string.string_confirm_clean_all_cache)
                 .setPositiveButton(R.string.string_confirm, new View.OnClickListener() {
                     @Override

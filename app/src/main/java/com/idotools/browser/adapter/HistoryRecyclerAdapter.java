@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.idotools.browser.R;
+import com.idotools.browser.adapter.viewHolder.HistoryAndRecordsViewHolder;
 import com.idotools.browser.bean.CartoonDetailsBean;
 import com.idotools.utils.LogUtils;
 
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by wuxiaojun on 16-10-2.
  */
-public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecyclerAdapter.RecyclerViewHolder> {
+public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryAndRecordsViewHolder> {
 
     private Context mContext;
     private List<CartoonDetailsBean> list;
@@ -34,13 +35,13 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HistoryAndRecordsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_history, null);
-        return new RecyclerViewHolder(view);
+        return new HistoryAndRecordsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+    public void onBindViewHolder(HistoryAndRecordsViewHolder holder, final int position) {
         CartoonDetailsBean bean = list.get(position);
         if (bean != null) {
             if (bean.img != null)
@@ -53,27 +54,6 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
     @Override
     public int getItemCount() {
         return list.size();
-    }
-
-
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.id_ll_layout)
-        public LinearLayout ll_layout;
-        @BindView(R.id.id_iv_img)
-        public ImageView iv_img;
-        @BindView(R.id.id_tv_title)
-        public TextView tv_title;
-        @BindView(R.id.id_tv_laster_chapter)
-        public TextView tv_laster_chapter;
-        @BindView(R.id.item_delete)
-        public TextView deleteTextView;
-        @BindView(R.id.ll_text)
-        public LinearLayout ll_text;
-
-        public RecyclerViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
     }
 
 }

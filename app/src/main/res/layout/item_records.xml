@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_records_item_height">
+
+    <LinearLayout
+        android:id="@+id/id_ll_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_records_item_height"
+        android:layout_marginBottom="1dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/id_iv_img"
+            android:layout_width="@dimen/dimen_records_img_width"
+            android:layout_height="@dimen/dimen_records_img_height"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/img_default" />
+
+        <LinearLayout
+            android:id="@+id/ll_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/id_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="百度一下"
+                android:textColor="@color/color_about_text"
+                android:textSize="@dimen/dimen_text_16" />
+
+            <TextView
+                android:id="@+id/id_tv_laster_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="https://www.baidu.com"
+                android:textColor="@color/color_9"
+                android:textSize="@dimen/dimen_text_12" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_delete"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#88ff0000"
+            android:gravity="center"
+            android:text="@string/string_remove"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line_height_min"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_line" />
+
+</RelativeLayout>

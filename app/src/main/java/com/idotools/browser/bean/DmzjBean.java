@@ -6,11 +6,11 @@ package com.idotools.browser.bean;
 public class DmzjBean {
 
     public String id;
-    public String title;
-    public String cover;
-    public String description;
-    public String url;
-    public String tags;
+    public String title;//标题
+    public String cover;//图片路径
+    public String description;//描述
+    public String url;//打开的网页
+    public String tags;//类型
 
     public DmzjBean() {
     }

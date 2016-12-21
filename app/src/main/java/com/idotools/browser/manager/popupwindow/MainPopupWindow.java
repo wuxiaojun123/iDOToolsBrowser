@@ -3,37 +3,30 @@ package com.idotools.browser.manager.popupwindow;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v7.app.AppCompatDelegate;
-import android.view.Gravity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
-import com.alibaba.sdk.android.FeedBackConstant;
 import com.ido.autoupdate.AutoUpdate;
 import com.idotools.browser.R;
 import com.idotools.browser.activity.AboutActivity;
 import com.idotools.browser.activity.DmzjActivity;
-import com.idotools.browser.activity.HistoryActivity;
 import com.idotools.browser.activity.MainActivity;
+import com.idotools.browser.activity.SplashActivity;
 import com.idotools.browser.manager.dialog.AlertDialog;
 import com.idotools.browser.manager.webview.WebViewManager;
+import com.idotools.browser.sqlite.RecordsSqliteManager;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.ActivityUtils;
+import com.idotools.browser.utils.Constant;
 import com.idotools.browser.utils.ShareUtils;
 import com.idotools.browser.utils.ShortCutUtils;
 import com.idotools.browser.view.ImageTextViewGroup;
-import com.idotools.utils.LogUtils;
 import com.idotools.utils.MetricsUtils;
 import com.idotools.utils.MobileScreenUtils;
 import com.idotools.utils.SharedPreferencesHelper;
@@ -59,8 +52,8 @@ public class MainPopupWindow implements View.OnClickListener {
     LinearLayout id_ll_content;
     @BindView(R.id.id_share)
     ImageTextViewGroup id_share;
-    @BindView(R.id.id_history)
-    ImageTextViewGroup id_history;
+    @BindView(R.id.id_records)
+    ImageTextViewGroup id_records;
 
     @BindView(R.id.id_add_shortcut)
     ImageTextViewGroup id_add_shortcut;
@@ -103,18 +96,65 @@ public class MainPopupWindow implements View.OnClickListener {
         contentView = LayoutInflater.from(mContext).inflate(R.layout.layout_home_popupwindow, null);
         ButterKnife.bind(this, contentView);
         //-emptyHeight-MobileScreenUtils.getStatusHeight(mContext)
-        pw = new PopupWindow(contentView, RelativeLayout.LayoutParams.MATCH_PARENT, MobileScreenUtils.getScreenHeight(mContext)-bottomHeight-MobileScreenUtils.getStatusHeight(mContext));
+        pw = new PopupWindow(contentView, RelativeLayout.LayoutParams.MATCH_PARENT, MobileScreenUtils.getScreenHeight(mContext) - bottomHeight - MobileScreenUtils.getStatusHeight(mContext));
         pw.setOutsideTouchable(true);//设置点击其他区域也会消失
         boolean modeNight = SharedPreferencesHelper.getInstance(mContext).getBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, false);
         toogleNightMode(modeNight);
+        initWebviewManager();
+        judgeRecords();
     }
+
+
+    /**
+     * 判断当前页面是否为首页中的页面
+     * 是
+     * 判断是否已收藏当前页面
+     * 不是
+     * 则设置当前收藏按钮不能点击
+     */
+    private void judgeRecords() {
+        MainActivity mActivity = (MainActivity) mContext;
+        if (mActivity.mRecordsBean != null) {
+            urlIsexitSqlite(mActivity.mRecordsBean.url);
+        } else {
+            //获取当前url
+            urlIsexitSqlite(mWebViewManager.getCurrentUrl());
+            id_records.setClickable(false);
+        }
+    }
+
+    /**
+     * 初始化webviewmanger
+     */
+    private void initWebviewManager() {
+        if (mWebViewManager == null) {
+            mWebViewManager = ((MainActivity) mContext).getWebViewManager();
+        }
+    }
+
+    /***
+     * 判断url 是否存在收藏数据库中
+     *
+     * @param url
+     */
+    private void urlIsexitSqlite(String url) {
+        if (mRecordsSqliteManager == null) {
+            mRecordsSqliteManager = new RecordsSqliteManager(mContext);
+        }
+        boolean result = mRecordsSqliteManager.selectByUrl(url);
+        if (result) {
+            id_records.setClickable(false);
+            id_records.setImageResource(R.mipmap.img_already_records);
+            id_records.setTextResource(R.string.string_alread_records);
+        }
+    }
+
 
     public void showPopupWindow(View rootView) {
         if (pw != null) {
             enterStartAnim();
             // 显示 -emptyHeight
             pw.showAsDropDown(rootView, 0, 0);
-//            pw.showAtLocation(rootView, Gravity.NO_GRAVITY, 0, 0);
         }
     }
 
@@ -132,9 +172,9 @@ public class MainPopupWindow implements View.OnClickListener {
 
     private WebViewManager mWebViewManager;
 
-    @OnClick({R.id.id_ll_empty, R.id.id_share, R.id.id_history,
+    @OnClick({R.id.id_ll_empty, R.id.id_share, R.id.id_records,
             R.id.id_add_shortcut, R.id.id_night_mode, R.id.id_check_update,
-            R.id.id_feedback, R.id.id_about, R.id.id_exit})
+            R.id.id_about, R.id.id_exit})
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -144,20 +184,21 @@ public class MainPopupWindow implements View.OnClickListener {
                 break;
             case R.id.id_share:
                 //分享
-                ShareUtils.shareText((MainActivity) mContext);
+                if (TextUtils.isEmpty(mWebViewManager.getCurrentUrl())) {
+                    ShareUtils.shareText((MainActivity) mContext, mWebViewManager.getCurrentTitle() + " " + Constant.PATH);
+                } else {
+                    ShareUtils.shareText((MainActivity) mContext, mWebViewManager.getCurrentTitle() + " " + mWebViewManager.getCurrentUrl());
+                }
+
                 break;
-            case R.id.id_history:
-                //历史记录
+            case R.id.id_records:
+                //收藏
                 exitStartAnim();
-                ((MainActivity) mContext).startActivity(new Intent(((MainActivity) mContext), HistoryActivity.class));
-                ActivitySlideAnim.slideInAnim((MainActivity) mContext);
+                recordsPage();
 
                 break;
             case R.id.id_add_shortcut:
                 //添加桌面快捷方式
-                if (mWebViewManager == null) {
-                    mWebViewManager = ((MainActivity) mContext).getWebViewManager();
-                }
                 addShortcut(mWebViewManager.getCurrentTitle(), mWebViewManager.getCurrentUrl());
 
                 break;
@@ -174,7 +215,7 @@ public class MainPopupWindow implements View.OnClickListener {
                 break;
             case R.id.id_feedback:
                 //意见反馈
-                FeedBackConstant.openFeedBackActivity(mContext);
+//                FeedBackConstant.openFeedBackActivity(mContext);
 
                 break;
             case R.id.id_about:
@@ -191,6 +232,21 @@ public class MainPopupWindow implements View.OnClickListener {
         }
     }
 
+    private RecordsSqliteManager mRecordsSqliteManager;
+
+    /***
+     * 收藏当前页面
+     */
+    private void recordsPage() {
+        MainActivity mActivity = (MainActivity) mContext;
+        if (mActivity.mRecordsBean != null) {
+            mRecordsSqliteManager.insert(mActivity.mRecordsBean);
+            id_records.setImageResource(R.mipmap.img_already_records);
+            id_records.setTextResource(R.string.string_alread_records);
+            id_records.setClickable(false);
+            ToastUtils.show(mContext, R.string.string_alread_records);
+        }
+    }
 
     /***
      * 更新
@@ -206,17 +262,16 @@ public class MainPopupWindow implements View.OnClickListener {
      * 获取当前页面的网址
      */
     private void addShortcut(final String title, final String url) {
-        new AlertDialog((MainActivity) mContext).builder().setTitle(R.string.string_prompt)
+        new AlertDialog((MainActivity) mContext).builder()
                 .setMsg(R.string.string_confirm_add_shortcut)
                 .setPositiveButton(R.string.string_confirm, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //确定添加桌面快捷方式
                         Intent mIntent = new Intent();
-                        mIntent.setClass(mContext, DmzjActivity.class);
+                        mIntent.setClass(mContext, SplashActivity.class);
                         mIntent.putExtra("url", url);
                         ShortCutUtils.addShortCut(mContext, title, R.mipmap.icon, mIntent);
-//                        ToastUtils.show(mContext, R.string.string_create_shortcut_success);
                     }
                 }).setNegativeButton(R.string.string_cancel, new View.OnClickListener() {
             @Override
@@ -238,7 +293,7 @@ public class MainPopupWindow implements View.OnClickListener {
 
             id_night_mode.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
             id_share.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
-            id_history.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
+            id_records.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
             id_add_shortcut.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
             id_check_update.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
             id_feedback.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
@@ -251,7 +306,7 @@ public class MainPopupWindow implements View.OnClickListener {
 
             id_night_mode.setBackgroundResource(R.drawable.selector_bg_popupwindow);
             id_share.setBackgroundResource(R.drawable.selector_bg_popupwindow);
-            id_history.setBackgroundResource(R.drawable.selector_bg_popupwindow);
+            id_records.setBackgroundResource(R.drawable.selector_bg_popupwindow);
             id_add_shortcut.setBackgroundResource(R.drawable.selector_bg_popupwindow);
             id_check_update.setBackgroundResource(R.drawable.selector_bg_popupwindow);
             id_feedback.setBackgroundResource(R.drawable.selector_bg_popupwindow);
@@ -264,7 +319,7 @@ public class MainPopupWindow implements View.OnClickListener {
      * 退出
      */
     private void exitApp() {
-        new AlertDialog((MainActivity) mContext).builder().setTitle(R.string.string_prompt)
+        new AlertDialog((MainActivity) mContext).builder()
                 .setMsg(R.string.string_confirm_exit_app)
                 .setPositiveButton(R.string.string_confirm, new View.OnClickListener() {
                     @Override

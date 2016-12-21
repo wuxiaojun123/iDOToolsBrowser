@@ -9,22 +9,17 @@
         android:layout_height="30dp"
         android:gravity="center_vertical"
         android:paddingLeft="11dp"
-        android:text="热门推荐"
+        android:text="@string/string_hot"
         android:textColor="@color/color_black"
         android:textSize="@dimen/dimen_text_16" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="170dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="5dp">
+        <LinearLayout style="@style/style_header2_linearlayout">
 
             <ImageView
                 android:id="@+id/id_iv_image_first"
@@ -33,36 +28,25 @@
             <TextView
                 android:id="@+id/id_tv_text_first"
                 style="@style/style_header2_textview"
-                android:text="标题一标题一标题一标题一标题一标题一标题一标题一标题一标题一标题一" />
+                android:text="aaaa" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="170dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="5dp">
+        <LinearLayout style="@style/style_header2_linearlayout">
 
             <ImageView
                 android:id="@+id/id_iv_image_second"
-                style="@style/style_header2_imageview" />
+                style="@style/style_header2_imageview"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
 
             <TextView
                 android:id="@+id/id_tv_text_second"
-                style="@style/style_header2_textview"
-                android:text="标题一" />
+                style="@style/style_header2_textview" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="170dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="5dp">
+        <LinearLayout style="@style/style_header2_linearlayout">
 
             <ImageView
                 android:id="@+id/id_iv_image_third"
@@ -70,11 +54,9 @@
 
             <TextView
                 android:id="@+id/id_tv_text_third"
-                style="@style/style_header2_textview"
-                android:text="标题一" />
+                style="@style/style_header2_textview" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -83,15 +65,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="170dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="5dp">
+        <LinearLayout style="@style/style_header2_linearlayout">
 
             <ImageView
                 android:id="@+id/id_iv_image_four"
@@ -99,18 +76,11 @@
 
             <TextView
                 android:id="@+id/id_tv_text_four"
-                style="@style/style_header2_textview"
-                android:text="标题一" />
+                style="@style/style_header2_textview" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="170dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="5dp">
+        <LinearLayout style="@style/style_header2_linearlayout">
 
             <ImageView
                 android:id="@+id/id_iv_image_five"
@@ -118,18 +88,11 @@
 
             <TextView
                 android:id="@+id/id_tv_text_five"
-                style="@style/style_header2_textview"
-                android:text="标题一" />
+                style="@style/style_header2_textview" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="170dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="5dp">
+        <LinearLayout style="@style/style_header2_linearlayout">
 
             <ImageView
                 android:id="@+id/id_iv_image_six"
@@ -137,8 +100,7 @@
 
             <TextView
                 android:id="@+id/id_tv_text_six"
-                style="@style/style_header2_textview"
-                android:text="标题一" />
+                style="@style/style_header2_textview" />
 
         </LinearLayout>
 
@@ -154,10 +116,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
-        android:paddingLeft="12dp"
-        android:text="最新更新"
+        android:paddingLeft="11dp"
+        android:text="@string/string_new_update"
         android:textColor="@color/color_black"
         android:textSize="@dimen/dimen_text_16" />
 

@@ -72,9 +72,10 @@ public class IntentUtils {
             return false;
         }
         try {
-            if (mActivity.startActivityIfNeeded(intent, -1)) {
+            /*if (mActivity.startActivityIfNeeded(intent, -1)) {
+                LogUtils.e("开启其他activity");
                 return true;
-            }
+            }*/
         } catch (ActivityNotFoundException ex) {
             ex.printStackTrace();
         }

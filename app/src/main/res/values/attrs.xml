@@ -30,4 +30,14 @@
         <attr name="pwContourSize" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="DilatingDotsProgressBar">
+        <attr name="android:radius" />
+        <attr name="android:color" />
+        <attr name="dd_numDots" format="integer" />
+        <attr name="dd_scaleMultiplier" format="float" />
+        <attr name="dd_animationDuration" format="integer" />
+        <attr name="dd_horizontalSpacing" format="dimension" />
+        <attr name="dd_endColor" format="color"/>
+    </declare-styleable>
+
 </resources>

@@ -94,85 +94,21 @@
         public static <fields>;
 }
 -keepclassmembers class **.R$* { *; }
-
 ###################AutoUpdate#######################
 
 
-######################小强统计 start#######################
-# For Umeng SDK
--dontwarn com.umeng.**
--keep class com.umeng.** { *; }
-
--dontwarn okio.**
--dontwarn org.apache.**
--dontwarn ch.qos.**
-#
--dontwarn javax.mail.**
--dontwarn javax.naming.Context
--dontwarn javax.naming.InitialContext
--dontwarn javax.mail.**, javax.naming.Context, javax.naming.InitialContext
-
-######################################################
-# <<< proguard rules for analytics one >>>
-######################################################
--keep class com.dot.analyticsone.AnalyticsOne { *; }
--keep class com.dot.analyticsone.CaptureMask { *; }
--keep class com.dot.analyticsone.EventTraits { *; }
--keep class com.dot.analyticsone.integrations.** { *; }
-
-
-######################################################
-# <<< proguard rules for ido analytics >>>
-######################################################
--keep class com.dot.analytics.DotAnalytics { *; }
--keep class com.dot.analytics.EventPriority { *; }
--keep class com.dot.analytics.userinfo.Account { *; }
--keep class ch.qos.logback.core.rolling.TBRPPolicy { *; }
--keep class com.dot.analytics.utils.Jni { *; }
-
--dontwarn ch.qos.**
--dontwarn org.apache.**
-
--keep class org.slf4j.Logger { *; }
--keep class org.slf4j.LoggerFactory { *; }
--keep class ch.qos.logback.classic.android.LogcatAppender { *; }
--keep class ch.qos.logback.classic.encoder.PatternLayoutEncoder { *; }
--keep class ch.qos.logback.core.rolling.RollingFileAppender { *; }
--keep class ch.qos.logback.core.rolling.RolloverFailure  { *; }
--keep class ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP  { *; }
--keep class ch.qos.logback.core.rolling.TimeBasedRollingPolicy  { *; }
-
-
-######################################################
-# <<< proguard rules for google analytics >>>
-######################################################
--dontwarn com.google.android.gms.**
-
--keep class * extends java.util.ListResourceBundle {
-    protected Object[][] getContents();
-}
-
--keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
-    public static final *** NULL;
-}
-
--keepnames @com.google.android.gms.common.annotation.KeepName class *
--keepclassmembernames class * {
-    @com.google.android.gms.common.annotation.KeepName *;
-}
-
--keepnames class * implements android.os.Parcelable {
-    public static final ** CREATOR;
-}
-
-
-######################################################
-# <<< proguard rules for umeng analytics >>>
-######################################################
+######################umeng统计 start#######################
 -keepclassmembers class * {
-    public <init>(org.json.JSONObject);
+   public <init> (org.json.JSONObject);
 }
-#######################小强统计 end####################
+-keep public class com.idotools.browser.R$*{
+public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+#######################umeng统计 end####################
 
 #####################阿里百川的意见反馈 start###########################
 -keepattributes Signature
@@ -229,4 +165,13 @@
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
 
+-dontwarn okio.**
+-dontwarn retrofit.**
+-keep class retrofit.** { *; }
+-keepclassmembers,allowobfuscation interface * {
+    @retrofit.http.** <methods>;
+}
+-dontwarn com.squareup.okhttp.**
+
 ################### retrofit end ###################
+

@@ -9,10 +9,10 @@ import android.content.Intent;
 public class ShareUtils {
 
 
-    public static void shareText(Context context){
+    public static void shareText(Context context,String content){
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "超赞的浏览器，快到极致");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, content);
         sendIntent.setType("text/plain");
         context.startActivity(sendIntent);
     }

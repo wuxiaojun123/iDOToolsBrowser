@@ -224,7 +224,8 @@ public abstract class MainActivity extends BaseActivity implements View.OnClickL
     public void closeWebView() {
         checkWebviewIsNull();
         mWebView.stopLoading();
-        System.exit(0);
+        finish();
+//        System.exit(0);
     }
 
     @Override
@@ -403,7 +404,8 @@ public abstract class MainActivity extends BaseActivity implements View.OnClickL
             ToastUtils.show(mContext, R.string.string_press_again);
             mExitTime = System.currentTimeMillis();
         } else {
-            System.exit(0);
+//            System.exit(0);
+            finish();
         }
     }
 

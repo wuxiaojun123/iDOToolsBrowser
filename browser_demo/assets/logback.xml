@@ -1,0 +1,80 @@
+<configuration debug="true">
+    <property name="PACKAGE_NAME" value="com.idotools.browser.pink.book" />
+    <property name="LOG_DIR" value="/data/data/${PACKAGE_NAME}/files/analytics-logs" />
+
+    <!-- Create a logcat appender -->
+    <appender name="logcat" class="ch.qos.logback.classic.android.LogcatAppender">
+        <encoder>
+            <pattern>>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOG_PRIOR_0" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${PACKAGE_NAME}.p0.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TBRPPolicy">
+            <fileNamePattern>${LOG_DIR}/${PACKAGE_NAME}_%d{yyyy_MM_dd_HH}.%i.p0.log
+            </fileNamePattern>
+            <!-- 168 indicates keep it one week -->
+            <MaxHistory>168</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 25 indicate log header's length -->
+                <maxFileSize>25</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOG_PRIOR_1" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${PACKAGE_NAME}.p1.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TBRPPolicy">
+            <fileNamePattern>${LOG_DIR}/${PACKAGE_NAME}_%d{"yyyy_MM_dd_HH"}.%i.p1.log
+            </fileNamePattern>
+            <!-- 168 indicates keep it one week -->
+            <MaxHistory>168</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 25 indicate log header's length -->
+                <maxFileSize>25</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOG_PRIOR_2" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${PACKAGE_NAME}.p2.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TBRPPolicy">
+            <fileNamePattern>${LOG_DIR}/${PACKAGE_NAME}_%d{"yyyy_MM_dd_HH"}.%i.p2.log
+            </fileNamePattern>
+            <!-- 168 indicates keep it one week -->
+            <MaxHistory>168</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10KB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="LOG_PRIOR_0" additivity="false" level="INFO">
+        <appender-ref ref="LOG_PRIOR_0" />
+    </logger>
+
+    <logger name="LOG_PRIOR_1" additivity="false" level="INFO">
+        <appender-ref ref="LOG_PRIOR_1" />
+    </logger>
+
+    <logger name="LOG_PRIOR_2" additivity="false" level="INFO">
+        <appender-ref ref="LOG_PRIOR_2" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="logcat" />
+    </root>
+</configuration>

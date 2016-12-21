@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.idotools.browser.R;
 import com.idotools.browser.adapter.DmzjRecyclerAdapter;
@@ -24,11 +26,14 @@ import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.ActivityUtils;
 import com.idotools.browser.utils.Constant;
 import com.idotools.browser.utils.DoAnalyticsManager;
+import com.idotools.browser.utils.JsonUtils;
 import com.idotools.utils.DeviceUtil;
+import com.idotools.utils.FileUtils;
+import com.idotools.utils.JudgeNetWork;
+import com.idotools.utils.LogUtils;
 import com.idotools.utils.SharedPreferencesHelper;
 import com.idotools.utils.ToastUtils;
 import com.igexin.sdk.PushManager;
-import com.ta.utdid2.android.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +56,10 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     SwipeRefreshLayout id_swiperefresh;
     @BindView(R.id.id_et_search)
     EditText id_et_search;
-    @BindView(R.id.id_iv_start_page)
-    ImageView id_iv_start_page;
     @BindView(R.id.id_return_to_top)
     ImageView id_return_to_top;
+    @BindView(R.id.id_layout_no_network)
+    LinearLayout id_layout_no_network;
 
     private LinearLayoutManager mLinearLayoutManager;
     private DmzjRecyclerAdapter mDmzjAdapter;
@@ -69,26 +74,39 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dmzj);
         ButterKnife.bind(this);
-        startPageAnim();
+
         toogleNightMode();
         initView();
         initRecycler();
+        initLastTimeData();
         initData();
         loadMore();
         getGeTuiMsg();
     }
 
-    private void startPageAnim() {
-        if (ActivityUtils.getSizie() <= 1) {
-            id_iv_start_page.animate().alpha(0f).scaleX(3.0f).scaleY(3.0f).setDuration(1000).setStartDelay(2000).
-                    setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            id_iv_start_page.setVisibility(View.GONE);
-                        }
-                    }).start();
-        } else {
-            id_iv_start_page.setVisibility(View.GONE);
+    /***
+     * 使用缓存数据
+     */
+    private void initLastTimeData() {
+        try {
+            String bannerData = FileUtils.readFile(mContext, Constant.FILE_BANNER);
+            if (!TextUtils.isEmpty(bannerData)) {
+                List<BannerResp.BannerBean> list = JsonUtils.fromJsonArray(bannerData, BannerResp.BannerBean.class);
+                if (list != null && !list.isEmpty()) {
+                    mDmzjAdapter.mBannerBeanList = list;
+                    mDmzjAdapter.notifyDataSetChanged();
+                }
+            }
+            String mainData = FileUtils.readFile(mContext, Constant.FILE_MAIN_DATA);
+            if (!TextUtils.isEmpty(mainData)) {
+                List<DmzjBean> list = JsonUtils.fromJsonArray(mainData, DmzjBean.class);
+                if (list != null && !list.isEmpty()) {
+                    mDmzjAdapter.resetAdapter(list);//刷新界面数据
+                    id_swiperefresh.setRefreshing(false);//刷新完成
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -110,10 +128,12 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && (lastVisiblePosition + 1) == mDmzjAdapter.getItemCount()) {
-                    if (NetworkUtils.isConnectInternet(mContext)) {
+                    if (JudgeNetWork.isNetAvailable(mContext)) {
                         mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_LOADING);
                         page += 1;
                         loadLatestData(page, true);
+                    } else {
+                        mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
                     }
                 }
             }
@@ -122,9 +142,9 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisiblePosition = mLinearLayoutManager.findLastVisibleItemPosition();
-                if(lastVisiblePosition > 12){
+                if (lastVisiblePosition > 8) {
                     id_return_to_top.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     id_return_to_top.setVisibility(View.GONE);
                 }
             }
@@ -136,7 +156,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
     private void initView() {
         id_swiperefresh.requestFocus();
-        id_swiperefresh.setRefreshing(true);
         id_swiperefresh.setColorSchemeResources(R.color.color_main_title);
         id_swiperefresh.setOnRefreshListener(this);
     }
@@ -159,8 +178,15 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
     private void initData() {
         mAppHttpClient = new AppHttpClient();
-        loadLatestData(page, false);
-        loadBannerData();
+        if (JudgeNetWork.isNetAvailable(mContext)) {
+            id_layout_no_network.setVisibility(View.GONE);
+            id_swiperefresh.setRefreshing(true);
+            loadLatestData(page, false);
+            loadBannerData();
+        } else {
+            if (mDmzjAdapter.mBannerBeanList == null)
+                id_layout_no_network.setVisibility(View.VISIBLE);
+        }
     }
 
     /***
@@ -175,6 +201,8 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 if (list != null && !list.isEmpty()) {
                     mDmzjAdapter.mBannerBeanList = list;
                     mDmzjAdapter.notifyDataSetChanged();
+                    //将最新数据保存到file中
+                    FileUtils.saveFile(mContext, Constant.FILE_BANNER, JsonUtils.toJsonFromList(list));
                 }
             }
 
@@ -191,19 +219,23 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      * 拉取最新的动漫之家的数据
      */
     private void loadLatestData(int mpage, final boolean flag) {
-        mAppHttpClient.requestDmzjBeanList(Constant.DMZJ_TAG, Constant.DMZJ_TYPE_UPDATE, mpage, 15);
+        mAppHttpClient.requestDmzjBeanList(Constant.DMZJ_TAG, Constant.DMZJ_TYPE_UPDATE, mpage, 10);
         mAppHttpClient.setOnLoadDmzjDataListener(new AppHttpClient.OnLoadDmzjDataListener() {
             @Override
             public void loadDmzjDataSuccessListener(List<DmzjBean> list) {
                 if (flag) {
+                    if (list.size() / 5 >= 1) {
+                        list.add(5, null);
+                    }
                     //加载更多
-                    recyclerView.scrollToPosition(mDmzjBeanList.size() - 8);
                     mDmzjAdapter.addMoreItem(list, DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
                 } else {
                     //拉取最新
+                    FileUtils.saveFile(mContext, Constant.FILE_MAIN_DATA, JsonUtils.toJsonFromList(list));
+                    list.add(null);
                     mDmzjAdapter.resetAdapter(list);//刷新界面数据
-                    id_swiperefresh.setRefreshing(false);//刷新完成
                 }
+                id_swiperefresh.setRefreshing(false);//刷新完成
             }
 
             @Override
@@ -217,14 +249,21 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        page = 1;
-        loadLatestData(page, false);
-        if (mDmzjAdapter != null && mDmzjAdapter.mBannerBeanList == null) {
-            loadBannerData();
+        if (JudgeNetWork.isNetAvailable(mContext)) {
+            if (id_layout_no_network.getVisibility() == View.VISIBLE) {
+                id_layout_no_network.setVisibility(View.GONE);
+            }
+            page = 1;
+            loadLatestData(page, false);
+            if (mDmzjAdapter != null && mDmzjAdapter.mBannerBeanList == null) {
+                loadBannerData();
+            }
+        } else {
+            id_swiperefresh.setRefreshing(false);
         }
     }
 
-    @OnClick({R.id.id_iv_go,R.id.id_return_to_top})
+    @OnClick({R.id.id_iv_go, R.id.id_return_to_top, R.id.id_iv_history})
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -233,21 +272,40 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 //前往mainActivity
                 String text = id_et_search.getText().toString().trim();
                 if (!TextUtils.isEmpty(text)) {
-                    goToMainActivity("http://www.baidu.com/#wd=" + text);
+                    if (Patterns.WEB_URL.matcher(text).matches()) {
+                        goToMainActivity(text);
+                    } else {
+                        if (Constant.VERSION_COUNTRY_GP) {
+                            goToMainActivity(Constant.SEARCH_URL_GOOGLE + text);
+                        } else {
+                            goToMainActivity(Constant.SEARCH_URL_BAIDU + text);
+                        }
+                    }
                 }
                 break;
             case R.id.id_return_to_top:
                 //返回顶部
-                if(mDmzjAdapter != null && !mDmzjBeanList.isEmpty()){
+                if (mDmzjAdapter != null && !mDmzjBeanList.isEmpty()) {
                     recyclerView.scrollToPosition(0);
                 }
+                break;
+            case R.id.id_iv_history:
+                //历史记录
+                startActivity(new Intent(DmzjActivity.this, HistoryAndRecordsActivity.class));
+                ActivitySlideAnim.slideInAnim(DmzjActivity.this);
+
                 break;
         }
     }
 
     @Override
-    public void onItemClickListener(String url) {
-        goToMainActivity(url);
+    public void onItemClickListener(String url, String imgUrl, String title) {
+        Intent mIntent = new Intent(DmzjActivity.this, MainActivity.class);
+        mIntent.putExtra("url", url);
+        mIntent.putExtra("imgUrl", imgUrl);
+        mIntent.putExtra("title", title);
+        startActivity(mIntent);
+        ActivitySlideAnim.slideInAnim(DmzjActivity.this);
     }
 
     private void goToMainActivity(String url) {
@@ -274,18 +332,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             goToMainActivity(url);
         }
         super.onNewIntent(intent);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        DoAnalyticsManager.pageResume(this, "DmzjActivity");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        DoAnalyticsManager.pagePause(this, "DmzjActivity");
     }
 
     @Override
@@ -304,15 +351,15 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             ToastUtils.show(mContext, R.string.string_press_again);
             mExitTime = System.currentTimeMillis();
         } else {
-            System.exit(0);
+            //System.exit(0);
+            finish();
         }
     }
 
     @Override
     protected void onDestroy() {
-        if (mDmzjAdapter != null) {
-            mDmzjAdapter.mHandler.removeMessages(1);
-            mDmzjAdapter.mHandler = null;
+        if (mDmzjAdapter != null && mDmzjAdapter.mViewPagerManager != null) {
+            mDmzjAdapter.mViewPagerManager.destroyViewPager();
         }
         super.onDestroy();
     }

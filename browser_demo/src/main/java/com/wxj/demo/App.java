@@ -16,8 +16,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        analytics = AnalyticsOne.getInstance(this);
-        Constant.PATH = "https://www.baidu.com/";
+
+//        Constant.PATH = "https://www.baidu.com/";
+        Constant.PATH  = "http://wp.cgameclub.com/2016/11/24/the-boy-will-be-a-real-man/";
     }
 
     public static App get(Context context) {

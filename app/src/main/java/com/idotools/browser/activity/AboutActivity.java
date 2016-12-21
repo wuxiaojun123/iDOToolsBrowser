@@ -65,7 +65,6 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         } else {
             intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
             startActivity(intent);
-
         }
     }
 

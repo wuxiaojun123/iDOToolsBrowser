@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
     <!-- 添加快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <!-- 移除快捷方式 -->
@@ -49,11 +49,10 @@
         android:supportsRtl="true"
         android:theme="@style/style_AppTheme">
 
+
         <activity
-            android:name=".activity.DmzjActivity"
-            android:launchMode="singleTask"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
-            android:taskAffinity="com.idotools.browser"
             android:theme="@style/style_splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,18 +62,31 @@
         </activity>
 
         <activity
+            android:name=".activity.DmzjActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/style_AppTheme" />
+
+        <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
-            android:taskAffinity="com.idotools.browser"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/style_AppTheme" />
+
+        <activity
+            android:name=".activity.HistoryAndRecordsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/style_AppTheme" />
 
         <activity
             android:name=".activity.AboutActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/style_AppTheme" />
 
-        <activity
+        <!--<activity
             android:name=".activity.HistoryActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" />-->
         <!-- 友盟 START -->
         <!-- 国内 key -->
         <meta-data
@@ -177,6 +189,13 @@
             </intent-filter>
         </receiver>
         <!-- 个推SDK配置结束 -->
+
+        <!--facebook广告 start-->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <!--facebook广告 end-->
+
     </application>
 
     <supports-screens

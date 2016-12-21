@@ -1,17 +1,38 @@
 package com.wxj.demo;
 
 
+import android.*;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.base.browser.utils.Constant;
+import com.dot.analyticsone.AnalyticsOne;
+import com.idotools.utils.LogUtils;
 import com.igexin.sdk.PushManager;
 
-public class MainActivity extends com.base.browser.activity.MainActivity {
+import java.util.List;
+import java.util.jar.*;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
+public class MainActivity extends com.base.browser.activity.MainActivity implements EasyPermissions.PermissionCallbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         PushManager.getInstance().initialize(this.getApplicationContext());
         super.onCreate(savedInstanceState);
+
+    }
+
+    @AfterPermissionGranted(123)
+    private void requestPermission() {
+        //这里需要请求权限
+        if (EasyPermissions.hasPermissions(this, android.Manifest.permission.READ_PHONE_STATE)) {
+            App.analytics = AnalyticsOne.getInstance(this);
+        } else {
+            EasyPermissions.requestPermissions(this, "当前app运行需要这个权限", 123, android.Manifest.permission.READ_PHONE_STATE);
+        }
     }
 
     @Override
@@ -22,13 +43,34 @@ public class MainActivity extends com.base.browser.activity.MainActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DoAnalyticsManager.pageResume(this, "MainActivity");
+        requestPermission();
+        if (App.analytics != null)
+            DoAnalyticsManager.pageResume(this, "MainActivity");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        DoAnalyticsManager.pagePause(this, "MainActivity");
+        if (App.analytics != null)
+            DoAnalyticsManager.pagePause(this, "MainActivity");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        LogUtils.e("执行onPermissionsGranted");
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        LogUtils.e("执行onPermissionsDenied方法");
     }
 
 }

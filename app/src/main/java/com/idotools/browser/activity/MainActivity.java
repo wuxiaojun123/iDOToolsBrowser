@@ -6,8 +6,10 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -21,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.idotools.browser.R;
+import com.idotools.browser.bean.RecordsBean;
 import com.idotools.browser.manager.popupwindow.MainPopupWindow;
 import com.idotools.browser.manager.webview.WebViewManager;
 import com.idotools.browser.manager.webview.WebviewInteface;
@@ -29,26 +32,26 @@ import com.idotools.browser.minterface.OnReceivedErrorListener;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.ActivityUtils;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.view.AnimatedProgressBar;
 import com.idotools.browser.view.BrowserWebView;
 import com.idotools.browser.view.SearchEditTextView;
 import com.idotools.utils.InputWindowUtils;
+import com.idotools.utils.JudgeNetWork;
 import com.idotools.utils.LogUtils;
 import com.idotools.utils.MetricsUtils;
 import com.idotools.utils.MobileScreenUtils;
 import com.idotools.utils.SharedPreferencesHelper;
-import com.ta.utdid2.android.utils.NetworkUtils;
+import com.idotools.utils.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, WebviewInteface, OnPageStartedListener, OnReceivedErrorListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, WebviewInteface, OnPageStartedListener, OnReceivedErrorListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.id_rl_main)
     RelativeLayout id_rl_main;
-    /*@BindView(R.id.id_iv_start_page)
-    ImageView id_iv_start_page;*/
     @BindView(R.id.id_iv_back)
     ImageView iv_back;
     @BindView(R.id.id_iv_forward)
@@ -59,8 +62,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     ImageView iv_refresh;
     @BindView(R.id.id_iv_more)
     ImageView iv_more;
-    @BindView(R.id.id_fl_content)
-    FrameLayout id_fl_content;
+    @BindView(R.id.id_iv_history)
+    ImageView id_iv_history;
+
+    @BindView(R.id.id_swiperefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progress_view)
     AnimatedProgressBar progress_view;
     @BindView(R.id.id_iv_night_toogle)
@@ -89,17 +95,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private int nightModeTranslationY;
     //动画集合
     private AnimatorSet mAnimationSet;
+    //收藏需要插入到数据库的对象
+    public RecordsBean mRecordsBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        startPageAnim();
         initData();
     }
 
     private void initData() {
+        swipeRefreshLayout.setColorSchemeResources(R.color.color_main_title);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         screentHeight = MobileScreenUtils.getScreenHeight(mContext);
         nightModeTranslationY = (screentHeight - MetricsUtils.dipToPx(100)) / 2;
         boolean modeNight = SharedPreferencesHelper.getInstance(mContext).getBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, false);
@@ -111,24 +121,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mWebViewManager = new WebViewManager(this);
         mWebView = mWebViewManager.getWebView();
         mWebView.requestFocus();
-        id_fl_content.addView(mWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-        String url = getIntent().getStringExtra("url");
+        swipeRefreshLayout.addView(mWebView, new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
+        Intent mIntent = getIntent();
+        String url = mIntent.getStringExtra("url");
         if (TextUtils.isEmpty(url)) {
             loadUrl(Constant.PATH);
         } else {
             loadUrl(url);
         }
+        String imgUrl = mIntent.getStringExtra("imgUrl");
+        if (!TextUtils.isEmpty(imgUrl)) {
+            String title = mIntent.getStringExtra("title");
+            mRecordsBean = new RecordsBean(title, imgUrl, url);
+        }
     }
-
-    /*private void startPageAnim() {
-        id_iv_start_page.animate().alpha(0f).scaleX(3.0f).scaleY(3.0f).setDuration(1000).setStartDelay(2000).
-                setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        id_iv_start_page.setVisibility(View.GONE);
-                    }
-                }).start();
-    }*/
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -140,15 +146,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @OnClick({R.id.id_iv_back, R.id.id_iv_forward, R.id.id_iv_home,
-            R.id.id_iv_refresh, R.id.id_iv_more, R.id.id_iv_go})
+            R.id.id_iv_refresh, R.id.id_iv_more, R.id.id_iv_go, R.id.id_iv_history})
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.id_iv_right:
-                startActivity(new Intent(MainActivity.this, HistoryActivity.class));
-
-                break;
             case R.id.id_iv_back:
                 isPopupShowing();
                 back();
@@ -190,7 +192,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 goToUrl();
                 InputWindowUtils.closeInputWindow(v, mContext);
                 break;
+            case R.id.id_iv_history:
+                startActivity(new Intent(MainActivity.this, HistoryAndRecordsActivity.class));
+                ActivitySlideAnim.slideInAnim(MainActivity.this);
+
+                break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        //刷新界面
+        isPopupShowing();
+        refresh();
     }
 
     /***
@@ -204,7 +218,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 showNetworkAddressErrorLayout(false);
                 showOrHiddrenLayoutNoNetwork(true);
                 InputWindowUtils.closeInputWindow(mSearchEditText, mContext);
-                loadUrl("http://www.baidu.com/#wd=" + searchEditText);
+                if (Patterns.WEB_URL.matcher(searchEditText).matches()) {
+                    loadUrl(searchEditText);
+                } else {
+                    if (Constant.VERSION_COUNTRY_GP) {
+                        loadUrl(Constant.SEARCH_URL_GOOGLE + searchEditText);
+                    } else {
+                        loadUrl(Constant.SEARCH_URL_BAIDU + searchEditText);
+                    }
+                }
             }
         }
     }
@@ -237,7 +259,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void loadUrl(String url) {
         //检查网络
-        if (NetworkUtils.isConnectInternet(mContext) && !TextUtils.isEmpty(url)) {
+        if (JudgeNetWork.isNetAvailable(mContext) && !TextUtils.isEmpty(url)) {
             checkWebviewIsNull();
             if (TextUtils.equals(url, Constant.PATH)) {
                 mSearchEditText.setText(null);
@@ -253,7 +275,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void closeWebView() {
         checkWebviewIsNull();
         mWebView.stopLoading();
-        System.exit(0);
+        finish();
     }
 
     @Override
@@ -280,12 +302,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (mWebView.canGoBack()) {
             showNetworkAddressErrorLayout(false);
             showOrHiddrenLayoutNoNetwork(true);
-            /*WebBackForwardList webBackForwardList = mWebView.copyBackForwardList();
-            int size = webBackForwardList.getSize();
-            for (int i = 0; i < size; i++) {
-                WebHistoryItem itemAtIndex = webBackForwardList.getItemAtIndex(i);
-                LogUtils.e("itemAtIndex.getUrl()=" + itemAtIndex.getUrl());
-            }*/
             mWebView.goBack();
         }
     }
@@ -301,6 +317,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (isShown()) {
             progress_view.setProgress(progress);
             setImgButtonEnable();
+            if (progress >= 100) {
+                swipeRefreshLayout.setRefreshing(false);
+            } else {
+                swipeRefreshLayout.setRefreshing(true);
+            }
         }
     }
 
@@ -308,8 +329,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onPageStarted(String url) {
         //改变输入框的网址
         checkWebviewIsNull();
-        if (!TextUtils.isEmpty(url) && !url.equals(Constant.PATH)) {
-            mSearchEditText.setText(url);
+        try {
+            if (!TextUtils.isEmpty(url) && !url.equals(Constant.PATH)) {
+                mSearchEditText.setText(url);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //友情提示一下
         }
     }
 
@@ -325,12 +351,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void showNetworkAddressErrorLayout(boolean isShow) {
         if (isShow) {
             id_layout_network_error.setVisibility(View.VISIBLE);
+            if (mWebView != null)
+                mWebView.stopLoading();
             //隐藏webview
-            id_fl_content.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.GONE);
         } else {
             id_layout_network_error.setVisibility(View.GONE);
             //显示webview
-            id_fl_content.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -390,6 +418,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_night_toogle.setScaleX(1.0f);
                 iv_night_toogle.setScaleY(1.0f);
                 iv_night_toogle.setVisibility(View.GONE);
+                //重新启动dmzjActivity
+                ActivityUtils.activities.get(0).recreate();
                 toogleNightMode();
             }
         });
@@ -446,10 +476,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onDestroy() {
         if (mWebView != null) {
-            id_fl_content.removeView(mWebView);
+            swipeRefreshLayout.removeView(mWebView);
             mWebView.destroy();
         }
         super.onDestroy();
     }
+
 
 }
