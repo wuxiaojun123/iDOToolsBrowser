@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
     <!-- 添加快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <!-- 移除快捷方式 -->
@@ -47,8 +46,7 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/style_AppTheme">
-
+         >
 
         <activity
             android:name=".activity.SplashActivity"
@@ -65,28 +63,25 @@
             android:name=".activity.DmzjActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/style_AppTheme" />
+            android:theme="@style/style_BaseAppTheme" />
 
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/style_AppTheme" />
+            android:theme="@style/style_splash" />
 
         <activity
             android:name=".activity.HistoryAndRecordsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/style_AppTheme" />
+            android:theme="@style/style_splash" />
 
         <activity
             android:name=".activity.AboutActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/style_AppTheme" />
+            android:theme="@style/style_splash" />
 
-        <!--<activity
-            android:name=".activity.HistoryActivity"
-            android:screenOrientation="portrait" />-->
         <!-- 友盟 START -->
         <!-- 国内 key -->
         <meta-data
@@ -194,6 +189,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <activity
+            android:name="com.facebook.ads.AudienceNetworkActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <!--facebook广告 end-->
 
     </application>

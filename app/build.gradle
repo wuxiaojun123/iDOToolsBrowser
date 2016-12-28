@@ -22,11 +22,17 @@ android {
         }
     }
     signingConfigs {
-        myConfig {
+        /*myConfig {
             storeFile file("17sy-keystore.keystore")
             storePassword "c88076a26001612bd0da718ed62f1df4"
             keyAlias "17sy"
             keyPassword "c88076a26001612bd0da718ed62f1df4"
+        }*/
+        myConfig {
+            storeFile file("browser.keystore")
+            storePassword "broWser@doT#20161102"
+            keyAlias "browser"
+            keyPassword "broWser@doT#20161102"
         }
     }
     buildTypes {
@@ -76,7 +82,9 @@ dependencies {
     //阿里百川意见反馈
 //    release_chinaCompile project(':library_OneSDK')
     //自动更新
-    compile project(':library_auto_update')
+//    compile project(':library_auto_update')
+    //右滑finishActivity
+    compile project(':library_swipeback')
     //umeng统计
     compile 'com.umeng.analytics:analytics:latest.integration'
     //解析html工具类
@@ -100,4 +108,6 @@ dependencies {
 //    compile project(':easypermissions')
     //facebook 广告
     compile 'com.facebook.android:audience-network-sdk:4.+'
+    //权限处理
+    compile project(':easypermissions')
 }

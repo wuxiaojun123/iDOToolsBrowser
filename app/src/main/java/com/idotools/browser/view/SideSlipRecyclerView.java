@@ -70,7 +70,7 @@ public class SideSlipRecyclerView extends RecyclerView {
 
     /***
      * @param e
-     * @return true 表示自己消费不再往下传递 false 表示不管不处理
+     * @return true 表示自己消费不再往下传递,自己处理 false 表示不管不处理
      */
     @Override
     public boolean onTouchEvent(MotionEvent e) {

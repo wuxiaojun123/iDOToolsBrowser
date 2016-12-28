@@ -11,11 +11,13 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.CookieManager;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.idotools.browser.App;
 import com.idotools.browser.R;
 import com.idotools.browser.bean.CartoonDetailsBean;
 import com.idotools.browser.minterface.OnPageStartedListener;
@@ -112,11 +114,10 @@ public class BrowserWebClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
-        //这里保存浏览过的页面记录
-        /*if (!TextUtils.isEmpty(url) && url.contains("http://m.dmzj.com/info")) {
-            view.loadUrl("javascript:window.BrowserJsInterface.showResource('<head>'+" +
-                    "document.getElementsByTagName('html')[0].innerHTML+'</head>','" + url + "');");
-        }*/
+        //保存cookie
+        CookieManager cookieManager = CookieManager.getInstance();
+        App.cookie = cookieManager.getCookie(url);
+        App.referer = url;
         //保存到数据库中
         saveOrUpdateHistory(view.getTitle(), url, view.getFavicon());
     }
@@ -161,14 +162,14 @@ public class BrowserWebClient extends WebViewClient {
             mOnReceivedErrorListener.onReceivedError(view, error.getErrorCode());
         }
         super.onReceivedError(view, request, error);*/
-        onReceivedError(view,error.getErrorCode(),error.getDescription().toString(),request.getUrl().toString());
+        onReceivedError(view, error.getErrorCode(), error.getDescription().toString(), request.getUrl().toString());
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         if (mOnReceivedErrorListener != null) {
-            LogUtils.e("网络出错啦!!!!!onReceivedError过时的方法"+errorCode);
+            LogUtils.e("网络出错啦!!!!!onReceivedError过时的方法" + errorCode);
             mOnReceivedErrorListener.onReceivedError(view, errorCode);
         }
         super.onReceivedError(view, errorCode, description, failingUrl);

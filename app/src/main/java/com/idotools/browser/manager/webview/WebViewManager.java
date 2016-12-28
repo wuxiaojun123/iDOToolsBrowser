@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.DownloadListener;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 
 import com.idotools.browser.App;
@@ -18,17 +21,19 @@ import com.idotools.browser.manager.dialog.AlertDialog;
 import com.idotools.browser.minterface.OnPageStartedListener;
 import com.idotools.browser.minterface.OnReceivedErrorListener;
 import com.idotools.browser.view.BrowserWebView;
+import com.idotools.utils.LogUtils;
 import com.idotools.utils.ToastUtils;
-
 
 /**
  * Created by wuxiaojun on 16-10-8.
  */
 public class WebViewManager {
 
-    private static final int API = android.os.Build.VERSION.SDK_INT;
-    private BrowserWebView mWebView;
     private Context mContext;
+    private BrowserWebView mWebView;
+    private GestureDetector mGestureDetector;
+    private static final int API = android.os.Build.VERSION.SDK_INT;
+
 
     public WebViewManager(Activity mActivity) {
         this.mContext = mActivity;
@@ -64,9 +69,44 @@ public class WebViewManager {
         mWebView.setWebViewClient(mBrowserWebClient);
         mWebView.addJavascriptInterface(new BrowserJsInterface(mActivity.getApplicationContext()), "BrowserJsInterface");
         mWebView.setDownloadListener(new CustomDownloadListener());
-        //mGestureDetector = new GestureDetector(activity, new CustomGestureListener());
-        //mWebView.setOnTouchListener(new TouchListener());
+        //长按事件
+        mWebViewLongClickListener = new WebViewLongClickListener(mContext);
+        mWebView.setOnLongClickListener(mWebViewLongClickListener);
+        //触摸事件
+        mGestureDetector = new GestureDetector(mContext, new CustomGestureListener());
+        mWebView.setOnTouchListener(new CustomTouchListener());
         initializeSettings();
+    }
+
+    /***
+     * 反注册广播
+     */
+    public void unRegisterReceiverDownload() {
+        mWebViewLongClickListener.unRegisterReceiverDownload();
+    }
+
+    public WebViewLongClickListener mWebViewLongClickListener;
+
+    private class CustomGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public void onLongPress(MotionEvent event) {
+            mWebViewLongClickListener.downX = (int) event.getRawX();
+            mWebViewLongClickListener.downY = (int) event.getRawY();
+        }
+
+    }
+
+    private class CustomTouchListener implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            mWebViewLongClickListener.downX = (int) event.getX();
+            mWebViewLongClickListener.downY = (int) event.getY();
+            mGestureDetector.onTouchEvent(event);
+            return false;
+        }
+
     }
 
     private class CustomDownloadListener implements android.webkit.DownloadListener {

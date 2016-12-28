@@ -4,9 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -47,6 +50,7 @@ import com.idotools.utils.ToastUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, WebviewInteface, OnPageStartedListener, OnReceivedErrorListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -67,6 +71,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @BindView(R.id.id_swiperefresh)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.id_fl_mask)
+    FrameLayout id_fl_mask;
     @BindView(R.id.progress_view)
     AnimatedProgressBar progress_view;
     @BindView(R.id.id_iv_night_toogle)
@@ -95,15 +101,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private int nightModeTranslationY;
     //动画集合
     private AnimatorSet mAnimationSet;
-    //收藏需要插入到数据库的对象
-    public RecordsBean mRecordsBean;
+    //收藏需要插入到数据库的imageUrl
+    public String imgUrl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         initData();
+        //添加蒙版
+        mSearchEditText.setFrameLayout(id_fl_mask);
+        mSearchEditText.setOnKeyListener(new SearchEditTextView.onKeyListener() {
+            @Override
+            public void onKey() {
+                searchDmzj();
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (mWebViewManager != null && mWebViewManager.mWebViewLongClickListener != null && mWebViewManager.mWebViewLongClickListener.popupWindow != null) {
+            mWebViewManager.mWebViewLongClickListener.popupWindow.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     private void initData() {
@@ -120,7 +144,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         mWebViewManager = new WebViewManager(this);
         mWebView = mWebViewManager.getWebView();
-        mWebView.requestFocus();
+//        mWebView.requestFocus();
         swipeRefreshLayout.addView(mWebView, new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
         Intent mIntent = getIntent();
         String url = mIntent.getStringExtra("url");
@@ -129,10 +153,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         } else {
             loadUrl(url);
         }
-        String imgUrl = mIntent.getStringExtra("imgUrl");
+        imgUrl = mIntent.getStringExtra("imgUrl");
         if (!TextUtils.isEmpty(imgUrl)) {
             String title = mIntent.getStringExtra("title");
-            mRecordsBean = new RecordsBean(title, imgUrl, url);
         }
     }
 
@@ -189,7 +212,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.id_iv_go:
                 //前往
-                goToUrl();
+                searchDmzj();
                 InputWindowUtils.closeInputWindow(v, mContext);
                 break;
             case R.id.id_iv_history:
@@ -210,7 +233,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     /***
      * 百度搜索关键词
      */
-    private void goToUrl() {
+    private void searchDmzj() {
         String searchEditText = mSearchEditText.getText().toString().trim();
         if (!TextUtils.isEmpty(searchEditText)) {
             if (mWebView != null && !TextUtils.equals(searchEditText, mWebView.getUrl())) {
@@ -222,7 +245,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     loadUrl(searchEditText);
                 } else {
                     if (Constant.VERSION_COUNTRY_GP) {
-                        loadUrl(Constant.SEARCH_URL_GOOGLE + searchEditText);
+                        loadUrl(Constant.SEARCH_URL_DMZJ + searchEditText + ".html");
                     } else {
                         loadUrl(Constant.SEARCH_URL_BAIDU + searchEditText);
                     }
@@ -341,7 +364,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onReceivedError(WebView view, int errorCode) {
-        showNetworkAddressErrorLayout(true);
+        if (progress_view.getProgress() < 70) {
+            showNetworkAddressErrorLayout(true);
+        } else {
+            //重新刷新
+            refresh();
+        }
         LogUtils.e("错误码是：" + errorCode);
     }
 
@@ -351,8 +379,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void showNetworkAddressErrorLayout(boolean isShow) {
         if (isShow) {
             id_layout_network_error.setVisibility(View.VISIBLE);
-            if (mWebView != null)
+            if (mWebView != null) {
                 mWebView.stopLoading();
+            }
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
             //隐藏webview
             swipeRefreshLayout.setVisibility(View.GONE);
         } else {
@@ -464,12 +496,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onBackPressed() {
-        if (mPopupWindow != null && mPopupWindow.isShow()) {
-            mPopupWindow.exitStartAnim();
-        } else if (mWebView != null && mWebView.canGoBack()) {
-            back();
+        if (id_fl_mask.getVisibility() == View.VISIBLE) {
+            mSearchEditText.backKey();
         } else {
-            super.onBackPressed();
+            if (mPopupWindow != null && mPopupWindow.isShow()) {
+                mPopupWindow.exitStartAnim();
+            } else if (mWebView != null && mWebView.canGoBack()) {
+                back();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -478,6 +514,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (mWebView != null) {
             swipeRefreshLayout.removeView(mWebView);
             mWebView.destroy();
+        }
+        if (mWebViewManager != null) {
+            mWebViewManager.unRegisterReceiverDownload();
         }
         super.onDestroy();
     }

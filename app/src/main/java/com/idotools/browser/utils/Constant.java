@@ -36,6 +36,7 @@ public class Constant {
 
     public static final String SEARCH_URL_GOOGLE = "https://www.google.com/search?nota=1&gws_rd=ssl&q=";
     public static final String SEARCH_URL_BAIDU = "http://www.baidu.com/#wd=";
+    public static final String SEARCH_URL_DMZJ = "http://m.dmzj.com/search/";
     //表示当前是国内版本还是海外版本 true 为海外版本
     public static final boolean VERSION_COUNTRY_GP = true;
 

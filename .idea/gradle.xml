@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/library_base" />
             <option value="$PROJECT_DIR$/library_browser" />
             <option value="$PROJECT_DIR$/library_getui" />
+            <option value="$PROJECT_DIR$/library_swipeback" />
             <option value="$PROJECT_DIR$/testjava" />
           </set>
         </option>

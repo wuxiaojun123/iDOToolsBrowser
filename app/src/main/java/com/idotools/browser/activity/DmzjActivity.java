@@ -5,14 +5,17 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -27,8 +30,10 @@ import com.idotools.browser.utils.ActivityUtils;
 import com.idotools.browser.utils.Constant;
 import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.utils.JsonUtils;
+import com.idotools.browser.view.SearchEditTextView;
 import com.idotools.utils.DeviceUtil;
 import com.idotools.utils.FileUtils;
+import com.idotools.utils.InputWindowUtils;
 import com.idotools.utils.JudgeNetWork;
 import com.idotools.utils.LogUtils;
 import com.idotools.utils.SharedPreferencesHelper;
@@ -55,24 +60,27 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @BindView(R.id.id_swiperefresh)
     SwipeRefreshLayout id_swiperefresh;
     @BindView(R.id.id_et_search)
-    EditText id_et_search;
+    SearchEditTextView mSearchEditText;
     @BindView(R.id.id_return_to_top)
     ImageView id_return_to_top;
     @BindView(R.id.id_layout_no_network)
     LinearLayout id_layout_no_network;
+    @BindView(R.id.id_fl_mask)
+    FrameLayout id_fl_mask;
 
-    private LinearLayoutManager mLinearLayoutManager;
-    private DmzjRecyclerAdapter mDmzjAdapter;
-    private List<DmzjBean> mDmzjBeanList;
-    private int lastVisiblePosition;
-    private AppHttpClient mAppHttpClient;//网络请求业务类
     private int page = 1;//当前页
+    private int lastVisiblePosition;
+    private List<DmzjBean> mDmzjBeanList;
+    private AppHttpClient mAppHttpClient;//网络请求业务类
+    private DmzjRecyclerAdapter mDmzjAdapter;
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         PushManager.getInstance().initialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dmzj);
+        setSwipeBackEnable(false);
         ButterKnife.bind(this);
 
         toogleNightMode();
@@ -82,6 +90,14 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         initData();
         loadMore();
         getGeTuiMsg();
+
+        mSearchEditText.setFrameLayout(id_fl_mask);
+        mSearchEditText.setOnKeyListener(new SearchEditTextView.onKeyListener() {
+            @Override
+            public void onKey() {
+                searchDmzj();
+            }
+        });
     }
 
     /***
@@ -155,7 +171,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      * 初始化view
      */
     private void initView() {
-        id_swiperefresh.requestFocus();
         id_swiperefresh.setColorSchemeResources(R.color.color_main_title);
         id_swiperefresh.setOnRefreshListener(this);
     }
@@ -219,20 +234,27 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      * 拉取最新的动漫之家的数据
      */
     private void loadLatestData(int mpage, final boolean flag) {
-        mAppHttpClient.requestDmzjBeanList(Constant.DMZJ_TAG, Constant.DMZJ_TYPE_UPDATE, mpage, 10);
+        if (flag) {
+            mAppHttpClient.requestDmzjBeanList(Constant.DMZJ_TAG, Constant.DMZJ_TYPE_UPDATE, mpage, 14);
+        } else {
+            mAppHttpClient.requestDmzjBeanList(Constant.DMZJ_TAG, Constant.DMZJ_TYPE_UPDATE, mpage, 10);
+        }
         mAppHttpClient.setOnLoadDmzjDataListener(new AppHttpClient.OnLoadDmzjDataListener() {
             @Override
             public void loadDmzjDataSuccessListener(List<DmzjBean> list) {
                 if (flag) {
-                    if (list.size() / 5 >= 1) {
-                        list.add(5, null);
+                    if (list.size() / 7 >= 1) {
+                        list.add(7, null);
+                    }
+                    if (list.size() / 7 == 2) {
+                        list.add(null);
                     }
                     //加载更多
                     mDmzjAdapter.addMoreItem(list, DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
                 } else {
                     //拉取最新
                     FileUtils.saveFile(mContext, Constant.FILE_MAIN_DATA, JsonUtils.toJsonFromList(list));
-                    list.add(null);
+                    list.add(7, null);
                     mDmzjAdapter.resetAdapter(list);//刷新界面数据
                 }
                 id_swiperefresh.setRefreshing(false);//刷新完成
@@ -270,18 +292,8 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         switch (id) {
             case R.id.id_iv_go:
                 //前往mainActivity
-                String text = id_et_search.getText().toString().trim();
-                if (!TextUtils.isEmpty(text)) {
-                    if (Patterns.WEB_URL.matcher(text).matches()) {
-                        goToMainActivity(text);
-                    } else {
-                        if (Constant.VERSION_COUNTRY_GP) {
-                            goToMainActivity(Constant.SEARCH_URL_GOOGLE + text);
-                        } else {
-                            goToMainActivity(Constant.SEARCH_URL_BAIDU + text);
-                        }
-                    }
-                }
+                searchDmzj();
+
                 break;
             case R.id.id_return_to_top:
                 //返回顶部
@@ -295,6 +307,25 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 ActivitySlideAnim.slideInAnim(DmzjActivity.this);
 
                 break;
+        }
+    }
+
+    /***
+     * 搜索
+     */
+    private void searchDmzj() {
+        String text = mSearchEditText.getText().toString().trim();
+        if (!TextUtils.isEmpty(text)) {
+            if (Patterns.WEB_URL.matcher(text).matches()) {
+                goToMainActivity(text);
+            } else {
+                if (Constant.VERSION_COUNTRY_GP) {
+                    goToMainActivity(Constant.SEARCH_URL_DMZJ + text + ".html");
+                } else {
+                    goToMainActivity(Constant.SEARCH_URL_BAIDU + text);
+                }
+                mSearchEditText.setText(null);
+            }
         }
     }
 
@@ -332,13 +363,17 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             goToMainActivity(url);
         }
         super.onNewIntent(intent);
-
     }
+
 
     @Override
     public void onBackPressed() {
-        //提示用户是否退出
-        exit();
+        if (id_fl_mask.getVisibility() == View.VISIBLE) {
+            mSearchEditText.backKey();
+        } else {
+            //提示用户是否退出
+            exit();
+        }
     }
 
     private long mExitTime;

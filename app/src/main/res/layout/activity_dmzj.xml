@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/id_rl_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    >
 
     <include
         android:id="@+id/id_layout_title"
         layout="@layout/layout_search"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_title_height"
-         />
+        android:layout_height="@dimen/dimen_title_height" />
 
     <include
         android:id="@+id/id_layout_no_network"
@@ -20,6 +21,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/id_layout_title"
         android:visibility="gone" />
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/id_swiperefresh"
@@ -34,6 +36,15 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <FrameLayout
+        android:id="@+id/id_fl_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/id_layout_title"
+        android:alpha="0.8"
+        android:background="@color/color_black"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/id_return_to_top"
         android:layout_width="50dp"
@@ -45,11 +56,4 @@
         android:src="@drawable/selector_return_to_top"
         android:visibility="gone" />
 
-    <!--<ImageView
-        android:id="@+id/id_iv_start_page"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/img_start_page" />-->
 </RelativeLayout>

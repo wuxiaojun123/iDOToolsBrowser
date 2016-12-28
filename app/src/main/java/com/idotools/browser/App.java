@@ -10,11 +10,13 @@ import com.idotools.browser.utils.Constant;
  */
 public class App extends Application {
 
+    public static String cookie = null;
+    public static String referer = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
-//        FeedBackConstant.initFeedBackAnnoy(this, FeedBackConstant.APPKEY_BROWSER);
+
     }
 
     public static App get(Context context) {

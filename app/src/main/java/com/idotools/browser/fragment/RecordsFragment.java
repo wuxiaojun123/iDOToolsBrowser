@@ -68,8 +68,6 @@ public class RecordsFragment extends Fragment implements View.OnClickListener, O
             mAdapter = new RecordsRecyclerAdapter(mContext, list);
             recyclerView.setAdapter(mAdapter);
             recyclerView.setRecyclerOnItemClickListener(this);
-        } else {
-            LogUtils.e("没有数据");
         }
     }
 

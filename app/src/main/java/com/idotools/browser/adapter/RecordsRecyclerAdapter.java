@@ -39,7 +39,9 @@ public class RecordsRecyclerAdapter extends RecyclerView.Adapter<HistoryAndRecor
         RecordsBean bean = list.get(position);
         if (bean != null) {
             if (bean.imgUrl != null) {
-                GlideUtils.loadGIFImage(mContext,bean.imgUrl,holder.iv_img);
+                if (!"null".equals(bean.imgUrl)) {
+                    GlideUtils.loadGIFImage(mContext, bean.imgUrl, holder.iv_img);
+                }
             }
             holder.tv_title.setText(bean.title);
             holder.tv_laster_chapter.setText(bean.url);

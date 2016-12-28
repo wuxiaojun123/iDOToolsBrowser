@@ -12,18 +12,18 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
-import com.ido.autoupdate.AutoUpdate;
 import com.idotools.browser.R;
 import com.idotools.browser.activity.AboutActivity;
-import com.idotools.browser.activity.DmzjActivity;
 import com.idotools.browser.activity.MainActivity;
 import com.idotools.browser.activity.SplashActivity;
+import com.idotools.browser.bean.RecordsBean;
 import com.idotools.browser.manager.dialog.AlertDialog;
 import com.idotools.browser.manager.webview.WebViewManager;
 import com.idotools.browser.sqlite.RecordsSqliteManager;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.ActivityUtils;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.GooglePlayUtils;
 import com.idotools.browser.utils.ShareUtils;
 import com.idotools.browser.utils.ShortCutUtils;
 import com.idotools.browser.view.ImageTextViewGroup;
@@ -68,20 +68,17 @@ public class MainPopupWindow implements View.OnClickListener {
     @BindView(R.id.id_exit)
     ImageTextViewGroup id_exit;
 
-    //平移的高度
-    private int translationY = 0;
-    //地步控制布局的高度
-    private int bottomHeight = 0;
-    //退出动画
-    private ObjectAnimator mContentHiddrenAnim;
+
+    private int translationY = 0;//平移的高度
+    private int bottomHeight = 0;//地步控制布局的高度
+    private ObjectAnimator mContentHiddrenAnim;//退出动画
     private ObjectAnimator mHeadHiddrenAnim;
-    //开始动画
-    private ObjectAnimator mContentStartAnim;
+    private ObjectAnimator mContentStartAnim;//开始动画
     private ObjectAnimator mHeadStartAnim;
-    //检查更新
-    private AutoUpdate mAutoUpdate;
-    //是否开始夜间模式的切换动画 0 默认　１从白天到夜间模式切换  2从夜间到白天模式切换
-    public int isDayNightModeToogle;
+    //    private AutoUpdate mAutoUpdate;//检查更新
+    public int isDayNightModeToogle;//是否开始夜间模式的切换动画 0 默认　１从白天到夜间模式切换  2从夜间到白天模式切换
+    private boolean currentUrlExitSqlite = false;//当前url是否存在数据库
+    private RecordsSqliteManager mRecordsSqliteManager;//收藏数据库管理类
 
     public MainPopupWindow(Context context) {
         this.mContext = context;
@@ -104,25 +101,6 @@ public class MainPopupWindow implements View.OnClickListener {
         judgeRecords();
     }
 
-
-    /**
-     * 判断当前页面是否为首页中的页面
-     * 是
-     * 判断是否已收藏当前页面
-     * 不是
-     * 则设置当前收藏按钮不能点击
-     */
-    private void judgeRecords() {
-        MainActivity mActivity = (MainActivity) mContext;
-        if (mActivity.mRecordsBean != null) {
-            urlIsexitSqlite(mActivity.mRecordsBean.url);
-        } else {
-            //获取当前url
-            urlIsexitSqlite(mWebViewManager.getCurrentUrl());
-            id_records.setClickable(false);
-        }
-    }
-
     /**
      * 初始化webviewmanger
      */
@@ -132,18 +110,29 @@ public class MainPopupWindow implements View.OnClickListener {
         }
     }
 
+    /**
+     * 判断当前页面是否为首页中的页面
+     * 是
+     * 判断是否已收藏当前页面
+     * 不是
+     * 则设置当前收藏按钮不能点击
+     */
+    private void judgeRecords() {
+        //获取当前url
+        urlIsExitSqlite(mWebViewManager.getCurrentUrl());
+    }
+
     /***
      * 判断url 是否存在收藏数据库中
      *
      * @param url
      */
-    private void urlIsexitSqlite(String url) {
+    private void urlIsExitSqlite(String url) {
         if (mRecordsSqliteManager == null) {
             mRecordsSqliteManager = new RecordsSqliteManager(mContext);
         }
-        boolean result = mRecordsSqliteManager.selectByUrl(url);
-        if (result) {
-            id_records.setClickable(false);
+        currentUrlExitSqlite = mRecordsSqliteManager.selectByUrl(url);
+        if (currentUrlExitSqlite) {
             id_records.setImageResource(R.mipmap.img_already_records);
             id_records.setTextResource(R.string.string_alread_records);
         }
@@ -194,7 +183,19 @@ public class MainPopupWindow implements View.OnClickListener {
             case R.id.id_records:
                 //收藏
                 exitStartAnim();
-                recordsPage();
+                if (currentUrlExitSqlite) {
+                    //取消收藏
+                    if (!TextUtils.isEmpty(mWebViewManager.getCurrentUrl())) {
+                        mRecordsSqliteManager.delete(mWebViewManager.getCurrentUrl());
+                        //设置图标和图片
+                        id_records.setImageResource(R.mipmap.img_records);
+                        id_records.setTextResource(R.string.string_records);
+                        ToastUtils.show(mContext, R.string.string_cancel_records);
+                        currentUrlExitSqlite = false;
+                    }
+                } else {
+                    recordsPage();
+                }
 
                 break;
             case R.id.id_add_shortcut:
@@ -215,7 +216,7 @@ public class MainPopupWindow implements View.OnClickListener {
                 break;
             case R.id.id_feedback:
                 //意见反馈
-//                FeedBackConstant.openFeedBackActivity(mContext);
+                //  FeedBackConstant.openFeedBackActivity(mContext);
 
                 break;
             case R.id.id_about:
@@ -232,18 +233,22 @@ public class MainPopupWindow implements View.OnClickListener {
         }
     }
 
-    private RecordsSqliteManager mRecordsSqliteManager;
-
     /***
      * 收藏当前页面
      */
     private void recordsPage() {
-        MainActivity mActivity = (MainActivity) mContext;
-        if (mActivity.mRecordsBean != null) {
-            mRecordsSqliteManager.insert(mActivity.mRecordsBean);
+        String url = mWebViewManager.getCurrentUrl();
+        String title = mWebViewManager.getCurrentTitle();
+        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(title)) {
+            String imgUrl = ((MainActivity) mContext).imgUrl;
+            if (TextUtils.isEmpty(imgUrl)) {
+                imgUrl = "null";
+            }
+            RecordsBean mRecordsBean = new RecordsBean(title, imgUrl, url);
+            mRecordsSqliteManager.insert(mRecordsBean);
             id_records.setImageResource(R.mipmap.img_already_records);
             id_records.setTextResource(R.string.string_alread_records);
-            id_records.setClickable(false);
+            currentUrlExitSqlite = true;
             ToastUtils.show(mContext, R.string.string_alread_records);
         }
     }
@@ -252,9 +257,7 @@ public class MainPopupWindow implements View.OnClickListener {
      * 更新
      */
     private void checkUpdate() {
-        if (mAutoUpdate == null)
-            mAutoUpdate = new AutoUpdate();
-        mAutoUpdate.forceUpdate((MainActivity) mContext);
+        GooglePlayUtils.openGooglePlay(mContext.getApplicationContext(), mContext.getPackageName());
     }
 
     /***

@@ -35,26 +35,25 @@ import java.util.List;
  * Created by wuxiaojun on 16-11-9.
  */
 public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    //头部view集合
-    private ArrayList<FixedViewInfo> mHeaderViewInfos = new ArrayList<>();
-    //表示当前view类型为正常viewType
-    private static final int VIEW_TYPE_NORMAL = 10000;
-    //表示当前view类型是footerView
-    private static final int VIEW_TYPE_FOOTER = 10001;
-    private static final int VIEW_TYPE_ADMOB = 19999;//当前类型是10005
+
+    public static final int LOAD_MORE_NO = 2;//没有更多
     public static final int LOAD_MORE_LOADING = 0;//正在加载
     public static final int LOAD_MORE_COMPILE = 1;//加载完成
-    public static final int LOAD_MORE_NO = 2;//没有更多
+    private static final int VIEW_TYPE_NORMAL = 10000;//表示当前view类型为正常viewType
+    private static final int VIEW_TYPE_FOOTER = 10001;//表示当前view类型是footerView
+    private static final int VIEW_TYPE_AD = 19999;//当前类型是10005
+    private ArrayList<FixedViewInfo> mHeaderViewInfos = new ArrayList<>();//头部view集合
+
+    public Context mContext;
     private View footerView;//加载更多布局
     private int status_add_more;//加载更多状态
     public List<DmzjBean> mList;
-    public Context mContext;
+    private LayoutInflater inflater;
+    private String classificationStr;//分类
+    private String briefIntroductionStr;//简介
     public ViewPagerManager mViewPagerManager;
     private OnItemClickListener mOnItemClickListener;
     public List<BannerResp.BannerBean> mBannerBeanList;//viewpager图片的集合
-    private String classificationStr;//分类
-    private String briefIntroductionStr;//简介
-    private LayoutInflater inflater;
 
     private HashMap<String, NativeAd> nativeAdHashMap = new HashMap<>();
     private HashMap<String, List<View>> mNativeClickViewMap = new HashMap<>();
@@ -82,7 +81,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         } else if (viewType == VIEW_TYPE_FOOTER) {
             return new FooterViewHolder(footerView);
-        } else if (viewType == VIEW_TYPE_ADMOB) {
+        } else if (viewType == VIEW_TYPE_AD) {
             return new DmzjViewHolderTypeAd(inflater.inflate(R.layout.item_dmzj_native_ad, null));
         }
         return new DmzjViewHolder(inflater.inflate(R.layout.item_dmzj, null));
@@ -121,19 +120,13 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     NativeAd mNativeAd = nativeAdHashMap.get(currentPositionStr);
                     if (mNativeAd == null) {//实例化广告
                         synchronized ("loadAd") {
-                            //   744518f22e0e50170800118d72be91b7
-                            //   15af0b8151cb6be52cb24cb8022f3af8
-                            AdSettings.addTestDevice("744518f22e0e50170800118d72be91b7");
                             mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID);
                             mNativeAd.setAdListener(new NativeAdListener(dmzjViewHolder, mNativeAd, currentPositionStr));
-//                            mNativeAd.loadAd();
                             mNativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
                             nativeAdHashMap.put(currentPositionStr, mNativeAd);
-                            LogUtils.e("新加载广告");
                         }
                     } else {
                         //设置view上的内容
-                        LogUtils.e("使用缓存广告");
                         setNativeAdView(dmzjViewHolder, mNativeAd, currentPositionStr);
                     }
                 }
@@ -248,6 +241,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+
     /***
      * 初始化头部布局样式2
      *
@@ -343,7 +337,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mList.get(currentPosition) != null) {
             return VIEW_TYPE_NORMAL;
         } else {
-            return VIEW_TYPE_ADMOB;
+            return VIEW_TYPE_AD;
         }
     }
 

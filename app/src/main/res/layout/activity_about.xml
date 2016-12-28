@@ -74,7 +74,7 @@
         android:layout_below="@id/id_rl_praize"
         android:background="@color/color_line" />
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -97,7 +97,7 @@
             android:textColor="@color/color_about_good_text"
             android:textSize="@dimen/dimen_text_12" />
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 
 </RelativeLayout>

@@ -42,6 +42,7 @@
     <string name="string_history">歷史记录</string>
     <string name="string_records">收藏</string>
     <string name="string_alread_records">已收藏</string>
+    <string name="string_cancel_records">取消收藏</string>
     <string name="string_delete_all">全部删除</string>
     <string name="string_no_history">無歷史記錄</string>
     <string name="string_no_records">無收藏記錄</string>
@@ -57,5 +58,15 @@
     <string name="string_loading">正在加載</string>
 
     <string name="string_remove_all_history">刪除所有歷史記錄</string>
+
+    <!--保存图片-->
+    <string name="string_download_image">下載圖片</string>
+    <string name="string_finish">下載完成</string>
+    <string name="string_download_fail">下載失敗</string>
+    <string name="string_look">查看</string>
+    <string name="string_request_write_external_storage_permission">請求下載文件權限</string>
+    <!--搜索-->
+    <string name="string_cartoon_or_author">漫畫名或作者</string>
+
 
 </resources>

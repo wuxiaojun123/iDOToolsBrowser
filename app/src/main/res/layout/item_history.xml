@@ -16,7 +16,7 @@
             android:id="@+id/id_iv_img"
             android:layout_width="@dimen/dimen_history_img_width"
             android:layout_height="@dimen/dimen_history_img_height"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:src="@mipmap/img_history_default" />
 
         <LinearLayout

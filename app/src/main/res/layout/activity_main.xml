@@ -47,6 +47,15 @@
         android:layout_marginBottom="@dimen/dimen_control_bottom_total_height"
         android:visibility="gone" />
 
+    <FrameLayout
+        android:id="@+id/id_fl_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/progress_view"
+        android:alpha="0.8"
+        android:background="@color/color_black"
+        android:visibility="gone" />
+
     <include
         android:id="@+id/id_layout_bottom"
         layout="@layout/layout_control_bottom"

@@ -54,15 +54,23 @@ public class RecordsSqliteManager {
      */
     public List<RecordsBean> selectAll() {
         List<RecordsBean> list = new ArrayList<>();
-        Cursor cursor = readableDatabase.rawQuery(SELECT_ALL, null);
-        while (cursor.moveToNext()) {
-            String title = cursor.getString(cursor.getColumnIndex("title"));
-//            byte[] bytes = cursor.getBlob(cursor.getColumnIndex("img"));
-            String imgUrl = cursor.getString(cursor.getColumnIndex("img"));
-            String url = cursor.getString(cursor.getColumnIndex("url"));
-            list.add(new RecordsBean(title, imgUrl, url));
+        Cursor cursor = null;
+        try {
+            cursor = readableDatabase.rawQuery(SELECT_ALL, null);
+            while (cursor.moveToNext()) {
+                String title = cursor.getString(cursor.getColumnIndex("title"));
+                String imgUrl = cursor.getString(cursor.getColumnIndex("img"));
+                String url = cursor.getString(cursor.getColumnIndex("url"));
+                list.add(new RecordsBean(title, imgUrl, url));
+            }
+            cursor.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if(cursor != null){
+                cursor.close();
+            }
         }
-        cursor.close();
         return list;
     }
 
@@ -73,13 +81,23 @@ public class RecordsSqliteManager {
      * @return 数据库中最新章节, 判断是否需要更新数据
      */
     public boolean selectByUrl(String url) {
-        if (!TextUtils.isEmpty(url)) {
-            Cursor cursor = readableDatabase.rawQuery(SELECT_BY_TITLE, new String[]{url});
-            if (cursor.moveToNext()) {
-                return true;
+        Cursor cursor = null;
+        boolean result = false;
+        try {
+            if (!TextUtils.isEmpty(url)) {
+                cursor = readableDatabase.rawQuery(SELECT_BY_TITLE, new String[]{url});
+                if (cursor.moveToNext()) {
+                    result = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
             }
         }
-        return false;
+        return result;
     }
 
     /***

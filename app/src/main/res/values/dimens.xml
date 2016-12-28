@@ -1,40 +1,4 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <!--<dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    &lt;!&ndash;标题&ndash;&gt;
-    <dimen name="dimen_title_height">52dp</dimen>
-    <dimen name="dimen_title_size">18dp</dimen>
-    <dimen name="dimen_line_height">1dp</dimen>
-    <dimen name="dimen_line_height_min">0.3dp</dimen>
-
-    &lt;!&ndash;底部导航按钮&ndash;&gt;
-    <dimen name="dimen_control_bottom_total_height">45dp</dimen>
-    <dimen name="dimen_control_bottom_height">44.7dp</dimen>
-
-    &lt;!&ndash;首页更多&ndash;&gt;
-    <dimen name="dimen_home_more_height">180dp</dimen>
-
-    &lt;!&ndash;历史记录&ndash;&gt;
-    <dimen name="dimen_history_item_height">63dp</dimen>
-    <dimen name="dimen_history_img_width">25dp</dimen>
-    <dimen name="dimen_history_img_height">25dp</dimen>
-
-    &lt;!&ndash;地址错误&ndash;&gt;
-    <dimen name="dimen_230">230dp</dimen>
-
-    <dimen name="dimen_10">10dp</dimen>
-    <dimen name="dimen_22">22dp</dimen>
-
-
-    &lt;!&ndash;字体大小&ndash;&gt;
-    <dimen name="dimen_about_text_title">16dp</dimen>
-    <dimen name="dimen_about_text_praise">18dp</dimen>
-    <dimen name="dimen_text_12">12dp</dimen>
-    <dimen name="dimen_text_14">14dp</dimen>
-    <dimen name="dimen_text_16">16dp</dimen>
--->
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -89,5 +53,6 @@
     <dimen name="dimen_text_12">12dp</dimen>
     <dimen name="dimen_text_14">14dp</dimen>
     <dimen name="dimen_text_16">16dp</dimen>
+    <dimen name="dimen_text_18">18dp</dimen>
 
 </resources>

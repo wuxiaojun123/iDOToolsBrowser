@@ -1,5 +1,6 @@
 package com.idotools.browser.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,17 +11,19 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.idotools.browser.R;
+import com.idotools.browser.bean.DmzjBean;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.LanguageUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import nsu.edu.com.library.SwipeBackActivity;
 
 /**
  * Created by wuxiaojun on 16-12-20.
  */
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends Activity {
 
     @BindView(R.id.id_iv_start_page)
     ImageView id_iv_start_page;

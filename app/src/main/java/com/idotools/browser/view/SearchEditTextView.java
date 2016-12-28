@@ -6,10 +6,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import com.idotools.browser.R;
 import com.idotools.utils.InputWindowUtils;
@@ -18,7 +20,7 @@ import com.idotools.utils.LogUtils;
 /**
  * Created by wuxiaojun on 16-10-18.
  */
-public class SearchEditTextView extends EditText implements TextWatcher, View.OnFocusChangeListener {
+public class SearchEditTextView extends EditText implements TextWatcher, View.OnFocusChangeListener, View.OnKeyListener {
 
     private Drawable rightDrawable;
 
@@ -39,10 +41,34 @@ public class SearchEditTextView extends EditText implements TextWatcher, View.On
         }
         //设置drawable的宽和高
         rightDrawable.setBounds(0, 0, rightDrawable.getIntrinsicWidth(), rightDrawable.getIntrinsicHeight());
+
         setFocusable(true);
         setFocusableInTouchMode(true);
         addTextChangedListener(this);
         setOnFocusChangeListener(this);
+        setOnKeyListener(this);
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                if(monKeyListener != null){
+                    monKeyListener.onKey();
+                }
+            }
+        }
+        return false;
+    }
+
+    private onKeyListener monKeyListener;
+
+    public void setOnKeyListener(onKeyListener monKeyListener) {
+        this.monKeyListener = monKeyListener;
+    }
+
+    public interface onKeyListener {
+        void onKey();
     }
 
     @Override
@@ -80,8 +106,37 @@ public class SearchEditTextView extends EditText implements TextWatcher, View.On
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
             setCursorVisible(true);
+            if (mFrameLayout != null && mFrameLayout.getVisibility() == View.GONE) {
+                mFrameLayout.setVisibility(View.VISIBLE);
+            }
         } else {
-            InputWindowUtils.closeInputWindow(v,getContext());
+            if (mFrameLayout != null && mFrameLayout.getVisibility() == View.VISIBLE) {
+                mFrameLayout.setVisibility(View.GONE);
+            }
+            InputWindowUtils.closeInputWindow(v, getContext());
+        }
+    }
+
+    private FrameLayout mFrameLayout;
+
+    public void setFrameLayout(FrameLayout frameLayout) {
+        this.mFrameLayout = frameLayout;
+        mFrameLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setFocusable(true);
+                v.setFocusableInTouchMode(true);
+                v.requestFocus();
+
+                InputWindowUtils.closeInputWindow(v, getContext());
+                mFrameLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void backKey() {
+        if (mFrameLayout != null && mFrameLayout.getVisibility() == View.VISIBLE) {
+            mFrameLayout.performClick();
         }
     }
 
