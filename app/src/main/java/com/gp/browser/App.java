@@ -1,0 +1,24 @@
+package com.gp.browser;
+
+import android.app.Application;
+import android.content.Context;
+
+/**
+ * Created by wuxiaojun on 16-10-8.
+ */
+public class App extends Application {
+
+    public static String cookie = null;
+    public static String referer = null;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+    }
+
+    public static App get(Context context) {
+        return (App) context.getApplicationContext();
+    }
+
+}

@@ -7,6 +7,7 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer/r1.5.8/9938c032491204ae5ba8dd1cfae23f2b378a7d8b/exoplayer-r1.5.8-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer/r1.5.8/9938c032491204ae5ba8dd1cfae23f2b378a7d8b/exoplayer-r1.5.8-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

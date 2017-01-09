@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include
+        android:id="@+id/id_layout_title"
+        layout="@layout/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_title_height"
+        android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:id="@+id/id_ll_icon"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/id_layout_title"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@mipmap/icon" />
+
+        <TextView
+            android:id="@+id/id_tv_app_name_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/app_name"
+            android:textColor="@color/color_about_text"
+            android:textSize="@dimen/dimen_about_text_title" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line_height_min"
+        android:layout_below="@id/id_ll_icon"
+        android:background="@color/color_line" />
+
+    <RelativeLayout
+        android:id="@+id/id_rl_praize"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/view_line"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/string_praise"
+            android:textColor="@color/color_about_good_text"
+            android:textSize="@dimen/dimen_about_text_praise" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/img_allow_right" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line_height_min"
+        android:layout_below="@id/id_rl_praize"
+        android:background="@color/color_line" />
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_user_test"
+            android:textColor="@color/color_about_good_text"
+            android:textSize="@dimen/dimen_text_12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/string_qq"
+            android:textColor="@color/color_about_good_text"
+            android:textSize="@dimen/dimen_text_12" />
+
+    </LinearLayout>-->
+
+
+</RelativeLayout>

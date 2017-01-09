@@ -8,12 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
 
 import com.buku001.tenyuan.R;
 import com.buku001.tenyuan.activity.MainActivity;
-import com.idotools.utils.LogUtils;
+import com.gp.utils.LogUtils;
 import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
 

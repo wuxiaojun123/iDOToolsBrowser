@@ -28,7 +28,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.idotools.browser.view.ImageTextViewGroup
+            <com.gp.browser.view.ImageTextViewGroup
                 android:id="@+id/id_share"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -37,7 +37,7 @@
                 app:image_text_viewgroup_src="@mipmap/img_share_normal"
                 app:image_text_viewgroup_text="@string/string_share" />
 
-            <com.idotools.browser.view.ImageTextViewGroup
+            <com.gp.browser.view.ImageTextViewGroup
                 android:id="@+id/id_records"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 app:image_text_viewgroup_src="@mipmap/img_records"
                 app:image_text_viewgroup_text="@string/string_records" />
 
-            <com.idotools.browser.view.ImageTextViewGroup
+            <com.gp.browser.view.ImageTextViewGroup
                 android:id="@+id/id_add_shortcut"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 app:image_text_viewgroup_src="@mipmap/img_add_normal"
                 app:image_text_viewgroup_text="@string/string_add_shortcut" />
 
-            <com.idotools.browser.view.ImageTextViewGroup
+            <com.gp.browser.view.ImageTextViewGroup
                 android:id="@+id/id_night_mode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.idotools.browser.view.ImageTextViewGroup
+            <com.gp.browser.view.ImageTextViewGroup
                 android:id="@+id/id_check_update"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                 app:image_text_viewgroup_src="@mipmap/img_update_normal"
                 app:image_text_viewgroup_text="@string/string_check_update" />
 
-            <com.idotools.browser.view.ImageTextViewGroup
+            <com.gp.browser.view.ImageTextViewGroup
                 android:id="@+id/id_about"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 app:image_text_viewgroup_src="@mipmap/img_about_normal"
                 app:image_text_viewgroup_text="@string/string_about" />
 
-            <com.idotools.browser.view.ImageTextViewGroup
+            <com.gp.browser.view.ImageTextViewGroup
                 android:id="@+id/id_exit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 app:image_text_viewgroup_src="@mipmap/img_exit"
                 app:image_text_viewgroup_text="@string/string_exit" />
 
-            <com.idotools.browser.view.ImageTextViewGroup
+            <com.gp.browser.view.ImageTextViewGroup
                 android:id="@+id/id_feedback"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

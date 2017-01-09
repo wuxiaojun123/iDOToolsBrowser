@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">LOL Top Video</string>
+    <!--<string name="string_main_title">GIF Browser</string>-->
+    <string name="string_clean_success">Clear finish</string>
+    
+    <string name="string_praise">Rate us</string>
+
+    <!--<string name="string_qq">QQ:450862959</string>
+    <string name="string_user_test">用户测试群</string>-->
+    <string name="string_about">About</string>
+
+    <!--热门推荐和最新更新-->
+    <string name="string_hot">Hot</string>
+    <string name="string_new_update">Newest</string>
+
+    <!--更多弹窗-->
+    <string name="string_share">Share</string>
+    <string name="string_clean_cache">Clear cache</string>
+    <string name="string_add_shortcut">Shortcut</string>
+    <string name="string_night_mode">Night mode</string>
+    <string name="string_night_day_mode">Day mode</string>
+    <string name="string_check_update">Update</string>
+    <string name="string_feedback">Feedback</string>
+    <string name="string_exit">Exit</string>
+    
+    <!--弹窗提示-->
+    <string name="string_prompt">Reminder</string>
+    <string name="string_confirm">Sure</string>
+    <string name="string_cancel">Cancel</string>
+    <string name="string_title">title</string>
+    <string name="string_content">content</string>
+    <string name="string_confirm_cancel">Are you sure you want to cancel?</string>
+    <string name="string_confirm_add_shortcut">Are you going to add to home screen?</string>
+    <string name="string_confirm_clean_all_cache">Are you going to clear all of cache?</string>
+    <string name="string_confirm_clean_all_records">Delete all collections?</string>
+    <string name="string_confirm_exit_app">Are you going to exit?</string>
+
+    <!--历史记录-->
+    <string name="string_history">History</string>
+    <string name="string_records">Favorite</string>
+    <string name="string_alread_records">Favorited</string>
+    <string name="string_delete_all">Delete all</string>
+    <string name="string_no_history">No history record</string>
+    <string name="string_no_records">No collection record</string>
+    <string name="string_remove">remove</string>
+    <!--添加桌面快捷方式-->
+    <string name="string_create_shortcut_success">Create success</string>
+
+    <!--首页-->
+    <string name="string_no_network_check_setting">No network,please check it</string>
+    <string name="string_address_error">To the land of the desert, to go to other~</string>
+
+    <string name="string_press_again">Please click again to quit</string>
+    <string name="string_loading">loading</string>
+    <string name="string_remove_all_history">Delete all history records</string>
+
+    <string name="string_download_image">Download image</string>
+    <string name="string_finish">Download completed</string>
+    <string name="string_look">Look</string>
+
+    <!--点击背景变深色-->
+    <drawable name="color_normal">#ffffff</drawable>
+    <drawable name="color_normal_night">#474747</drawable>
+    <drawable name="color_pressed">#e8e8e8</drawable>
+    <drawable name="color_pressed_night">#565656</drawable>
+
+    <drawable name="color_normal_day">#ffffff</drawable>
+    <drawable name="color_pressed_day">#e8e8e8</drawable>
+
+    <!--google admob广告单元id-->
+    <string name="ad_unit_id">ca-app-pub-8330606192746568/9520583531</string>
+    <!--facebook的广告-->
+    <string name="facebook_app_id">201111370358953</string>
+
+    <string name="msg_subscribed">Subscribed to news topic</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+
+</resources>

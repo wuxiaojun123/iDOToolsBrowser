@@ -1,0 +1,15 @@
+<resources>
+
+    <!--第二个头部样式-->
+    <dimen name="dimen_item_dmzj_head2_img_width">120dp</dimen>
+    <dimen name="dimen_item_dmzj_head2_img_height">160dp</dimen>
+    <dimen name="dimen_item_dmzj_head2_layout_height">190dp</dimen>
+
+    <!--字体大小-->
+    <dimen name="dimen_about_text_title">16dp</dimen>
+    <dimen name="dimen_about_text_praise">18dp</dimen>
+    <dimen name="dimen_text_12">12dp</dimen>
+    <dimen name="dimen_text_14">14dp</dimen>
+    <dimen name="dimen_text_16">16dp</dimen>
+
+</resources>

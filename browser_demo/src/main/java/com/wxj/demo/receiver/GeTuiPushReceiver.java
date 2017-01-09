@@ -11,7 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.base.browser.R;
-import com.idotools.utils.LogUtils;
+import com.gp.utils.LogUtils;
 import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
 import com.wxj.demo.MainActivity;

@@ -2,11 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/id_rl_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    >
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
 
     <include
         android:id="@+id/id_layout_title"
@@ -29,12 +27,39 @@
         android:layout_height="match_parent"
         android:layout_below="@id/id_layout_title">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/id_recycler_view"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+
+            android:fillViewport="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/item_dmzj_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    layout="@layout/item_dmzj_header2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/id_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <FrameLayout
         android:id="@+id/id_fl_mask"
@@ -55,5 +80,6 @@
         android:layout_marginRight="30dp"
         android:src="@drawable/selector_return_to_top"
         android:visibility="gone" />
+
 
 </RelativeLayout>

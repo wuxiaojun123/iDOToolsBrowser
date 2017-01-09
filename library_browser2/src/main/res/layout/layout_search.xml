@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_title_height"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:focusableInTouchMode="true"
+    android:background="@color/color_while"
+    >
+
+    <ImageView
+        android:id="@+id/id_iv_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="15dp"
+        android:src="@mipmap/img_history"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.97"
+        android:background="@drawable/shape_search_bg"
+        android:orientation="horizontal">
+
+        <com.base.browser.view.SearchEditTextView
+            android:id="@+id/id_et_search"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_weight="0.92"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/img_edittest_search"
+            android:gravity="center_vertical"
+            android:hint="@string/string_cartoon_or_author"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:textColor="@color/color_9"
+            android:textColorHint="@color/color_9" />
+
+        <View
+            android:layout_width="@dimen/dimen_line_height_min"
+            android:layout_height="23dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/color_9" />
+
+        <ImageView
+            android:id="@+id/id_iv_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:padding="5dp"
+            android:src="@mipmap/img_edittest_search" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

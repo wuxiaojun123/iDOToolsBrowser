@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.base.browser.R;
 import com.base.browser.utils.ActivitySlideAnim;
-import com.idotools.utils.DeviceUtil;
+import com.gp.utils.DeviceUtil;
 
 
 /**

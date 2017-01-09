@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lLayout_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/alert_bg"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <!--<TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textColor="@color/color_black"
+        android:textSize="18sp"
+        android:textStyle="bold" />-->
+
+    <TextView
+        android:id="@+id/txt_msg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textColor="@color/color_black"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/id_radio_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_history_radiobutton"
+            android:button="@null"
+            android:checked="true"
+            android:padding="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:text="@string/string_remove_all_history"
+            android:textColor="@color/color_black"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/alertdialog_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_neg"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:layout_weight="1"
+            android:background="@drawable/alertdialog_left_selector"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:textColor="@color/color_6"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/img_line"
+            android:layout_width="0.5dp"
+            android:layout_height="43dp"
+            android:background="@color/alertdialog_line" />
+
+        <Button
+            android:id="@+id/btn_pos"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:layout_weight="1"
+            android:background="@drawable/alertdialog_right_selector"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:textColor="@color/color_6"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -4,15 +4,15 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AS_iDOBrowser.iml" filepath="$PROJECT_DIR$/AS_iDOBrowser.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app_video/app_video.iml" filepath="$PROJECT_DIR$/app_video/app_video.iml" />
       <module fileurl="file://$PROJECT_DIR$/browser_demo/browser_demo.iml" filepath="$PROJECT_DIR$/browser_demo/browser_demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/browser_pinkbook/browser_pinkbook.iml" filepath="$PROJECT_DIR$/browser_pinkbook/browser_pinkbook.iml" />
-      <module fileurl="file://$PROJECT_DIR$/browser_tenyuan/browser_tenyuan.iml" filepath="$PROJECT_DIR$/browser_tenyuan/browser_tenyuan.iml" />
       <module fileurl="file://$PROJECT_DIR$/easypermissions/easypermissions.iml" filepath="$PROJECT_DIR$/easypermissions/easypermissions.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_OneSDK/library_OneSDK.iml" filepath="$PROJECT_DIR$/library_OneSDK/library_OneSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_analyticsone/library_analyticsone.iml" filepath="$PROJECT_DIR$/library_analyticsone/library_analyticsone.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_auto_update/library_auto_update.iml" filepath="$PROJECT_DIR$/library_auto_update/library_auto_update.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_base/library_base.iml" filepath="$PROJECT_DIR$/library_base/library_base.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_browser/library_browser.iml" filepath="$PROJECT_DIR$/library_browser/library_browser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library_browser2/library_browser2.iml" filepath="$PROJECT_DIR$/library_browser2/library_browser2.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_getui/library_getui.iml" filepath="$PROJECT_DIR$/library_getui/library_getui.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_swipeback/library_swipeback.iml" filepath="$PROJECT_DIR$/library_swipeback/library_swipeback.iml" />
       <module fileurl="file://$PROJECT_DIR$/testjava/testjava.iml" filepath="$PROJECT_DIR$/testjava/testjava.iml" />

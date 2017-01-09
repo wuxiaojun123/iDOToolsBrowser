@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="color_while">#474747</color>
+
+    <color name="color_line">#636363</color>
+
+    <color name="color_about_text">#c9c9c9</color>
+    <color name="color_9">#8a8a8a</color>
+
+    <color name="color_black">@android:color/white</color>
+
+    <color name="color_popupwindow_text_night">#c9c9c9</color>
+
+</resources>

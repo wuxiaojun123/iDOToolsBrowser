@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_control_bottom_total_height"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/id_view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line_height_min"
+        android:background="@color/color_line" />
+
+    <LinearLayout
+        android:id="@+id/id_ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_control_bottom_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/id_iv_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@mipmap/img_back_normal" />
+
+        <ImageView
+            android:id="@+id/id_iv_forward"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@mipmap/img_forward_normal" />
+
+        <ImageView
+            android:id="@+id/id_iv_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@mipmap/img_home_press" />
+
+        <ImageView
+            android:id="@+id/id_iv_refresh"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@drawable/selector_control_refresh" />
+
+        <ImageView
+            android:id="@+id/id_iv_more"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@drawable/selector_control_more" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

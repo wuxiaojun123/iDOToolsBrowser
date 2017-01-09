@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "314427863760",
+    "firebase_url": "https://browser-7a191.firebaseio.com",
+    "project_id": "browser-7a191",
+    "storage_bucket": "browser-7a191.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314427863760:android:296f7e4a25b029bd",
+        "android_client_info": {
+          "package_name": "com.idotools.browser.google"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314427863760-84pifu3jqefpfbsk958c9btktgjsm48q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjkeXixZvlB0q9irK-uXJUcAeiJfTjSs4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

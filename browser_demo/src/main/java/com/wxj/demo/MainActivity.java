@@ -1,20 +1,16 @@
 package com.wxj.demo;
 
 
-import android.*;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.base.browser.utils.Constant;
 import com.dot.analyticsone.AnalyticsOne;
-import com.idotools.utils.LogUtils;
-import com.idotools.utils.ToastUtils;
+import com.gp.utils.LogUtils;
 import com.igexin.sdk.PushManager;
 
 import java.util.List;
-import java.util.jar.*;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;

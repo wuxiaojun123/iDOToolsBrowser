@@ -28,10 +28,10 @@ import com.base.browser.utils.StatusBarUtils;
 import com.base.browser.view.AnimatedProgressBar;
 import com.base.browser.view.BrowserWebView;
 import com.dot.autoupdater.utils.NetworkUtils;
-import com.idotools.utils.LogUtils;
-import com.idotools.utils.MetricsUtils;
-import com.idotools.utils.MobileScreenUtils;
-import com.idotools.utils.ToastUtils;
+import com.gp.utils.LogUtils;
+import com.gp.utils.MetricsUtils;
+import com.gp.utils.MobileScreenUtils;
+import com.gp.utils.ToastUtils;
 
 public abstract class MainActivity extends BaseActivity implements View.OnClickListener, WebviewInteface, OnPageStartedListener, OnReceivedErrorListener {
 

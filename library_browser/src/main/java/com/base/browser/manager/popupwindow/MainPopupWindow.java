@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 
 import com.base.browser.R;
 import com.base.browser.activity.AboutActivity;
-import com.base.browser.activity.BaseActivity;
 import com.base.browser.activity.HistoryActivity;
 import com.base.browser.activity.MainActivity;
 import com.base.browser.manager.dialog.AlertDialog;
@@ -23,8 +22,8 @@ import com.base.browser.utils.ShareUtils;
 import com.base.browser.utils.ShortCutUtils;
 import com.base.browser.view.ImageTextViewGroup;
 import com.ido.autoupdate.AutoUpdate;
-import com.idotools.utils.MetricsUtils;
-import com.idotools.utils.MobileScreenUtils;
+import com.gp.utils.MetricsUtils;
+import com.gp.utils.MobileScreenUtils;
 
 
 /**
