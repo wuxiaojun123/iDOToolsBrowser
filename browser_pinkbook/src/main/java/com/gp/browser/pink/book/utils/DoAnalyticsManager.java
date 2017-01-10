@@ -1,8 +1,8 @@
-package com.gp.browser.pink.book.utils;
+package com.idotools.browser.pink.book.utils;
 
 import android.app.Activity;
 
-import com.gp.browser.pink.book.App;
+import com.idotools.browser.pink.book.App;
 
 import java.util.Map;
 

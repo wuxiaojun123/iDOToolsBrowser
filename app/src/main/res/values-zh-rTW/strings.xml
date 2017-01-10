@@ -67,6 +67,6 @@
     <string name="string_request_write_external_storage_permission">請求下載文件權限</string>
     <!--搜索-->
     <string name="string_cartoon_or_author">漫畫名或作者</string>
-
+    <string name="string_more">更多</string>
 
 </resources>

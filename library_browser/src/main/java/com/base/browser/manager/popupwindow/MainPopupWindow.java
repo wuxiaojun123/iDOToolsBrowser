@@ -22,8 +22,8 @@ import com.base.browser.utils.ShareUtils;
 import com.base.browser.utils.ShortCutUtils;
 import com.base.browser.view.ImageTextViewGroup;
 import com.ido.autoupdate.AutoUpdate;
-import com.gp.utils.MetricsUtils;
-import com.gp.utils.MobileScreenUtils;
+import com.idotools.utils.MetricsUtils;
+import com.idotools.utils.MobileScreenUtils;
 
 
 /**

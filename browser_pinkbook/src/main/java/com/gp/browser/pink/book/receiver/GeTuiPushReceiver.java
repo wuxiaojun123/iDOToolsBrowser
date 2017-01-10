@@ -1,4 +1,4 @@
-package com.gp.browser.pink.book.receiver;
+package com.idotools.browser.pink.book.receiver;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -11,8 +11,8 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.base.browser.R;
-import com.gp.browser.pink.book.activity.MainActivity;
-import com.gp.utils.LogUtils;
+import com.idotools.browser.pink.book.activity.MainActivity;
+import com.idotools.utils.LogUtils;
 import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
 

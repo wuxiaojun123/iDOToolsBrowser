@@ -46,6 +46,8 @@
     <dimen name="dimen_item_dmzj_type_3_layout_height">130dp</dimen>
     <dimen name="dimen_item_dmzj_type_2_img_height">160dp</dimen>
 
+    <!--dmzj fragment viewpager的高度-->
+    <dimen name="dimen_dmzj_vp_height">330dp</dimen>
 
     <!--字体大小-->
     <dimen name="dimen_about_text_title">16dp</dimen>

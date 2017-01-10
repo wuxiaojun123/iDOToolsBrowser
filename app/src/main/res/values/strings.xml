@@ -66,6 +66,7 @@
     
     <!--搜索-->
     <string name="string_cartoon_or_author">漫画名或作者</string>
+    <string name="string_more">更多</string>
 
     <!--点击背景变深色-->
     <drawable name="color_normal">#ffffff</drawable>

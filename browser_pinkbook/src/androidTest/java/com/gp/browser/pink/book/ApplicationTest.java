@@ -1,4 +1,4 @@
-package com.gp.browser.pink.book;
+package com.idotools.browser.pink.book;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

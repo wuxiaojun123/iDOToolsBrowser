@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gp.utils.LogUtils;
+import com.idotools.utils.LogUtils;
 
 import java.io.File;
 

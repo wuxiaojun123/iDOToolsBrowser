@@ -12,7 +12,7 @@ import android.text.TextUtils;
 
 import com.buku001.tenyuan.R;
 import com.buku001.tenyuan.activity.MainActivity;
-import com.gp.utils.LogUtils;
+import com.idotools.utils.LogUtils;
 import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
 

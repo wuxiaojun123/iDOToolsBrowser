@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_title_height" />
 
-    <com.gp.browser.view.AnimatedProgressBar
+    <com.idotools.browser.view.AnimatedProgressBar
         android:id="@+id/progress_view"
         android:layout_width="match_parent"
         android:layout_height="2dp"

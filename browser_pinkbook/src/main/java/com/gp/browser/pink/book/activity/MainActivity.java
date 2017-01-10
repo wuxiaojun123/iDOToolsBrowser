@@ -1,9 +1,9 @@
-package com.gp.browser.pink.book.activity;
+package com.idotools.browser.pink.book.activity;
 
 import android.os.Bundle;
 
 import com.base.browser.manager.popupwindow.MainPopupWindow;
-import com.gp.browser.pink.book.utils.DoAnalyticsManager;
+import com.idotools.browser.pink.book.utils.DoAnalyticsManager;
 import com.igexin.sdk.PushManager;
 
 public class MainActivity extends com.base.browser.activity.MainActivity {

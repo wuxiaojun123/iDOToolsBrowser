@@ -19,7 +19,7 @@ import com.base.browser.minterface.OnItemDeleteClickListener;
 import com.base.browser.sqlite.RecordsSqliteManager;
 import com.base.browser.utils.ActivitySlideAnim;
 import com.base.browser.view.SideSlipRecyclerView;
-import com.gp.utils.ToastUtils;
+import com.idotools.utils.ToastUtils;
 
 import java.util.List;
 

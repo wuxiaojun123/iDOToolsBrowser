@@ -31,12 +31,12 @@ import com.base.browser.utils.BaseConstant;
 import com.base.browser.view.AnimatedProgressBar;
 import com.base.browser.view.BrowserWebView;
 import com.base.browser.view.SearchEditTextView;
-import com.gp.utils.InputWindowUtils;
-import com.gp.utils.JudgeNetWork;
-import com.gp.utils.LogUtils;
-import com.gp.utils.MetricsUtils;
-import com.gp.utils.MobileScreenUtils;
-import com.gp.utils.SharedPreferencesHelper;
+import com.idotools.utils.InputWindowUtils;
+import com.idotools.utils.JudgeNetWork;
+import com.idotools.utils.LogUtils;
+import com.idotools.utils.MetricsUtils;
+import com.idotools.utils.MobileScreenUtils;
+import com.idotools.utils.SharedPreferencesHelper;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, WebviewInteface, OnPageStartedListener, OnReceivedErrorListener, SwipeRefreshLayout.OnRefreshListener {

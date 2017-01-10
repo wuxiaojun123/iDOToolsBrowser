@@ -1,5 +1,5 @@
 <configuration debug="true">
-    <property name="PACKAGE_NAME" value="com.gp.browser.pink.book" />
+    <property name="PACKAGE_NAME" value="com.idotools.browser.pink.book" />
     <property name="LOG_DIR" value="/data/data/${PACKAGE_NAME}/files/analytics-logs" />
 
     <!-- Create a logcat appender -->

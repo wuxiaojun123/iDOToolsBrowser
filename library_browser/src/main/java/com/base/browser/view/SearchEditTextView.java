@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.base.browser.R;
-import com.gp.utils.InputWindowUtils;
+import com.idotools.utils.InputWindowUtils;
 
 /**
  * Created by wuxiaojun on 16-10-18.

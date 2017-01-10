@@ -12,4 +12,7 @@
     <dimen name="dimen_text_14">14dp</dimen>
     <dimen name="dimen_text_16">16dp</dimen>
 
+    <!--dmzj fragment viewpager的高度-->
+    <dimen name="dimen_dmzj_vp_height">330dp</dimen>
+
 </resources>

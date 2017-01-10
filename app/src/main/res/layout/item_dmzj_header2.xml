@@ -4,107 +4,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="11dp"
-        android:text="@string/string_hot"
-        android:textColor="@color/color_black"
-        android:textSize="@dimen/dimen_text_16" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal">
 
-        <LinearLayout style="@style/style_header2_linearlayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="11dp"
+            android:text="@string/string_hot"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/dimen_text_16" />
 
-            <ImageView
-                android:id="@+id/id_iv_image_first"
-                style="@style/style_header2_imageview" />
 
-            <TextView
-                android:id="@+id/id_tv_text_first"
-                style="@style/style_header2_textview"
-                android:text="aaaa" />
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/style_header2_linearlayout">
-
-            <ImageView
-                android:id="@+id/id_iv_image_second"
-                style="@style/style_header2_imageview"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp" />
-
-            <TextView
-                android:id="@+id/id_tv_text_second"
-                style="@style/style_header2_textview" />
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/style_header2_linearlayout">
-
-            <ImageView
-                android:id="@+id/id_iv_image_third"
-                style="@style/style_header2_imageview" />
-
-            <TextView
-                android:id="@+id/id_tv_text_third"
-                style="@style/style_header2_textview" />
-
-        </LinearLayout>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:paddingRight="11dp"
+            android:text="@string/string_more"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/dimen_text_16" />
     </LinearLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_viewpager_fm"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_dmzj_vp_height" />
 
     <LinearLayout
+        android:id="@+id/id_ll_dot_fm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <LinearLayout style="@style/style_header2_linearlayout">
-
-            <ImageView
-                android:id="@+id/id_iv_image_four"
-                style="@style/style_header2_imageview" />
-
-            <TextView
-                android:id="@+id/id_tv_text_four"
-                style="@style/style_header2_textview" />
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/style_header2_linearlayout">
-
-            <ImageView
-                android:id="@+id/id_iv_image_five"
-                style="@style/style_header2_imageview" />
-
-            <TextView
-                android:id="@+id/id_tv_text_five"
-                style="@style/style_header2_textview" />
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/style_header2_linearlayout">
-
-            <ImageView
-                android:id="@+id/id_iv_image_six"
-                style="@style/style_header2_imageview" />
-
-            <TextView
-                android:id="@+id/id_tv_text_six"
-                style="@style/style_header2_textview" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+        android:layout_height="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" />
 
     <View
         android:layout_width="match_parent"

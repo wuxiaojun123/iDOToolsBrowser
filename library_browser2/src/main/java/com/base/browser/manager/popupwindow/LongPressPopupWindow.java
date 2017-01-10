@@ -20,9 +20,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.base.browser.R;
-import com.gp.utils.LogUtils;
-import com.gp.utils.MetricsUtils;
-import com.gp.utils.ToastUtils;
+import com.idotools.utils.MetricsUtils;
+import com.idotools.utils.ToastUtils;
 
 import java.io.File;
 import java.util.List;

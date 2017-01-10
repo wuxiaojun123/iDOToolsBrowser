@@ -27,7 +27,7 @@
         android:background="@drawable/shape_search_bg"
         android:orientation="horizontal">
 
-        <com.gp.browser.view.SearchEditTextView
+        <com.idotools.browser.view.SearchEditTextView
             android:id="@+id/id_et_search"
             android:layout_width="0dp"
             android:layout_height="32dp"

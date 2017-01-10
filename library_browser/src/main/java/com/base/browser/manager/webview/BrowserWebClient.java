@@ -23,8 +23,8 @@ import com.base.browser.sqlite.SqliteManager;
 import com.base.browser.utils.Constant;
 import com.base.browser.utils.IntentUtils;
 import com.base.browser.utils.Utils;
-import com.gp.utils.ImageFormatUtils;
-import com.gp.utils.LogUtils;
+import com.idotools.utils.ImageFormatUtils;
+import com.idotools.utils.LogUtils;
 
 import java.net.URISyntaxException;
 

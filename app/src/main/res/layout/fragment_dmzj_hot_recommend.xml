@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout style="@style/style_header2_linearlayout">
+
+            <ImageView
+                android:id="@+id/id_iv_image_first"
+                style="@style/style_header2_imageview" />
+
+            <TextView
+                android:id="@+id/id_tv_text_first"
+                style="@style/style_header2_textview" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/style_header2_linearlayout">
+
+            <ImageView
+                android:id="@+id/id_iv_image_second"
+                style="@style/style_header2_imageview"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:id="@+id/id_tv_text_second"
+                style="@style/style_header2_textview" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/style_header2_linearlayout">
+
+            <ImageView
+                android:id="@+id/id_iv_image_third"
+                style="@style/style_header2_imageview" />
+
+            <TextView
+                android:id="@+id/id_tv_text_third"
+                style="@style/style_header2_textview" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout style="@style/style_header2_linearlayout">
+
+            <ImageView
+                android:id="@+id/id_iv_image_four"
+                style="@style/style_header2_imageview" />
+
+            <TextView
+                android:id="@+id/id_tv_text_four"
+                style="@style/style_header2_textview" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/style_header2_linearlayout">
+
+            <ImageView
+                android:id="@+id/id_iv_image_five"
+                style="@style/style_header2_imageview" />
+
+            <TextView
+                android:id="@+id/id_tv_text_five"
+                style="@style/style_header2_textview" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/style_header2_linearlayout">
+
+            <ImageView
+                android:id="@+id/id_iv_image_six"
+                style="@style/style_header2_imageview" />
+
+            <TextView
+                android:id="@+id/id_tv_text_six"
+                style="@style/style_header2_textview" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

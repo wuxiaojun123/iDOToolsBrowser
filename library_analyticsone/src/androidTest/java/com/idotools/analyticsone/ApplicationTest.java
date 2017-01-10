@@ -1,4 +1,4 @@
-package com.gp.analyticsone;
+package com.idotools.analyticsone;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

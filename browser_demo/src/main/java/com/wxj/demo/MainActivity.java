@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.dot.analyticsone.AnalyticsOne;
-import com.gp.utils.LogUtils;
+import com.idotools.utils.LogUtils;
 import com.igexin.sdk.PushManager;
 
 import java.util.List;

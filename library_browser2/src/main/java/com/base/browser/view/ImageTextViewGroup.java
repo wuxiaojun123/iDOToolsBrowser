@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.browser.R;
-import com.gp.utils.MetricsUtils;
-import com.gp.utils.MobileScreenUtils;
+import com.idotools.utils.MetricsUtils;
+import com.idotools.utils.MobileScreenUtils;
 
 /**
  * Created by wuxiaojun on 16-10-2.

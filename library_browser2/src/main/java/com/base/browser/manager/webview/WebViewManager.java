@@ -21,9 +21,8 @@ import com.base.browser.manager.dialog.AlertDialog;
 import com.base.browser.minterface.OnPageStartedListener;
 import com.base.browser.minterface.OnReceivedErrorListener;
 import com.base.browser.view.BrowserWebView;
-import com.gp.utils.LogUtils;
-import com.gp.utils.MetricsUtils;
-import com.gp.utils.ToastUtils;
+import com.idotools.utils.MetricsUtils;
+import com.idotools.utils.ToastUtils;
 
 /**
  * Created by wuxiaojun on 16-10-8.

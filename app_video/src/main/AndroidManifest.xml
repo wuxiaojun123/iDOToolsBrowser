@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gp.browser.video">
+    package="com.gp.browser.video.lol">
 
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name="com.gp.browser.video.App"
+        android:name="com.gp.browser.video.lol.App"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
@@ -43,7 +43,7 @@
         <!--facebook广告 end-->
 
         <activity
-            android:name="com.gp.browser.video.activity.SplashActivity"
+            android:name="com.gp.browser.video.lol.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/style_splash">
             <intent-filter>
@@ -54,7 +54,7 @@
         </activity>
 
         <activity
-            android:name=".activity.DmzjActivity"
+            android:name="com.gp.browser.video.lol.activity.DmzjActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/style_BaseAppTheme"
@@ -80,14 +80,14 @@
             android:theme="@style/style_splash" />
 
         <!-- [START firebase_service] -->
-        <service android:name="com.gp.browser.video.firebase.push.MyFirebaseMessagingService">
+        <service android:name="com.gp.browser.video.lol.firebase.push.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <!-- [END firebase_service] -->
         <!-- [START firebase_iid_service] -->
-        <service android:name="com.gp.browser.video.firebase.push.MyFirebaseInstanceIDService">
+        <service android:name="com.gp.browser.video.lol.firebase.push.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

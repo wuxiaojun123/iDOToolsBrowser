@@ -27,10 +27,10 @@ import com.base.browser.utils.GooglePlayUtils;
 import com.base.browser.utils.ShareUtils;
 import com.base.browser.utils.ShortCutUtils;
 import com.base.browser.view.ImageTextViewGroup;
-import com.gp.utils.MetricsUtils;
-import com.gp.utils.MobileScreenUtils;
-import com.gp.utils.SharedPreferencesHelper;
-import com.gp.utils.ToastUtils;
+import com.idotools.utils.MetricsUtils;
+import com.idotools.utils.MobileScreenUtils;
+import com.idotools.utils.SharedPreferencesHelper;
+import com.idotools.utils.ToastUtils;
 
 /**
  * Created by wuxiaojun on 16-10-2.
