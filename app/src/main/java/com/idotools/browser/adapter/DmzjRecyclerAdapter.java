@@ -73,14 +73,9 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
         if (position < (getItemCount() - 1)) {
             //设置图片
-            int currentPosition = position + 4;
-            if (currentPosition >= mList.size()) {
-                return;
-            }
-            final DmzjBean bean = mList.get(currentPosition);
+            final DmzjBean bean = mList.get(position);
             if (bean != null) {
                 DmzjViewHolder dmzjViewHolder = (DmzjViewHolder) holder;
                 //设置图片 android:background="@mipmap/img_default"
@@ -99,7 +94,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
             } else {
                 final DmzjViewHolderTypeAd dmzjViewHolder = (DmzjViewHolderTypeAd) holder;
-                String currentPositionStr = currentPosition + "";
+                String currentPositionStr = position + "";
 
                 NativeAd mNativeAd = nativeAdHashMap.get(currentPositionStr);
                 if (mNativeAd == null) {//实例化广告

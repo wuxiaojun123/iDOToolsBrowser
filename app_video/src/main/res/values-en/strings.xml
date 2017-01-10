@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LOL Top Video</string>
+    <string name="app_name">LOL Champions</string>
     <!--<string name="string_main_title">GIF Browser</string>-->
     <string name="string_clean_success">Clear finish</string>
     
@@ -39,12 +39,15 @@
     <string name="string_history">History</string>
     <string name="string_records">Favorite</string>
     <string name="string_alread_records">Favorited</string>
+
     <string name="string_delete_all">Delete all</string>
     <string name="string_no_history">No history record</string>
     <string name="string_no_records">No collection record</string>
     <string name="string_remove">remove</string>
     <!--添加桌面快捷方式-->
     <string name="string_create_shortcut_success">Create success</string>
+
+
 
     <!--首页-->
     <string name="string_no_network_check_setting">No network,please check it</string>
@@ -74,5 +77,6 @@
 
     <string name="msg_subscribed">Subscribed to news topic</string>
     <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+
 
 </resources>

@@ -1,6 +1,4 @@
 <resources>
-    <!--<string name="app_name">动漫浏览器</string>-->
-    <string name="string_main_title">搜索</string>
 
     <!--热门推荐和最新更新-->
     <string name="string_hot">热门推荐</string>
@@ -65,7 +63,8 @@
     <string name="string_request_write_external_storage_permission">请求下载文件权限</string>
     
     <!--搜索-->
-    <string name="string_cartoon_or_author">漫画名或作者</string>
+    <!--<string name="string_cartoon_or_author">漫画名或作者</string>-->
+    <string name="string_hint">Search or type URL</string>
 
     <!--点击背景变深色-->
     <drawable name="color_normal">#ffffff</drawable>

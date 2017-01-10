@@ -22,11 +22,19 @@ public interface APIService {
             @Query("wzCode") String wzCode
     );
 
-
-    //请求动漫之家的数据
+    //请求热门的数据
     @GET(Constant.PATH_DMZJ)
-    Call<List<DmzjBean>> getDmzjBeanList(
-            @Query("tag") int tag,
+    Call<List<DmzjBean>> getDmzjHotBeanList(
+            @Query("token") String token,
+            @Query("order") String order,
+            @Query("page") int page,
+            @Query("num") int num
+    );
+
+    //获取最新更新的
+    @GET(Constant.PATH_DMZJ)
+    Call<List<DmzjBean>> getDmzjUpdateBeanList(
+            @Query("token") String token,
             @Query("order") String order,
             @Query("page") int page,
             @Query("num") int num

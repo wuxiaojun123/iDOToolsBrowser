@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.idotools.browser.R;
+import com.idotools.utils.LogUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,10 +53,21 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
     @BindView(R.id.id_tv_text_six)
     TextView id_tv_text_six;
 
+    private int currentPage;
+    private boolean isShowAd;
+
+    public HotRecommendFragment(){
+    }
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle arguments = getArguments();
+        if(arguments != null){
+            isShowAd = arguments.getBoolean("isShowAd");
+            LogUtils.e("是否展示广告："+isShowAd);
+        }
     }
 
     @Nullable
@@ -65,6 +77,8 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
             view = inflater.inflate(R.layout.fragment_dmzj_hot_recommend,null);
         }
         ButterKnife.bind(this,view);
+
+
 
         return view;
     }

@@ -64,7 +64,7 @@
     public static final android.os.Parcelable$Creator *;
 }
 
--keep public class com.gp.browser.video.R$*{
+-keep public class com.gp.browser.video.lol.R$*{
     public static final int *;
 }
 
@@ -73,8 +73,8 @@
 -keep class com.base.browser.bean.** { *; }
 -keep class com.base.browser.manager.webview.BrowserJsInterface { *; }
 
--keep class com.gp.browser.video.view.** { *; }
--keep class com.gp.browser.video.bean.** { *; }
+-keep class com.gp.browser.video.lol.view.** { *; }
+-keep class com.gp.browser.video.lol.bean.** { *; }
 #-keep class com.idotools.browser.manager.http.AppHttpClient {*;}
 #####################自定义view 不混淆 ############################
 

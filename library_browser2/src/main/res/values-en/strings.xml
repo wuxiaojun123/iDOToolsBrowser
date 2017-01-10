@@ -39,6 +39,7 @@
     <string name="string_history">History</string>
     <string name="string_records">Favorite</string>
     <string name="string_alread_records">Favorited</string>
+    <string name="string_cancel_records">Cancel Collection</string>
     <string name="string_delete_all">Delete all</string>
     <string name="string_no_history">No history record</string>
     <string name="string_no_records">No collection record</string>
@@ -57,6 +58,11 @@
     <string name="string_download_image">Download image</string>
     <string name="string_finish">Download completed</string>
     <string name="string_look">Look</string>
+    <string name="string_download_fail">Download Failed</string>
+    <string name="string_request_write_external_storage_permission">Request to download file permissions</string>
+
+
+    <string name="string_hint">Search or type URL</string>
 
     <!--点击背景变深色-->
     <drawable name="color_normal">#ffffff</drawable>

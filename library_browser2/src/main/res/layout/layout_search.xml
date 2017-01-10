@@ -36,7 +36,7 @@
             android:drawablePadding="5dp"
             android:drawableRight="@mipmap/img_edittest_search"
             android:gravity="center_vertical"
-            android:hint="@string/string_cartoon_or_author"
+            android:hint="@string/string_hint"
             android:maxLines="1"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"

@@ -25,6 +25,8 @@ import com.idotools.browser.fragment.HotRecommendFragment;
 import com.idotools.browser.manager.http.AppHttpClient;
 import com.idotools.browser.manager.viewpager.ViewPagerManager;
 import com.idotools.browser.minterface.OnItemClickListener;
+import com.idotools.browser.minterface.OnLoadBannerDataListener;
+import com.idotools.browser.minterface.OnLoadDmzjUpdateDataListener;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.Constant;
 import com.idotools.browser.utils.JsonUtils;
@@ -32,7 +34,6 @@ import com.idotools.browser.view.SearchEditTextView;
 import com.idotools.utils.DeviceUtil;
 import com.idotools.utils.FileUtils;
 import com.idotools.utils.JudgeNetWork;
-import com.idotools.utils.LogUtils;
 import com.idotools.utils.SharedPreferencesHelper;
 import com.idotools.utils.ToastUtils;
 import com.igexin.sdk.PushManager;
@@ -90,6 +91,9 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private List<BannerResp.BannerBean> mBannerBeanList;//viewpager图片的集合
 
     private List<BaseFragment> fragmentList;
+    private HotRecommendFragment mFirstFragment;
+    private HotRecommendFragment mSecondFragment;
+    private HotRecommendFragment mThirdFragment;
     private DmzjFragmentPagerAdapter mDmzjPagerAdapter;
 
     @Override
@@ -100,35 +104,132 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         setSwipeBackEnable(false);
         ButterKnife.bind(this);
 
-        toogleNightMode();
         initView();
-        initRecycler();
-        initLastTimeData();
         initData();
-        loadMore();
         getGeTuiMsg();
 
-        fragmentList = new ArrayList<>();
-        fragmentList.add(new HotRecommendFragment());
-        fragmentList.add(new HotRecommendFragment());
-        fragmentList.add(new HotRecommendFragment());
-        mDmzjPagerAdapter = new DmzjFragmentPagerAdapter(getSupportFragmentManager(),fragmentList);
-        vp_fragment.setAdapter(mDmzjPagerAdapter);
+    }
 
-        mSearchEditText.setFrameLayout(id_fl_mask);
-        mSearchEditText.setOnKeyListener(new SearchEditTextView.onKeyListener() {
+    /***
+     * 加载数据
+     */
+    private void initData() {
+        initCacheData();
+        mAppHttpClient = new AppHttpClient();
+        if (JudgeNetWork.isNetAvailable(mContext)) {
+            id_layout_no_network.setVisibility(View.GONE);
+            id_swiperefresh.setRefreshing(true);
+            loadUpdateData(page, false);
+            loadBannerData();
+        } else {
+            if (mBannerBeanList == null)
+                id_layout_no_network.setVisibility(View.VISIBLE);
+        }
+        initFragment();
+    }
+
+    /***
+     * 加载banner数据
+     */
+    private void loadBannerData() {
+        //browser00 DeviceUtil.getVersionCode(mContext)
+        mAppHttpClient.requestBannerPath(DeviceUtil.getPackageName(mContext), DeviceUtil.getVersionCode(mContext));
+        mAppHttpClient.setOnLoadBannerDataListener(new OnLoadBannerDataListener() {
             @Override
-            public void onKey() {
-                searchDmzj();
+            public void loadBannerDataSuccessListener(List<BannerResp.BannerBean> list) {
+                if (list != null && !list.isEmpty()) {
+                    initBannerAdapter(list);
+                    //将最新数据保存到file中
+                    FileUtils.saveFile(mContext, Constant.FILE_BANNER, JsonUtils.toJsonFromList(list));
+                }
+            }
+
+            @Override
+            public void loadBannerDataFailedListener() {
+                if (mDmzjAdapter != null) {
+                    mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
+                }
             }
         });
+    }
+
+    /***
+     * 拉取最新的动漫之家的数据
+     */
+    private void loadUpdateData(int mpage, final boolean flag) {
+        mAppHttpClient.requestDmzjUpdateBeanList(mpage, 14);
+        mAppHttpClient.setOnLoadDmzjDataListener(new OnLoadDmzjUpdateDataListener() {
+            @Override
+            public void loadDmzjDataSuccessListener(List<DmzjBean> list) {
+                if (flag) {
+                    if (list.size() / 7 >= 1) {
+                        list.add(7, null);
+                    }
+                    if (list.size() / 7 == 2) {
+                        list.add(null);
+                    }
+                    //加载更多
+                    mDmzjAdapter.addMoreItem(list, DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
+                } else {
+                    //拉取最新
+                    FileUtils.saveFile(mContext, Constant.FILE_UPDATE_DATA, JsonUtils.toJsonFromList(list));
+                    list.add(7, null);
+                    mDmzjAdapter.resetAdapter(list);//刷新界面数据
+                }
+                id_swiperefresh.setRefreshing(false);//刷新完成
+            }
+
+            @Override
+            public void loadDmzjDataFailedListener() {
+                id_swiperefresh.setRefreshing(false);//刷新完成
+                if (flag)
+                    mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
+            }
+        });
+    }
+
+    /***
+     * 拉取最新的动漫之家的数据
+     */
+    private void loadHotData() {
+        mAppHttpClient.requestDmzjHotBeanList();
+        mAppHttpClient.setOnLoadDmzjDataListener(new OnLoadDmzjUpdateDataListener() {
+            @Override
+            public void loadDmzjDataSuccessListener(List<DmzjBean> list) {
+                //拉取最新
+                FileUtils.saveFile(mContext, Constant.FILE_HOT_DATA, JsonUtils.toJsonFromList(list));
+
+
+            }
+
+            @Override
+            public void loadDmzjDataFailedListener() {
+            }
+        });
+    }
+
+    private void initFragment() {
+        fragmentList = new ArrayList<>();
+        mFirstFragment = new HotRecommendFragment();
+        Bundle mBundle = new Bundle();
+        mBundle.putBoolean("isShowAd", true);
+        mFirstFragment.setArguments(mBundle);
+        mSecondFragment = new HotRecommendFragment();
+        mThirdFragment = new HotRecommendFragment();
+
+        fragmentList.add(mFirstFragment);
+        fragmentList.add(mSecondFragment);
+        fragmentList.add(mThirdFragment);
+
+        mDmzjPagerAdapter = new DmzjFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+        vp_fragment.setAdapter(mDmzjPagerAdapter);
     }
 
 
     /***
      * 使用缓存数据
      */
-    private void initLastTimeData() {
+    private void initCacheData() {
         try {
             String bannerData = FileUtils.readFile(mContext, Constant.FILE_BANNER);
             if (!TextUtils.isEmpty(bannerData)) {
@@ -137,7 +238,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     initBannerAdapter(list);
                 }
             }
-            String mainData = FileUtils.readFile(mContext, Constant.FILE_MAIN_DATA);
+            String mainData = FileUtils.readFile(mContext, Constant.FILE_UPDATE_DATA);
             if (!TextUtils.isEmpty(mainData)) {
                 List<DmzjBean> list = JsonUtils.fromJsonArray(mainData, DmzjBean.class);
                 if (list != null && !list.isEmpty()) {
@@ -150,6 +251,25 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
 
+
+    /***
+     * 初始化view
+     */
+    private void initView() {
+        toogleNightMode();
+        initRecycler();
+        initScrollListener();
+        id_swiperefresh.setColorSchemeResources(R.color.color_main_title);
+        id_swiperefresh.setOnRefreshListener(this);
+        mSearchEditText.setFrameLayout(id_fl_mask);
+        mSearchEditText.setOnKeyListener(new SearchEditTextView.onKeyListener() {
+            @Override
+            public void onKey() {
+                searchDmzj();
+            }
+        });
+    }
+
     private void toogleNightMode() {
         boolean modeNight = SharedPreferencesHelper.getInstance(mContext).getBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, false);
         if (!modeNight) {
@@ -159,10 +279,23 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
 
+    /**
+     * 初始化recyclerView
+     */
+    private void initRecycler() {
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLinearLayoutManager);
+        mDmzjBeanList = new ArrayList<>();
+        mDmzjAdapter = new DmzjRecyclerAdapter(this, mDmzjBeanList);
+        mDmzjAdapter.setFooterView(LayoutInflater.from(mContext).inflate(R.layout.layout_footer, recyclerView, false));
+        recyclerView.setAdapter(mDmzjAdapter);
+        mDmzjAdapter.setOnItemClickListener(this);
+    }
+
     /***
      * 添加滑动事件的监听，以便可以出现加载更多
      */
-    private void loadMore() {
+    private void initScrollListener() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -171,7 +304,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     if (JudgeNetWork.isNetAvailable(mContext)) {
                         mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_LOADING);
                         page += 1;
-                        loadLatestData(page, true);
+                        loadUpdateData(page, true);
                     } else {
                         mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
                     }
@@ -191,108 +324,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         });
     }
 
-    /***
-     * 初始化view
-     */
-    private void initView() {
-        id_swiperefresh.setColorSchemeResources(R.color.color_main_title);
-        id_swiperefresh.setOnRefreshListener(this);
-    }
-
-    /**
-     * 初始化recyclerView
-     */
-    private void initRecycler() {
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(mLinearLayoutManager);
-        mDmzjBeanList = new ArrayList<>();
-        mDmzjAdapter = new DmzjRecyclerAdapter(this, mDmzjBeanList);
-        mDmzjAdapter.setFooterView(LayoutInflater.from(mContext).inflate(R.layout.layout_footer, recyclerView, false));
-        recyclerView.setAdapter(mDmzjAdapter);
-        mDmzjAdapter.setOnItemClickListener(this);
-    }
-
-    /***
-     * 加载数据
-     */
-    private void initData() {
-        mAppHttpClient = new AppHttpClient();
-        if (JudgeNetWork.isNetAvailable(mContext)) {
-            id_layout_no_network.setVisibility(View.GONE);
-            id_swiperefresh.setRefreshing(true);
-            loadLatestData(page, false);
-            loadBannerData();
-        } else {
-            if (mBannerBeanList == null)
-                id_layout_no_network.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /***
-     * 加载banner数据
-     */
-    private void loadBannerData() {
-        //browser00 DeviceUtil.getVersionCode(mContext)
-        mAppHttpClient.requestBannerPath(DeviceUtil.getPackageName(mContext), DeviceUtil.getVersionCode(mContext));
-        mAppHttpClient.setOnLoadBannerDataListener(new AppHttpClient.OnLoadBannerDataListener() {
-            @Override
-            public void loadBannerDataSuccessListener(List<BannerResp.BannerBean> list) {
-                if (list != null && !list.isEmpty()) {
-                    LogUtils.e("获取到最新banner数据");
-                    initBannerAdapter(list);
-                    //将最新数据保存到file中
-                    FileUtils.saveFile(mContext, Constant.FILE_BANNER, JsonUtils.toJsonFromList(list));
-                }
-            }
-
-            @Override
-            public void loadBannerDataFailedListener() {
-                if (mDmzjAdapter != null) {
-                    mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
-                }
-            }
-        });
-    }
-
-    /***
-     * 拉取最新的动漫之家的数据
-     */
-    private void loadLatestData(int mpage, final boolean flag) {
-        if (flag) {
-            mAppHttpClient.requestDmzjBeanList(Constant.DMZJ_TAG, Constant.DMZJ_TYPE_UPDATE, mpage, 14);
-        } else {
-            mAppHttpClient.requestDmzjBeanList(Constant.DMZJ_TAG, Constant.DMZJ_TYPE_UPDATE, mpage, 10);
-        }
-        mAppHttpClient.setOnLoadDmzjDataListener(new AppHttpClient.OnLoadDmzjDataListener() {
-            @Override
-            public void loadDmzjDataSuccessListener(List<DmzjBean> list) {
-                if (flag) {
-                    if (list.size() / 7 >= 1) {
-                        list.add(7, null);
-                    }
-                    if (list.size() / 7 == 2) {
-                        list.add(null);
-                    }
-                    //加载更多
-                    mDmzjAdapter.addMoreItem(list, DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
-                } else {
-                    //拉取最新
-                    FileUtils.saveFile(mContext, Constant.FILE_MAIN_DATA, JsonUtils.toJsonFromList(list));
-                    list.add(7, null);
-                    mDmzjAdapter.resetAdapter(list);//刷新界面数据
-                }
-                id_swiperefresh.setRefreshing(false);//刷新完成
-            }
-
-            @Override
-            public void loadDmzjDataFailedListener() {
-                id_swiperefresh.setRefreshing(false);//刷新完成
-                if (flag)
-                    mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
-            }
-        });
-    }
-
     @Override
     public void onRefresh() {
         if (JudgeNetWork.isNetAvailable(mContext)) {
@@ -300,7 +331,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 id_layout_no_network.setVisibility(View.GONE);
             }
             page = 1;
-            loadLatestData(page, false);
+            loadUpdateData(page, false);
             if (mDmzjAdapter != null && mBannerBeanList == null) {
                 loadBannerData();
             }
@@ -390,7 +421,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         if (mViewPagerManager == null) {
             mViewPagerManager = new ViewPagerManager(mContext, vp_banner, id_ll_dot, id_iv_one, mBannerBeanList, this);
         } else {
-            LogUtils.e("刷新数据");
             mViewPagerManager.refreshAdapter(mBannerBeanList);
         }
         mViewPagerManager.initViewPager();

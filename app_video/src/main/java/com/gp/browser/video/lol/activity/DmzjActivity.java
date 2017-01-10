@@ -89,7 +89,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         loadMore();
         getGeTuiMsg();
 
-        mSearchEditText.setHint(R.string.app_name);
         mSearchEditText.setFrameLayout(id_fl_mask);
         mSearchEditText.setOnKeyListener(new SearchEditTextView.onKeyListener() {
             @Override
