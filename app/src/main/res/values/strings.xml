@@ -67,6 +67,14 @@
     <!--搜索-->
     <string name="string_cartoon_or_author">漫画名或作者</string>
     <string name="string_more">更多</string>
+    
+    <!--热门推荐-->
+    <string name="string_hot_recommend">热门推荐</string>
+
+    <!--设置view的tab-->
+    <string type="id" name="string_tag_0" />
+    <string type="id" name="string_tag_1" />
+    <string type="id" name="string_tag_2" />
 
     <!--点击背景变深色-->
     <drawable name="color_normal">#ffffff</drawable>

@@ -18,7 +18,7 @@ import com.idotools.browser.adapter.viewHolder.DmzjViewHolder;
 import com.idotools.browser.adapter.viewHolder.DmzjViewHolderTypeAd;
 import com.idotools.browser.adapter.viewHolder.FooterViewHolder;
 import com.idotools.browser.adapter.viewHolder.Header2ViewHolder;
-import com.idotools.browser.bean.DmzjBean;
+import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.minterface.OnItemClickListener;
 import com.idotools.browser.utils.Constant;
 import com.idotools.utils.LogUtils;
@@ -42,7 +42,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public Context mContext;
     private View footerView;//加载更多布局
     private int status_add_more;//加载更多状态
-    public List<DmzjBean> mList;
+    public List<DmzjBeanResp.DmzjBean> mList;
     private LayoutInflater inflater;
     private String classificationStr;//分类
     private String briefIntroductionStr;//简介
@@ -53,7 +53,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private HashMap<String, AdChoicesView> mNativeAdChoicesMap = new HashMap<>();
 
 
-    public DmzjRecyclerAdapter(Context context, List<DmzjBean> list) {
+    public DmzjRecyclerAdapter(Context context, List<DmzjBeanResp.DmzjBean> list) {
         this.mContext = context;
         this.inflater = LayoutInflater.from(context);
         this.mList = list;
@@ -71,24 +71,26 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return new DmzjViewHolder(inflater.inflate(R.layout.item_dmzj, null));
     }
 
+
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position < (getItemCount() - 1)) {
             //设置图片
-            final DmzjBean bean = mList.get(position);
+            final DmzjBeanResp.DmzjBean bean = mList.get(position);
             if (bean != null) {
                 DmzjViewHolder dmzjViewHolder = (DmzjViewHolder) holder;
                 //设置图片 android:background="@mipmap/img_default"
                 glideLoadImg(bean.cover, dmzjViewHolder.id_iv_img);
                 //设置信息
                 dmzjViewHolder.id_tv_title.setText(bean.title);
-                dmzjViewHolder.id_tv_tag.setText(classificationStr + bean.tags);
+                dmzjViewHolder.id_tv_tag.setText(classificationStr + getTags(bean.tags));
                 dmzjViewHolder.id_tv_description.setText(briefIntroductionStr + bean.description);
                 dmzjViewHolder.id_ll_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mOnItemClickListener != null) {
-                            mOnItemClickListener.onItemClickListener(bean.url, bean.cover, bean.title);
+                            mOnItemClickListener.onItemClickListener(bean.mobileUrl, bean.cover, bean.title);
                         }
                     }
                 });
@@ -205,45 +207,17 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
-    /***
-     * 初始化头部布局样式2
-     *
-     * @param holder
-     */
-    private void initHeader2ViewHolder(RecyclerView.ViewHolder holder) {
-        Header2ViewHolder header2ViewHolder = (Header2ViewHolder) holder;
-        DmzjBean bean1 = mList.get(0);
-        if (bean1 != null) {
-            glideLoadImg(bean1.cover, header2ViewHolder.id_iv_image_first);
-            header2ViewHolder.id_tv_text_first.setText(bean1.title);
-            setOnClickListener(header2ViewHolder.id_iv_image_first, bean1.url, bean1.cover, bean1.title);
+    private String getTags(String[] tags){
+        String str = null;
+        if(tags != null && tags.length > 0){
+            StringBuilder sb = new StringBuilder();
+            int length = tags.length;
+            for (int i=0;i < length;i++){
+                sb.append(tags[i]+",");
+            }
+            str = sb.substring(0,sb.length()-1);
         }
-
-        DmzjBean bean2 = mList.get(1);
-        glideLoadImg(bean2.cover, header2ViewHolder.id_iv_image_second);
-        header2ViewHolder.id_tv_text_second.setText(bean2.title);
-        setOnClickListener(header2ViewHolder.id_iv_image_second, bean2.url, bean2.cover, bean2.title);
-
-        DmzjBean bean3 = mList.get(2);
-        glideLoadImg(bean3.cover, header2ViewHolder.id_iv_image_third);
-        header2ViewHolder.id_tv_text_third.setText(bean3.title);
-        setOnClickListener(header2ViewHolder.id_iv_image_third, bean3.url, bean3.cover, bean3.title);
-
-        DmzjBean bean4 = mList.get(3);
-        glideLoadImg(bean4.cover, header2ViewHolder.id_iv_image_four);
-        header2ViewHolder.id_tv_text_four.setText(bean4.title);
-        setOnClickListener(header2ViewHolder.id_iv_image_four, bean4.url, bean4.cover, bean4.title);
-
-        DmzjBean bean5 = mList.get(4);
-        glideLoadImg(bean5.cover, header2ViewHolder.id_iv_image_five);
-        header2ViewHolder.id_tv_text_five.setText(bean5.title);
-        setOnClickListener(header2ViewHolder.id_iv_image_five, bean5.url, bean5.cover, bean5.title);
-
-        DmzjBean bean6 = mList.get(5);
-        glideLoadImg(bean6.cover, header2ViewHolder.id_iv_image_six);
-        header2ViewHolder.id_tv_text_six.setText(bean6.title);
-        setOnClickListener(header2ViewHolder.id_iv_image_six, bean6.url, bean6.cover, bean6.title);
+        return str;
     }
 
     /***
@@ -307,7 +281,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      *
      * @param list
      */
-    public void addMoreItem(List<DmzjBean> list, int status) {
+    public void addMoreItem(List<DmzjBeanResp.DmzjBean> list, int status) {
         this.mList.addAll(list);
         this.status_add_more = status;
         notifyDataSetChanged();
@@ -318,7 +292,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      *
      * @param list
      */
-    public void resetAdapter(List<DmzjBean> list) {
+    public void resetAdapter(List<DmzjBeanResp.DmzjBean> list) {
         if (mList != null) {
             mList.clear();
         }

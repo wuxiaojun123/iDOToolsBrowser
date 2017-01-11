@@ -180,10 +180,6 @@ public class MainPopupWindow implements View.OnClickListener {
         return false;
     }
 
-
-    /*@OnClick({R.id.id_ll_empty, R.id.id_share, R.id.id_records,
-            R.id.id_add_shortcut, R.id.id_night_mode, R.id.id_check_update,
-            R.id.id_about, R.id.id_exit})*/
     @Override
     public void onClick(View v) {
         int id = v.getId();

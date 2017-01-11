@@ -1,7 +1,7 @@
 package com.idotools.browser.minterface;
 
 import com.idotools.browser.bean.BannerResp;
-import com.idotools.browser.bean.DmzjBean;
+import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.utils.Constant;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface APIService {
 
     //请求热门的数据
     @GET(Constant.PATH_DMZJ)
-    Call<List<DmzjBean>> getDmzjHotBeanList(
+    Call<DmzjBeanResp> getDmzjHotBeanList(
             @Query("token") String token,
             @Query("order") String order,
             @Query("page") int page,
@@ -33,7 +33,7 @@ public interface APIService {
 
     //获取最新更新的
     @GET(Constant.PATH_DMZJ)
-    Call<List<DmzjBean>> getDmzjUpdateBeanList(
+    Call<DmzjBeanResp> getDmzjUpdateBeanList(
             @Query("token") String token,
             @Query("order") String order,
             @Query("page") int page,

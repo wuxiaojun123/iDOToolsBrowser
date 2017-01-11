@@ -58,7 +58,9 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <LinearLayout style="@style/style_header2_linearlayout">
+        <LinearLayout
+            android:id="@+id/ll_four"
+            style="@style/style_header2_linearlayout">
 
             <ImageView
                 android:id="@+id/id_iv_image_four"
@@ -68,7 +70,14 @@
                 android:id="@+id/id_tv_text_four"
                 style="@style/style_header2_textview" />
 
+            <include
+                android:id="@+id/ll_ad"
+                style="@style/style_header2_linearlayout"
+                layout="@layout/layout_ad_single"
+                android:visibility="gone" />
+
         </LinearLayout>
+
 
         <LinearLayout style="@style/style_header2_linearlayout">
 

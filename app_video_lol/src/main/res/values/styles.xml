@@ -1,11 +1,58 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Base application theme. Theme.AppCompat.Light.NoActionBar  parent="Theme.AppCompat.Light.NoActionBar"-->
+    <style name="style_BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/color_9</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--启动白屏问题-->
+    <style name="style_splash" parent="style_BaseAppTheme">
+        <!--<item name="android:windowBackground">@mipmap/img_start_page</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="style_AppTheme" parent="style_BaseAppTheme"></style>
+
+    <!--第二个头部linearlayout的样式-->
+    <style name="style_header2_linearlayout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/dimen_item_dmzj_head2_layout_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!--第二个头部imageview的样式-->
+    <style name="style_header2_imageview">
+        <item name="android:layout_width">@dimen/dimen_item_dmzj_head2_img_width</item>
+        <item name="android:layout_height">@dimen/dimen_item_dmzj_head2_img_height</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:src">@mipmap/img_default</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <!--第二个头部textview的样式-->
+    <style name="style_header2_textview">
+        <item name="android:layout_width">@dimen/dimen_item_dmzj_head2_img_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+
+    <!--item样式3-->
+    <style name="style_item_3_img">
+        <item name="android:layout_width">@dimen/dimen_item_dmzj_type_3_img_width</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@mipmap/img_default</item>
     </style>
 
 </resources>

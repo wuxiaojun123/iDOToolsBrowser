@@ -1,0 +1,10 @@
+<resources>
+
+    <!--<string name="string_night_mode">日间模式</string>-->
+
+    <!--点击背景变深色-->
+    <drawable name="color_normal">#474747</drawable>
+    <!--<drawable name="color_normal_night">#474747</drawable>-->
+    <drawable name="color_pressed">#565656</drawable>
+    <!--<drawable name="color_pressed_night">#565656</drawable>-->
+</resources>

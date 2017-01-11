@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "905961918941",
+    "firebase_url": "https://lol-youtube-top-video.firebaseio.com",
+    "project_id": "lol-youtube-top-video",
+    "storage_bucket": "lol-youtube-top-video.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905961918941:android:595b24213f9c8a66",
+        "android_client_info": {
+          "package_name": "com.gp.browser.video.lol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905961918941-cdqiasdm5mudv7b66e5nqcjhn58asa9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqbQe9Z-AlDf632OL6ac7OfBd_dSeyvU8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

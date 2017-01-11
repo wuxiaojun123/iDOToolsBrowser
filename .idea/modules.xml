@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/AS_iDOBrowser.iml" filepath="$PROJECT_DIR$/AS_iDOBrowser.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app_video/app_video.iml" filepath="$PROJECT_DIR$/app_video/app_video.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app_video_lol/app_video_lol.iml" filepath="$PROJECT_DIR$/app_video_lol/app_video_lol.iml" />
       <module fileurl="file://$PROJECT_DIR$/browser_demo/browser_demo.iml" filepath="$PROJECT_DIR$/browser_demo/browser_demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/easypermissions/easypermissions.iml" filepath="$PROJECT_DIR$/easypermissions/easypermissions.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_OneSDK/library_OneSDK.iml" filepath="$PROJECT_DIR$/library_OneSDK/library_OneSDK.iml" />

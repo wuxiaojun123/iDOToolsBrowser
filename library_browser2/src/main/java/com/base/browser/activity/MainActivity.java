@@ -50,22 +50,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     ImageView id_iv_history;
 
     SwipeRefreshLayout swipeRefreshLayout;
-    FrameLayout id_fl_mask;
+    protected FrameLayout id_fl_mask;
     AnimatedProgressBar progress_view;
     ImageView iv_night_toogle;
     LinearLayout ll_title;//标题布局
     LinearLayout ll_bottom;//底部布局
-    SearchEditTextView mSearchEditText;//搜索按钮
+    protected SearchEditTextView mSearchEditText;//搜索按钮
     ImageView iv_go;//前往地址
     LinearLayout id_layout_no_network;//无网络状况下显示
     LinearLayout id_layout_network_error;//网址错误的时候显示布局
 
 
     //底部导航管理
-    private MainPopupWindow mPopupWindow;
+    protected MainPopupWindow mPopupWindow;
     //webview管理
     private WebViewManager mWebViewManager;
-    private BrowserWebView mWebView;
+    protected BrowserWebView mWebView;
     //屏幕高度
     private int screentHeight;
     //夜间模式切换动画平移高度
@@ -79,6 +79,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         initView();
         initData();
@@ -115,6 +116,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
 
+        iv_go.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         iv_more.setOnClickListener(this);
         iv_home.setOnClickListener(this);
@@ -431,7 +433,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_night_toogle.setScaleY(1.0f);
                 iv_night_toogle.setVisibility(View.GONE);
                 //重新启动dmzjActivity
-                ActivityUtils.activities.get(0).recreate();
+//                ActivityUtils.activities.get(0).recreate();
                 toogleNightMode();
             }
         });

@@ -69,4 +69,13 @@
     <string name="string_cartoon_or_author">漫畫名或作者</string>
     <string name="string_more">更多</string>
 
+    <!--热门推荐-->
+    <string name="string_hot_recommend">熱門推薦</string>
+
+
+    <!--设置view的tab-->
+    <string type="id" name="string_tag_0" />
+    <string type="id" name="string_tag_1" />
+    <string type="id" name="string_tag_2" />
+
 </resources>

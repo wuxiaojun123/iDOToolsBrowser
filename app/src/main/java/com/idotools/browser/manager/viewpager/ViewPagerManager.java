@@ -74,9 +74,6 @@ public class ViewPagerManager {
             indicators = new ImageView[mBannerBeanList.size()];
 
             for (int i = 0; i < size; i++) {
-                if(i == 0){
-                    LogUtils.e("图片地址是："+mBannerBeanList.get(i).iconPath);
-                }
                 ImageView iv = new ImageView(mContext);
                 GlideUtils.loadGifOrNormalImage(mContext, mBannerBeanList.get(i).iconPath, iv);
 

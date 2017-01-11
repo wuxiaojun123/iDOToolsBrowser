@@ -39,19 +39,23 @@
                 android:orientation="vertical">
 
                 <include
+                    android:id="@+id/item_dmzj_1"
                     layout="@layout/item_dmzj_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <include
+                    android:id="@+id/item_dmzj_2"
                     layout="@layout/item_dmzj_header2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_dmzj_1" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/id_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_dmzj_2" />
 
             </LinearLayout>
 

@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':app_video_lol'
 include ':library_getui'
 include ':testjava'
 include ':browser_demo'

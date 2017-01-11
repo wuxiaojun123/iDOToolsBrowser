@@ -14,6 +14,7 @@
       <root url="jar://$USER_HOME$/adt-bundle-linux-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-core-utils/24.2.0/support-core-utils-24.2.0-sources.jar!/" />
       <root url="jar://$USER_HOME$/adt-bundle-linux-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-core-utils/24.2.0/support-core-utils-24.2.0-sources.jar!/" />
       <root url="jar://$USER_HOME$/adt-bundle-linux-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-core-utils/24.2.0/support-core-utils-24.2.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/adt-bundle-linux-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-core-utils/24.2.0/support-core-utils-24.2.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

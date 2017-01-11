@@ -1,12 +1,13 @@
 package com.idotools.browser.manager.http;
 
 import com.idotools.browser.bean.BannerResp;
-import com.idotools.browser.bean.DmzjBean;
+import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.minterface.APIService;
 import com.idotools.browser.minterface.OnLoadBannerDataListener;
 import com.idotools.browser.minterface.OnLoadDmzjHotDataListener;
 import com.idotools.browser.minterface.OnLoadDmzjUpdateDataListener;
 import com.idotools.browser.utils.Constant;
+import com.idotools.utils.LogUtils;
 
 import java.util.List;
 
@@ -82,17 +83,17 @@ public class AppHttpClient {
         Retrofit mRetrofit = new Retrofit.Builder().baseUrl(Constant.PATH_BASE_DMZJ).addConverterFactory(GsonConverterFactory.create()).build();
         APIService apiService = mRetrofit.create(APIService.class);
         //update 表示最新，hot表示最热
-        Call<List<DmzjBean>> dmzjBeanList = apiService.getDmzjUpdateBeanList(Constant.DMZJ_TOKEN, Constant.DMZJ_TYPE_UPDATE, page, num);
-        dmzjBeanList.enqueue(new Callback<List<DmzjBean>>() {
+        Call<DmzjBeanResp> dmzjBeanResp = apiService.getDmzjUpdateBeanList(Constant.DMZJ_TOKEN, Constant.DMZJ_TYPE_UPDATE, page, num);
+        dmzjBeanResp.enqueue(new Callback<DmzjBeanResp>() {
             @Override
-            public void onResponse(Call<List<DmzjBean>> call, Response<List<DmzjBean>> response) {
+            public void onResponse(Call<DmzjBeanResp> call, Response<DmzjBeanResp> response) {
                 if (response.isSuccessful()) {
                     loadDmzhUpdateDataFailedListener(response.body(), true);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<DmzjBean>> call, Throwable t) {
+            public void onFailure(Call<DmzjBeanResp> call, Throwable t) {
                 t.printStackTrace();
                 loadDmzhUpdateDataFailedListener(null, false);
             }
@@ -101,34 +102,34 @@ public class AppHttpClient {
 
     private OnLoadDmzjUpdateDataListener mOnLoadDmzjDataListener;
 
-    public void setOnLoadDmzjDataListener(OnLoadDmzjUpdateDataListener listener) {
+    public void setOnLoadDmzjUpdateDataListener(OnLoadDmzjUpdateDataListener listener) {
         this.mOnLoadDmzjDataListener = listener;
     }
 
-    private void loadDmzhUpdateDataFailedListener(List<DmzjBean> cons, boolean result) {
+    private void loadDmzhUpdateDataFailedListener(DmzjBeanResp resp, boolean result) {
         if (mOnLoadDmzjDataListener != null) {
             if (result)
-                mOnLoadDmzjDataListener.loadDmzjDataSuccessListener(cons);
+                mOnLoadDmzjDataListener.loadDmzjDataSuccessListener(resp);
             else
                 mOnLoadDmzjDataListener.loadDmzjDataFailedListener();
         }
     }
 
-    public void requestDmzjHotBeanList(){
+    public void requestDmzjHotBeanList(int page,int num){
         Retrofit mRetrofit = new Retrofit.Builder().baseUrl(Constant.PATH_BASE_DMZJ).addConverterFactory(GsonConverterFactory.create()).build();
         APIService apiService = mRetrofit.create(APIService.class);
         //update 表示最新，hot表示最热
-        Call<List<DmzjBean>> dmzjBeanList = apiService.getDmzjHotBeanList(Constant.DMZJ_TOKEN, Constant.DMZJ_TYPE_HOT, 1, 17);
-        dmzjBeanList.enqueue(new Callback<List<DmzjBean>>() {
+        Call<DmzjBeanResp> dmzjBeanResp = apiService.getDmzjHotBeanList(Constant.DMZJ_TOKEN, Constant.DMZJ_TYPE_HOT, page, num);
+        dmzjBeanResp.enqueue(new Callback<DmzjBeanResp>() {
             @Override
-            public void onResponse(Call<List<DmzjBean>> call, Response<List<DmzjBean>> response) {
+            public void onResponse(Call<DmzjBeanResp> call, Response<DmzjBeanResp> response) {
                 if (response.isSuccessful()) {
                     loadDmzhHotDataFailedListener(response.body(), true);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<DmzjBean>> call, Throwable t) {
+            public void onFailure(Call<DmzjBeanResp> call, Throwable t) {
                 t.printStackTrace();
                 loadDmzhHotDataFailedListener(null, false);
             }
@@ -141,10 +142,10 @@ public class AppHttpClient {
         this.mOnLoadDmzjHotDataListener = listener;
     }
 
-    private void loadDmzhHotDataFailedListener(List<DmzjBean> cons, boolean result) {
+    private void loadDmzhHotDataFailedListener(DmzjBeanResp resp, boolean result) {
         if (mOnLoadDmzjHotDataListener != null) {
             if (result)
-                mOnLoadDmzjHotDataListener.loadDmzjDataSuccessListener(cons);
+                mOnLoadDmzjHotDataListener.loadDmzjDataSuccessListener(resp);
             else
                 mOnLoadDmzjHotDataListener.loadDmzjDataFailedListener();
         }

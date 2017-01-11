@@ -150,12 +150,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         swipeRefreshLayout.addView(mWebView, new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
         Intent mIntent = getIntent();
         String url = mIntent.getStringExtra("url");
-        /*if (TextUtils.isEmpty(url)) {
+        if (TextUtils.isEmpty(url)) {
             loadUrl(Constant.PATH);
         } else {
             loadUrl(url);
-        }*/
-        loadUrl("http://m.dmzj.com/info/kuailehahajing.html");
+        }
+//        loadUrl("http://m.dmzj.com/info/kuailehahajing.html");
         imgUrl = mIntent.getStringExtra("imgUrl");
         if (!TextUtils.isEmpty(imgUrl)) {
             String title = mIntent.getStringExtra("title");

@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:orientation="horizontal">
 
         <TextView
@@ -20,12 +20,15 @@
 
 
         <TextView
+            android:id="@+id/tv_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/img_more"
             android:gravity="center_vertical|right"
-            android:paddingRight="11dp"
             android:text="@string/string_more"
-            android:textColor="@color/color_black"
+            android:textColor="@color/color_main_title"
             android:textSize="@dimen/dimen_text_16" />
     </LinearLayout>
 
@@ -39,15 +42,38 @@
         android:id="@+id/id_ll_dot_fm"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" />
+        android:layout_gravity="center"
+        android:background="@color/color_line"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <View
+        <ImageView
+            android:id="@+id/iv_fm_first"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/choose_true" />
+
+        <ImageView
+            android:id="@+id/iv_fm_second"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/choose_false" />
+
+        <ImageView
+            android:id="@+id/iv_fm_third"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/choose_false" />
+
+    </LinearLayout>
+
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/color_line" />
+        android:background="@color/color_line" />-->
 
     <TextView
         android:layout_width="match_parent"

@@ -51,13 +51,19 @@
         <activity
             android:name="com.idotools.browser.activity.DmzjActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/style_splash">
+            android:theme="@style/style_BaseAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.DmzjHotActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/style_splash"
+            />
 
         <activity
             android:name="com.idotools.browser.activity.MainActivity"

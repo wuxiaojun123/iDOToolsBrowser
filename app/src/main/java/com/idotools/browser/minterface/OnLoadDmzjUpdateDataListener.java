@@ -1,6 +1,6 @@
 package com.idotools.browser.minterface;
 
-import com.idotools.browser.bean.DmzjBean;
+import com.idotools.browser.bean.DmzjBeanResp;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ public interface OnLoadDmzjUpdateDataListener {
     /***
      * 获取数据成功，list为返回数据
      *
-     * @param list
+     * @param resp
      */
-    void loadDmzjDataSuccessListener(List<DmzjBean> list);
+    void loadDmzjDataSuccessListener(DmzjBeanResp resp);
 
     /***
      * 加载数据失败
