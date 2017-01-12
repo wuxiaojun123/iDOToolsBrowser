@@ -3,7 +3,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:fillViewport="true">
 
     <include
@@ -27,39 +27,10 @@
         android:layout_height="match_parent"
         android:layout_below="@id/id_layout_title">
 
-        <ScrollView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/id_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include
-                    android:id="@+id/item_dmzj_1"
-                    layout="@layout/item_dmzj_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <include
-                    android:id="@+id/item_dmzj_2"
-                    layout="@layout/item_dmzj_header2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/item_dmzj_1" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/id_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/item_dmzj_2" />
-
-            </LinearLayout>
-
-        </ScrollView>
+            android:layout_height="wrap_content" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

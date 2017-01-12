@@ -1,6 +1,5 @@
 <resources>
 
-    <!--<string name="string_night_mode">日间模式</string>-->
 
     <!--点击背景变深色-->
     <drawable name="color_normal">#474747</drawable>

@@ -1,6 +1,8 @@
 package com.idotools.browser.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +16,19 @@ import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
 import com.facebook.ads.NativeAd;
 import com.idotools.browser.R;
+import com.idotools.browser.activity.DmzjActivity;
+import com.idotools.browser.activity.DmzjHotActivity;
 import com.idotools.browser.adapter.viewHolder.DmzjViewHolder;
 import com.idotools.browser.adapter.viewHolder.DmzjViewHolderTypeAd;
 import com.idotools.browser.adapter.viewHolder.FooterViewHolder;
 import com.idotools.browser.adapter.viewHolder.Header2ViewHolder;
+import com.idotools.browser.adapter.viewHolder.HeaderViewHolder;
+import com.idotools.browser.bean.BannerResp;
 import com.idotools.browser.bean.DmzjBeanResp;
+import com.idotools.browser.manager.viewpager.FragmentViewPagerManger;
+import com.idotools.browser.manager.viewpager.ViewPagerManager;
 import com.idotools.browser.minterface.OnItemClickListener;
+import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.Constant;
 import com.idotools.utils.LogUtils;
 
@@ -35,6 +44,8 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int LOAD_MORE_NO = 2;//没有更多
     public static final int LOAD_MORE_LOADING = 0;//正在加载
     public static final int LOAD_MORE_COMPILE = 1;//加载完成
+    private static final int VIEW_TYPE_HEADER1 = 9998;//表示当前view类型为正常viewType
+    private static final int VIEW_TYPE_HEADER2 = 9999;//表示当前view类型为正常viewType
     private static final int VIEW_TYPE_NORMAL = 10000;//表示当前view类型为正常viewType
     private static final int VIEW_TYPE_FOOTER = 10001;//表示当前view类型是footerView
     private static final int VIEW_TYPE_AD = 19999;//当前类型是10005
@@ -48,6 +59,18 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private String briefIntroductionStr;//简介
     private OnItemClickListener mOnItemClickListener;
 
+    private View headView1;//head view 1
+    private View headView2;//head view 2
+
+    // viewpager banner head1
+    private ViewPagerManager mBannerViewPagerManager;
+    private List<BannerResp.BannerBean> mBannerBeanList;
+
+    // viewpager fragment head2
+    private FragmentManager mFragmentManager;
+    private FragmentViewPagerManger mFragmentVPManager;
+
+
     private HashMap<String, NativeAd> nativeAdHashMap = new HashMap<>();
     private HashMap<String, List<View>> mNativeClickViewMap = new HashMap<>();
     private HashMap<String, AdChoicesView> mNativeAdChoicesMap = new HashMap<>();
@@ -57,6 +80,8 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mContext = context;
         this.inflater = LayoutInflater.from(context);
         this.mList = list;
+        headView1 = inflater.inflate(R.layout.item_dmzj_header, null);
+        headView2 = inflater.inflate(R.layout.item_dmzj_header2, null);
         classificationStr = context.getString(R.string.string_classification) + ":";
         briefIntroductionStr = context.getString(R.string.string_brief_introduction) + ":";
     }
@@ -65,6 +90,10 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_FOOTER) {
             return new FooterViewHolder(footerView);
+        } else if (viewType == VIEW_TYPE_HEADER1) {
+            return new HeaderViewHolder(headView1);
+        } else if (viewType == VIEW_TYPE_HEADER2) {
+            return new Header2ViewHolder(headView2);
         } else if (viewType == VIEW_TYPE_AD) {
             return new DmzjViewHolderTypeAd(inflater.inflate(R.layout.item_dmzj_native_ad, null));
         }
@@ -72,61 +101,121 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position < (getItemCount() - 1)) {
+        if (holder instanceof DmzjViewHolder) {
             //设置图片
+            position = position - 2;
             final DmzjBeanResp.DmzjBean bean = mList.get(position);
             if (bean != null) {
                 DmzjViewHolder dmzjViewHolder = (DmzjViewHolder) holder;
-                //设置图片 android:background="@mipmap/img_default"
-                glideLoadImg(bean.cover, dmzjViewHolder.id_iv_img);
-                //设置信息
-                dmzjViewHolder.id_tv_title.setText(bean.title);
-                dmzjViewHolder.id_tv_tag.setText(classificationStr + getTags(bean.tags));
-                dmzjViewHolder.id_tv_description.setText(briefIntroductionStr + bean.description);
-                dmzjViewHolder.id_ll_item.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mOnItemClickListener != null) {
-                            mOnItemClickListener.onItemClickListener(bean.mobileUrl, bean.cover, bean.title);
-                        }
-                    }
-                });
+                bindDmzjViewHolder(dmzjViewHolder, bean);
             } else {
-                final DmzjViewHolderTypeAd dmzjViewHolder = (DmzjViewHolderTypeAd) holder;
-                String currentPositionStr = position + "";
+                final DmzjViewHolderTypeAd adViewHolder = (DmzjViewHolderTypeAd) holder;
+                bindNativeAdViewHolder(adViewHolder, position);
+            }
 
-                NativeAd mNativeAd = nativeAdHashMap.get(currentPositionStr);
-                if (mNativeAd == null) {//实例化广告
-                    synchronized ("loadAd") {
-                        mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID);
-                        mNativeAd.setAdListener(new NativeAdListener(dmzjViewHolder, mNativeAd, currentPositionStr));
-                        mNativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
-                        nativeAdHashMap.put(currentPositionStr, mNativeAd);
-                    }
-                } else {
-                    //设置view上的内容
-                    setNativeAdView(dmzjViewHolder, mNativeAd, currentPositionStr);
+        } else if (holder instanceof Header2ViewHolder) {
+            //第二个head
+            Header2ViewHolder mHeaderViewHolder2 = (Header2ViewHolder) holder;
+            bindHeadViewHolder2(mHeaderViewHolder2);
+
+        } else if (holder instanceof HeaderViewHolder) {
+            //第一个head
+            HeaderViewHolder mHeaderViewHolder1 = (HeaderViewHolder) holder;
+            initBannerAdapter(mHeaderViewHolder1);
+
+        } else if (holder instanceof FooterViewHolder) {
+            FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
+            bindFooterViewHolder(footerViewHolder);
+        }
+    }
+
+
+    private void bindHeadViewHolder2(Header2ViewHolder mHeaderViewHolder2) {
+        if (mFragmentVPManager == null) {
+            mFragmentVPManager = new FragmentViewPagerManger(mHeaderViewHolder2.vp_fragment,
+                    mHeaderViewHolder2.iv_fm_first, mHeaderViewHolder2.iv_fm_second,
+                    mHeaderViewHolder2.iv_fm_third, mFragmentManager);
+            mFragmentVPManager.initFragment();
+            mFragmentVPManager.setTextMoreClickListener(mHeaderViewHolder2.tv_more, mContext);
+        }
+    }
+
+    /***
+     * 初始化banner
+     */
+    private void initBannerAdapter(HeaderViewHolder mHeaderViewHolder) {
+        if (mBannerViewPagerManager == null) {
+            mBannerViewPagerManager = new ViewPagerManager(mContext,
+                    mHeaderViewHolder.id_viewpager, mHeaderViewHolder.id_ll_dot,
+                    mHeaderViewHolder.id_iv_one, mBannerBeanList, mOnItemClickListener);
+        } else {
+            mBannerViewPagerManager.refreshAdapter(mBannerBeanList);
+        }
+        mBannerViewPagerManager.initViewPager();
+    }
+
+
+    private void bindDmzjViewHolder(DmzjViewHolder dmzjViewHolder, final DmzjBeanResp.DmzjBean bean) {
+        //设置图片 android:background="@mipmap/img_default"
+        glideLoadImg(bean.cover, dmzjViewHolder.id_iv_img);
+        //设置信息
+        dmzjViewHolder.id_tv_title.setText(bean.title);
+        dmzjViewHolder.id_tv_tag.setText(classificationStr + getTags(bean.tags));
+        dmzjViewHolder.id_tv_description.setText(briefIntroductionStr + bean.description);
+        dmzjViewHolder.id_ll_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClickListener(bean.mobileUrl, bean.cover, bean.title);
                 }
             }
-        } else {//加载更多
-            FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
-            switch (status_add_more) {
-                case LOAD_MORE_LOADING:
-                    footerViewHolder.progressBar.showNow();
-                    footerViewHolder.id_ll_footer.setVisibility(View.VISIBLE);
-                    break;
-                case LOAD_MORE_COMPILE:
-                    footerViewHolder.progressBar.hideNow();
-                    footerViewHolder.id_ll_footer.setVisibility(View.GONE);
-                    break;
-                case LOAD_MORE_NO:
-                    footerViewHolder.progressBar.hideNow();
-                    footerViewHolder.id_ll_footer.setVisibility(View.GONE);
-                    break;
+        });
+    }
+
+    /***
+     * 绑定广告view
+     *
+     * @param dmzjViewHolder
+     * @param position
+     */
+    private void bindNativeAdViewHolder(DmzjViewHolderTypeAd dmzjViewHolder, int position) {
+        String currentPositionStr = position + "";
+
+        NativeAd mNativeAd = nativeAdHashMap.get(currentPositionStr);
+        if (mNativeAd == null) {//实例化广告
+            synchronized ("loadAd") {
+                mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID);
+                mNativeAd.setAdListener(new NativeAdListener(dmzjViewHolder, mNativeAd, currentPositionStr));
+                mNativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
+                nativeAdHashMap.put(currentPositionStr, mNativeAd);
             }
+        } else {
+            //设置view上的内容
+            setNativeAdView(dmzjViewHolder, mNativeAd, currentPositionStr);
+        }
+    }
+
+    /***
+     * 绑定footerViewHolder
+     *
+     * @param footerViewHolder
+     */
+    private void bindFooterViewHolder(FooterViewHolder footerViewHolder) {
+        switch (status_add_more) {
+            case LOAD_MORE_LOADING:
+                footerViewHolder.progressBar.showNow();
+                footerViewHolder.id_ll_footer.setVisibility(View.VISIBLE);
+                break;
+            case LOAD_MORE_COMPILE:
+                footerViewHolder.progressBar.hideNow();
+                footerViewHolder.id_ll_footer.setVisibility(View.GONE);
+                break;
+            case LOAD_MORE_NO:
+                footerViewHolder.progressBar.hideNow();
+                footerViewHolder.id_ll_footer.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -207,15 +296,15 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private String getTags(String[] tags){
+    private String getTags(String[] tags) {
         String str = null;
-        if(tags != null && tags.length > 0){
+        if (tags != null && tags.length > 0) {
             StringBuilder sb = new StringBuilder();
             int length = tags.length;
-            for (int i=0;i < length;i++){
-                sb.append(tags[i]+",");
+            for (int i = 0; i < length; i++) {
+                sb.append(tags[i] + ",");
             }
-            str = sb.substring(0,sb.length()-1);
+            str = sb.substring(0, sb.length() - 1);
         }
         return str;
     }
@@ -255,21 +344,24 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        //减3是因为加载更多需要一个显示
-        return mList.size();
+        return mList.size() + 2;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (isFooterPosition(position)) {
             return VIEW_TYPE_FOOTER;
+        } else if (position == 0) {
+            return VIEW_TYPE_HEADER1;
+        } else if (position == 1) {
+            return VIEW_TYPE_HEADER2;
         } else {
             return judgmentType(position);
         }
     }
 
     private int judgmentType(int position) {
-        if (mList.get(position) != null) {
+        if (mList.get(position - 2) != null) {
             return VIEW_TYPE_NORMAL;
         } else {
             return VIEW_TYPE_AD;
@@ -324,12 +416,27 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     /***
-     * 设置尾部view
+     * 设置fragment里面的数据
      *
-     * @param footerView
+     * @param list
      */
+    public void setHeadView2Data(List<DmzjBeanResp.DmzjBean> list) {
+        if (mFragmentVPManager != null) {
+            mFragmentVPManager.setFragmentDmzjBeanList(list);
+            notifyDataSetChanged();
+        }
+    }
+
     public void setFooterView(View footerView) {
         this.footerView = footerView;
+    }
+
+    public void setBannerBeanList(List<BannerResp.BannerBean> list) {
+        this.mBannerBeanList = list;
+    }
+
+    public void setFragmentManager(FragmentManager fm) {
+        this.mFragmentManager = fm;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

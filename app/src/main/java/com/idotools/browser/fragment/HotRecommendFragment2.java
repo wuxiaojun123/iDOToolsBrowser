@@ -14,7 +14,6 @@ import com.idotools.browser.R;
 import com.idotools.browser.activity.MainActivity;
 import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.event.DmzjListEvent;
-import com.idotools.browser.manager.eventbus.RxBus;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.GlideUtils;
 import com.idotools.utils.LogUtils;
@@ -24,8 +23,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
-import rx.functions.Action1;
 
 /**
  * Created by wuxiaojun on 17-1-11.
@@ -69,7 +66,6 @@ public class HotRecommendFragment2 extends BaseFragment implements View.OnClickL
     private int currentPage;
     private boolean isShowAd;
     private List<DmzjBeanResp.DmzjBean> mDmzjList;
-    private Subscription subscribe;
 
     private synchronized void bindViewData() {
         if (mDmzjList != null && !mDmzjList.isEmpty()) {
@@ -140,13 +136,6 @@ public class HotRecommendFragment2 extends BaseFragment implements View.OnClickL
         ButterKnife.bind(this, view);
         LogUtils.e("img_srx 是否为空=" + image_six);
 
-        subscribe = RxBus.getDefault().toObservable(DmzjListEvent.class).subscribe(new Action1<DmzjListEvent>() {
-            @Override
-            public void call(DmzjListEvent dmzjListEvent) {
-                LogUtils.e("获取到数据：" + dmzjListEvent.getDmzjList().size());
-            }
-        });
-
         return view;
     }
 
@@ -214,8 +203,5 @@ public class HotRecommendFragment2 extends BaseFragment implements View.OnClickL
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (!subscribe.isUnsubscribed()) {
-            subscribe.unsubscribe();
-        }
     }
 }

@@ -98,8 +98,8 @@ dependencies {
     compile project(":library_getui")
     //compile 'com.android.support:support-v4:19.1.0'
     //rxjava和retrofit框架
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.6'
+//    compile 'io.reactivex:rxandroid:1.2.1'
+//    compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     //这是添加retrofit对rxjava的支持

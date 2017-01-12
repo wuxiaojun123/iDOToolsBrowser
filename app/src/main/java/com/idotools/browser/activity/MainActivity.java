@@ -192,7 +192,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.id_iv_home:
                 isPopupShowing();
                 //回到native的首页
-                startActivity(new Intent(MainActivity.this, DmzjActivity.class));
+                finish();
                 ActivitySlideAnim.slideOutAnim(MainActivity.this);
                 /*if (mWebViewManager != null && !mWebViewManager.getCurrentUrl().equals(Constant.PATH)) {
                     goHomePage();
@@ -570,7 +570,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         }
                     }
                 }
-                if(ll_ad_container.getVisibility() == View.VISIBLE){
+                if (ll_ad_container.getVisibility() == View.VISIBLE) {
                     ll_ad_container.setVisibility(View.GONE);
                 }
             }

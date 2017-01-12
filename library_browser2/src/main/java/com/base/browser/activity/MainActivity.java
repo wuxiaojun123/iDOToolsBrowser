@@ -180,9 +180,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             /*Intent mIntent = new Intent();
             mIntent.setClassName(MainActivity.this,className);
             startActivity(mIntent);*/
-            finish();
-
-            ActivitySlideAnim.slideOutAnim(MainActivity.this);
+//            finish();
+//            ActivitySlideAnim.slideOutAnim(MainActivity.this);
+            loadUrl("http://wp.cgameclub.com/category/mvideo/");
 
         } else if (id == R.id.id_iv_refresh) {
             isPopupShowing();

@@ -27,7 +27,6 @@ import com.idotools.browser.activity.MainActivity;
 import com.idotools.browser.adapter.DmzjRecyclerAdapter;
 import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.event.DmzjListEvent;
-import com.idotools.browser.manager.eventbus.RxBus;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.Constant;
 import com.idotools.browser.utils.GlideUtils;
@@ -39,8 +38,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
-import rx.functions.Action1;
 
 /**
  * Created by wuxiaojun on 17-1-10.

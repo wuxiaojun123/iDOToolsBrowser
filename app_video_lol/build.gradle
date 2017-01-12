@@ -6,7 +6,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.gp.browser.video.lol"
+        applicationId "com.gpt.browser.video.lol"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
@@ -63,15 +63,15 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
 //    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'//这是添加retrofit对rxjava的支持
 
-    compile 'com.google.firebase:firebase-ads:10.0.1'//google admob广告
-    compile 'com.google.firebase:firebase-core:10.0.1' //google firebase 统计
+//    compile 'com.google.firebase:firebase-ads:10.0.1'//google admob广告
+//    compile 'com.google.firebase:firebase-core:10.0.1' //google firebase 统计
 //    compile 'com.google.firebase:firebase-analytics:10.0.1'
-    compile 'com.google.firebase:firebase-messaging:10.0.1'
+//    compile 'com.google.firebase:firebase-messaging:10.0.1'
     //facebooke广告
-    compile 'com.facebook.android:audience-network-sdk:4.+'
+//    compile 'com.facebook.android:audience-network-sdk:4.+'
     //依赖browserLibrary2
     compile project(':library_browser2')
 
 }
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'
 

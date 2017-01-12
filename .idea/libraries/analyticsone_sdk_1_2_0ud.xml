@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="analyticsone-sdk-1.2.0ud">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/library_analyticsone/libs/analyticsone-sdk-1.2.0ud.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

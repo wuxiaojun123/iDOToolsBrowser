@@ -1,8 +1,12 @@
 package com.idotools.browser.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +14,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.idotools.browser.R;
@@ -23,10 +29,7 @@ import com.idotools.browser.bean.BannerResp;
 import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.fragment.BaseFragment;
 import com.idotools.browser.fragment.HotRecommendFragment;
-import com.idotools.browser.fragment.HotRecommendFragment2;
-import com.idotools.browser.fragment.HotRecommendFragment3;
 import com.idotools.browser.manager.FullyLinearLayoutManager;
-import com.idotools.browser.manager.eventbus.RxBus;
 import com.idotools.browser.manager.http.AppHttpClient;
 import com.idotools.browser.manager.viewpager.ViewPagerManager;
 import com.idotools.browser.minterface.OnItemClickListener;
@@ -65,27 +68,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @BindView(R.id.id_swiperefresh)
     SwipeRefreshLayout id_swiperefresh;
 
-    // banner布局
-    @BindView(R.id.id_viewpager)
-    ViewPager vp_banner;
-    @BindView(R.id.id_ll_dot)
-    LinearLayout id_ll_dot;
-    @BindView(R.id.id_iv_one)
-    ImageView id_iv_one;
-
-    @BindView(R.id.tv_more)
-    TextView tv_more;
-    @BindView(R.id.id_viewpager_fm)
-    ViewPager vp_fragment;
-    //@BindView(R.id.id_ll_dot_fm)
-    //LinearLayout ll_dot_fm;
-    @BindView(R.id.iv_fm_first)
-    ImageView iv_fm_first;
-    @BindView(R.id.iv_fm_second)
-    ImageView iv_fm_second;
-    @BindView(R.id.iv_fm_third)
-    ImageView iv_fm_third;
-
     @BindView(R.id.id_recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.id_return_to_top)
@@ -100,17 +82,9 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private List<DmzjBeanResp.DmzjBean> mDmzjBeanList;
     private AppHttpClient mAppHttpClient;//网络请求业务类
     private DmzjRecyclerAdapter mDmzjAdapter;
-    private FullyLinearLayoutManager mLinearLayoutManager;
+    private LinearLayoutManager mLinearLayoutManager;
 
-    private ViewPagerManager mViewPagerManager;//banner viewpager管理类
-    private List<BannerResp.BannerBean> mBannerBeanList;//viewpager图片的集合
-
-    private List<BaseFragment> fragmentList;
-    private HotRecommendFragment mFirstFragment;
-    private HotRecommendFragment mSecondFragment;
-    private HotRecommendFragment mThirdFragment;
-    private DmzjFragmentPagerAdapter mDmzjPagerAdapter;
-
+    private List<BannerResp.BannerBean> mBannerBeanList;//banner list
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +116,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             if (mBannerBeanList == null)
                 id_layout_no_network.setVisibility(View.VISIBLE);
         }
-        initFragment();
     }
 
     /***
@@ -155,7 +128,8 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             @Override
             public void loadBannerDataSuccessListener(List<BannerResp.BannerBean> list) {
                 if (list != null && !list.isEmpty()) {
-                    initBannerAdapter(list);
+                    mBannerBeanList = list;
+                    mDmzjAdapter.setBannerBeanList(mBannerBeanList);
                     //将最新数据保存到file中
                     FileUtils.saveFile(mContext, Constant.FILE_BANNER, JsonUtils.toJsonFromList(list));
                 }
@@ -216,7 +190,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public void loadDmzjDataSuccessListener(DmzjBeanResp resp) {
                 //拉取热门的数据
                 FileUtils.saveFile(mContext, Constant.FILE_HOT_DATA, JsonUtils.toJsonFromList(resp.comics));
-                setFragmentDmzjBeanList(resp.comics);
+                mDmzjAdapter.setHeadView2Data(resp.comics);
             }
 
             @Override
@@ -224,69 +198,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         });
     }
-
-    private void setFragmentDmzjBeanList(List<DmzjBeanResp.DmzjBean> list) {
-        List<DmzjBeanResp.DmzjBean> mFirstDmzjList = new ArrayList<>();
-        if (mFirstDmzjList == null) {
-            mFirstDmzjList = new ArrayList<>();
-        } else {
-            mFirstDmzjList.clear();
-        }
-        for (int i = 0; i < 5; i++) {
-            if (list.get(i) != null) {
-                mFirstDmzjList.add(list.get(i));
-            }
-        }
-        mFirstFragment.setDmzjList(mFirstDmzjList);
-
-        List<DmzjBeanResp.DmzjBean> mSecondDmzjList = new ArrayList<>();
-        if (mSecondDmzjList == null) {
-            mSecondDmzjList = new ArrayList<>();
-        } else {
-            mSecondDmzjList.clear();
-        }
-        for (int i = 5; i < 11; i++) {
-            if (list.get(i) != null) {
-                mSecondDmzjList.add(list.get(i));
-            }
-        }
-        mSecondFragment.setDmzjList(mSecondDmzjList);
-
-        List<DmzjBeanResp.DmzjBean> mThirdDmzjList = new ArrayList<>();
-        if (mThirdDmzjList == null) {
-            mThirdDmzjList = new ArrayList<>();
-        } else {
-            mThirdDmzjList.clear();
-        }
-        int size = list.size();
-        for (int i = 11; i < size; i++) {
-            if (list.get(i) != null) {
-                mThirdDmzjList.add(list.get(i));
-            }
-        }
-        mThirdFragment.setDmzjList(mThirdDmzjList);
-    }
-
-    private void initFragment() {
-        fragmentList = new ArrayList<>();
-        mFirstFragment = new HotRecommendFragment();
-        Bundle mBundle = new Bundle();
-        mBundle.putBoolean("isShowAd", true);
-        mFirstFragment.setArguments(mBundle);
-        mSecondFragment = new HotRecommendFragment();
-
-        mThirdFragment = new HotRecommendFragment();
-
-        fragmentList.add(mFirstFragment);
-        fragmentList.add(mSecondFragment);
-        fragmentList.add(mThirdFragment);
-
-        vp_fragment.setOffscreenPageLimit(3);
-
-        mDmzjPagerAdapter = new DmzjFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
-        vp_fragment.setAdapter(mDmzjPagerAdapter);
-    }
-
 
     /***
      * 使用缓存数据
@@ -297,7 +208,8 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             if (!TextUtils.isEmpty(bannerData)) {
                 List<BannerResp.BannerBean> list = JsonUtils.fromJsonArray(bannerData, BannerResp.BannerBean.class);
                 if (list != null && !list.isEmpty()) {
-                    initBannerAdapter(list);
+                    mBannerBeanList = list;
+                    mDmzjAdapter.setBannerBeanList(mBannerBeanList);
                 }
             }
             String mainData = FileUtils.readFile(mContext, Constant.FILE_UPDATE_DATA);
@@ -321,7 +233,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         toogleNightMode();
         initRecycler();
         initScrollListener();
-        initViewPagerChangeListener();
         id_swiperefresh.setColorSchemeResources(R.color.color_main_title);
         id_swiperefresh.setOnRefreshListener(this);
         mSearchEditText.setFrameLayout(id_fl_mask);
@@ -333,40 +244,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         });
     }
 
-    private void initViewPagerChangeListener() {
-        vp_fragment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                setSelectedDot(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-
-    }
-
-    private void setSelectedDot(int position) {
-        if (position == 0) {
-            iv_fm_first.setImageResource(R.mipmap.choose_true);
-            iv_fm_second.setImageResource(R.mipmap.choose_false);
-            iv_fm_third.setImageResource(R.mipmap.choose_false);
-        } else if (position == 1) {
-            iv_fm_first.setImageResource(R.mipmap.choose_false);
-            iv_fm_second.setImageResource(R.mipmap.choose_true);
-            iv_fm_third.setImageResource(R.mipmap.choose_false);
-        } else {
-            iv_fm_first.setImageResource(R.mipmap.choose_false);
-            iv_fm_second.setImageResource(R.mipmap.choose_false);
-            iv_fm_third.setImageResource(R.mipmap.choose_true);
-        }
-    }
-
     private void toogleNightMode() {
         boolean modeNight = SharedPreferencesHelper.getInstance(mContext).getBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, false);
         if (!modeNight) {
@@ -376,15 +253,18 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
 
+
     /**
      * 初始化recyclerView
      */
     private void initRecycler() {
-        mLinearLayoutManager = new FullyLinearLayoutManager(this);
+        mLinearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLinearLayoutManager);
+//        recyclerView.setHasFixedSize(true);
         mDmzjBeanList = new ArrayList<>();
         mDmzjAdapter = new DmzjRecyclerAdapter(this, mDmzjBeanList);
         mDmzjAdapter.setFooterView(LayoutInflater.from(mContext).inflate(R.layout.layout_footer, recyclerView, false));
+        mDmzjAdapter.setFragmentManager(getSupportFragmentManager());
         recyclerView.setAdapter(mDmzjAdapter);
         mDmzjAdapter.setOnItemClickListener(this);
     }
@@ -393,16 +273,12 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      * 添加滑动事件的监听，以便可以出现加载更多
      */
     private void initScrollListener() {
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-                LogUtils.e("(lastVisiblePosition + 1) == mDmzjAdapter.getItemCount()=" + ((lastVisiblePosition + 1) == mDmzjAdapter.getItemCount()));
-                LogUtils.e("newState状态是： " + newState);
-
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && (lastVisiblePosition + 1) == mDmzjAdapter.getItemCount()) {
                     if (JudgeNetWork.isNetAvailable(mContext)) {
-                        LogUtils.e("加载更多" + page);
                         mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_LOADING);
                         page += 1;
                         loadUpdateData(page, true);
@@ -414,9 +290,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
                 lastVisiblePosition = mLinearLayoutManager.findLastVisibleItemPosition();
-                LogUtils.e("可见的条目是:" + lastVisiblePosition);
                 if (lastVisiblePosition > 8) {
                     id_return_to_top.setVisibility(View.VISIBLE);
                 } else {
@@ -442,7 +316,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
 
-    @OnClick({R.id.id_iv_go, R.id.id_return_to_top, R.id.id_iv_history, R.id.tv_more})
+    @OnClick({R.id.id_iv_go, R.id.id_return_to_top, R.id.id_iv_history})
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -465,12 +339,11 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 ActivitySlideAnim.slideInAnim(DmzjActivity.this);
 
                 break;
-            case R.id.tv_more:
+            /*case R.id.tv_more:
                 //更多
                 startActivity(new Intent(DmzjActivity.this, DmzjHotActivity.class));
                 ActivitySlideAnim.slideInAnim(DmzjActivity.this);
-
-                break;
+                break;*/
         }
     }
 
@@ -520,21 +393,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
 
-    /***
-     * 初始化banner
-     *
-     * @param list
-     */
-    private void initBannerAdapter(List<BannerResp.BannerBean> list) {
-        this.mBannerBeanList = list;
-        if (mViewPagerManager == null) {
-            mViewPagerManager = new ViewPagerManager(mContext, vp_banner, id_ll_dot, id_iv_one, mBannerBeanList, this);
-        } else {
-            mViewPagerManager.refreshAdapter(mBannerBeanList);
-        }
-        mViewPagerManager.initViewPager();
-    }
-
     @Override
     protected void onNewIntent(Intent intent) {
         String url = intent.getStringExtra("url");
@@ -571,9 +429,9 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     protected void onDestroy() {
-        if (mDmzjAdapter != null && mViewPagerManager != null) {
+        /*if (mDmzjAdapter != null && mViewPagerManager != null) {
             mViewPagerManager.destroyViewPager();
-        }
+        }*/
         super.onDestroy();
     }
 

@@ -1,6 +1,4 @@
 <resources>
-    <!--<string name="app_name">GifTube</string>-->
-    <!--<string name="string_main_title">GIF Browser</string>-->
     <string name="string_clean_success">Clear finish</string>
     
     <string name="string_praise">Rate us</string>
