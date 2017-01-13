@@ -1,4 +1,4 @@
-package com.gpt.browser.video.lol.activity;
+package com.gpt.browser.video.tools.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.base.browser.utils.ActivitySlideAnim;
-import com.gpt.browser.video.lol.R;
+import com.gpt.browser.video.tools.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

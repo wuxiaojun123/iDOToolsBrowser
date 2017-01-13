@@ -1,9 +1,9 @@
-package com.gpt.browser.video.lol.activity;
+package com.gpt.browser.video.tools.activity;
 
 import android.os.Bundle;
 import android.view.View;
 
-import com.gpt.browser.video.lol.R;
+import com.gpt.browser.video.tools.R;
 import com.idotools.utils.ToastUtils;
 
 /**

@@ -20,6 +20,7 @@ import com.idotools.browser.adapter.viewHolder.FooterViewHolder;
 import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.minterface.OnItemClickListener;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -203,6 +204,7 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Override
         public void onAdClicked(Ad ad) {
             // Ad clicked callback
+            DoAnalyticsManager.event(mContext,DoAnalyticsManager.DOT_KEY_ACTIVITY_HOT_AD_CLICK);
         }
     }
 

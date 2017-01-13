@@ -1,4 +1,4 @@
-package com.gpt.browser.video.lol.view.drawable;
+package com.gpt.browser.video.tools.view.drawable;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;

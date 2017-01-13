@@ -1,4 +1,4 @@
-package com.gpt.browser.video.lol.view;
+package com.gpt.browser.video.tools.view;
 
 
 import android.animation.Animator;
@@ -17,7 +17,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 
 import com.base.browser.R;
-import com.gpt.browser.video.lol.view.drawable.DilatingDotDrawable;
+import com.gpt.browser.video.tools.view.drawable.DilatingDotDrawable;
 
 import java.util.ArrayList;
 import java.util.List;

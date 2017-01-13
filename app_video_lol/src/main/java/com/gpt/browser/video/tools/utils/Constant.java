@@ -1,4 +1,4 @@
-package com.gpt.browser.video.lol.utils;
+package com.gpt.browser.video.tools.utils;
 
 /**
  * Created by wuxiaojun on 16-10-2.

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.idotools.browser.minterface.OnReceivedErrorListener;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.ActivityUtils;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.WebAddress;
 import com.idotools.browser.view.AnimatedProgressBar;
 import com.idotools.browser.view.BrowserWebView;
 import com.idotools.browser.view.SearchEditTextView;
@@ -236,21 +238,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 百度搜索关键词
      */
     private void searchDmzj() {
-        String searchEditText = mSearchEditText.getText().toString().trim();
-        if (!TextUtils.isEmpty(searchEditText)) {
-            if (mWebView != null && !TextUtils.equals(searchEditText, mWebView.getUrl())) {
+        String text = mSearchEditText.getText().toString().trim();
+        if (!TextUtils.isEmpty(text)) {
+            if (mWebView != null && !TextUtils.equals(text, mWebView.getUrl())) {
                 mWebView.requestFocus();
                 showNetworkAddressErrorLayout(false);
                 showOrHiddrenLayoutNoNetwork(true);
                 InputWindowUtils.closeInputWindow(mSearchEditText, mContext);
-                if (Patterns.WEB_URL.matcher(searchEditText).matches()) {
-                    loadUrl(searchEditText);
-                } else {
-                    if (Constant.VERSION_COUNTRY_GP) {
-                        loadUrl(Constant.SEARCH_URL_DMZJ + searchEditText + ".html");
-                    } else {
-                        loadUrl(Constant.SEARCH_URL_BAIDU + searchEditText);
+
+                if (text.contains(".")) { // 包含了"."的文本，先判断是否为网址，如果不是则判断是否开头为http，如果是
+                    try {
+                        WebAddress webAddress = new WebAddress(text);
+                        loadUrl(webAddress.toString());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        loadUrl(Constant.SEARCH_URL_DMZJ + text + ".html");
                     }
+                } else {
+                    loadUrl(Constant.SEARCH_URL_DMZJ + text + ".html");
                 }
             }
         }
@@ -508,7 +513,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 如果当前地址和上一页地址不一样，则重新加载广告
      * 如果当前地址和上一页地址一样，则使用原来的广告
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void hideTitleAndBottom() {
         if (isDmzjView() && mBannerAdUtils == null) {
             mBannerAdUtils = new BannerAdUtils(mContext);
@@ -527,19 +532,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             public void onAnimationEnd(Animator animation) {
                 //显示facebook广告
                 if (isDmzjView()) {
-                    LogUtils.e("lasturl:" + lastUrl + "  mWebView.getUrl()" + mWebView.getUrl());
-                    if (!lastUrl.equals(mWebView.getUrl())) {
-                        mBannerAdUtils.loadAdView();
-                        AdView adView = mBannerAdUtils.getBannerAd();
-                        if (adView != null) {
-                            ll_ad_container.addView(adView);
-                            ll_ad_container.setVisibility(View.VISIBLE);
-                            LogUtils.e("加载新广告");
-                        }
-                    } else {
-                        if (ll_ad_container.getChildCount() > 0) {
-                            LogUtils.e("使用之前广告");
-                            ll_ad_container.setVisibility(View.VISIBLE);
+                    if(!TextUtils.isEmpty(lastUrl)){
+                        if (!lastUrl.equals(mWebView.getUrl())) {
+                            mBannerAdUtils.loadAdView();
+                            AdView adView = mBannerAdUtils.getBannerAd();
+                            if (adView != null) {
+                                ll_ad_container.addView(adView);
+                                ll_ad_container.setVisibility(View.VISIBLE);
+                                LogUtils.e("加载新广告");
+                            }
+                        } else {
+                            if (ll_ad_container.getChildCount() > 0) {
+                                LogUtils.e("使用之前广告");
+                                ll_ad_container.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                 }
@@ -548,7 +554,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void showTitleAndBottom() {
         ll_title.animate().translationY(0).setDuration(DURATION_ANIM).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

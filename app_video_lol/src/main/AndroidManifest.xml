@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gpt.browser.video.lol">
+    package="com.gpt.browser.video.tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name="com.gpt.browser.video.lol.App"
+        android:name="com.gpt.browser.video.tools.App"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
@@ -42,7 +42,7 @@
         <!--facebook广告 end-->
 
         <activity
-            android:name="com.gpt.browser.video.lol.activity.SplashActivity"
+            android:name="com.gpt.browser.video.tools.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/style_splash">
             <intent-filter>
@@ -53,7 +53,7 @@
         </activity>
 
         <activity
-            android:name="com.gpt.browser.video.lol.activity.MainActivity"
+            android:name="com.gpt.browser.video.tools.activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/style_AppTheme" />

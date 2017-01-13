@@ -17,6 +17,7 @@ import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.fragment.BaseFragment;
 import com.idotools.browser.fragment.HotRecommendFragment;
 import com.idotools.browser.utils.ActivitySlideAnim;
+import com.idotools.browser.utils.DoAnalyticsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +40,17 @@ public class FragmentViewPagerManger {
     private HotRecommendFragment mThirdFragment;
     private DmzjFragmentPagerAdapter mDmzjPagerAdapter;
     private FragmentManager mFragmentManager;
+    private Context mContext;
 
-    public FragmentViewPagerManger(ViewPager vp_fragment
-            , ImageView iv_fm_first, ImageView iv_fm_second, ImageView iv_fm_third
-            , FragmentManager mFragmentManager) {
+    public FragmentViewPagerManger(ViewPager vp_fragment, ImageView iv_fm_first,
+                                   ImageView iv_fm_second, ImageView iv_fm_third,
+                                   FragmentManager mFragmentManager,Context context) {
         this.vp_fragment = vp_fragment;
         this.iv_fm_first = iv_fm_first;
         this.iv_fm_second = iv_fm_second;
         this.iv_fm_third = iv_fm_third;
         this.mFragmentManager = mFragmentManager;
+        this.mContext = context;
     }
 
     public void setTextMoreClickListener(TextView textView, final Context context) {
@@ -57,6 +60,8 @@ public class FragmentViewPagerManger {
                 //更多
                 context.startActivity(new Intent(context, DmzjHotActivity.class));
                 ActivitySlideAnim.slideInAnim((DmzjActivity) context);
+
+                DoAnalyticsManager.event(mContext,DoAnalyticsManager.DOT_KEY_MORE_CLICK);
             }
         });
     }
@@ -83,45 +88,43 @@ public class FragmentViewPagerManger {
     }
 
     public void setFragmentDmzjBeanList(List<DmzjBeanResp.DmzjBean> list) {
-        List<DmzjBeanResp.DmzjBean> mFirstDmzjList = new ArrayList<>();
-        if (mFirstDmzjList == null) {
-            mFirstDmzjList = new ArrayList<>();
+        List<DmzjBeanResp.DmzjBean> mDmzjList = new ArrayList<>(6);
+        if (mDmzjList == null) {
+            mDmzjList = new ArrayList<>();
         } else {
-            mFirstDmzjList.clear();
+            mDmzjList.clear();
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             if (list.get(i) != null) {
-                mFirstDmzjList.add(list.get(i));
+                mDmzjList.add(list.get(i));
             }
         }
-        mFirstFragment.setDmzjList(mFirstDmzjList);
+        mFirstFragment.setDmzjList(mDmzjList);
 
-        List<DmzjBeanResp.DmzjBean> mSecondDmzjList = new ArrayList<>();
-        if (mSecondDmzjList == null) {
-            mSecondDmzjList = new ArrayList<>();
+        if (mDmzjList == null) {
+            mDmzjList = new ArrayList<>();
         } else {
-            mSecondDmzjList.clear();
+            mDmzjList.clear();
         }
-        for (int i = 5; i < 11; i++) {
+        for (int i = 6; i < 12; i++) {
             if (list.get(i) != null) {
-                mSecondDmzjList.add(list.get(i));
+                mDmzjList.add(list.get(i));
             }
         }
-        mSecondFragment.setDmzjList(mSecondDmzjList);
+        mSecondFragment.setDmzjList(mDmzjList);
 
-        List<DmzjBeanResp.DmzjBean> mThirdDmzjList = new ArrayList<>();
-        if (mThirdDmzjList == null) {
-            mThirdDmzjList = new ArrayList<>();
+        if (mDmzjList == null) {
+            mDmzjList = new ArrayList<>();
         } else {
-            mThirdDmzjList.clear();
+            mDmzjList.clear();
         }
         int size = list.size();
-        for (int i = 11; i < size; i++) {
+        for (int i = 12; i < size; i++) {
             if (list.get(i) != null) {
-                mThirdDmzjList.add(list.get(i));
+                mDmzjList.add(list.get(i));
             }
         }
-        mThirdFragment.setDmzjList(mThirdDmzjList);
+        mThirdFragment.setDmzjList(mDmzjList);
     }
 
     private void initViewPagerChangeListener() {

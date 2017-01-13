@@ -29,6 +29,7 @@ import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.event.DmzjListEvent;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.utils.GlideUtils;
 import com.idotools.utils.LogUtils;
 
@@ -83,8 +84,19 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
     @BindView(R.id.id_tv_text_six)
     TextView text_six;
 
+    // ad view
+    @BindView(R.id.native_ad_unit)
+    RelativeLayout native_ad_unit;
+    @BindView(R.id.native_ad_media)
+    MediaView mediaView;
+    @BindView(R.id.ad_choices_container)
+    LinearLayout ad_choices_container;
+    @BindView(R.id.native_ad_call_to_action)
+    Button native_ad_call_to_action;
+    @BindView(R.id.tv_ad_title)
+    TextView tv_ad_title;
+
     private Context mContext;
-    private int currentPage;
     private boolean isShowAd;
     private NativeAd mNativeAd;//ad
     private List<DmzjBeanResp.DmzjBean> mDmzjList;
@@ -101,18 +113,6 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
             }
         }
     }
-
-    @BindView(R.id.native_ad_unit)
-    RelativeLayout native_ad_unit;
-    @BindView(R.id.native_ad_media)
-    MediaView mediaView;
-    @BindView(R.id.ad_choices_container)
-    LinearLayout ad_choices_container;
-    @BindView(R.id.native_ad_call_to_action)
-    Button native_ad_call_to_action;
-    @BindView(R.id.tv_ad_title)
-    TextView tv_ad_title;
-
 
     private void initAd() {
         mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID);
@@ -131,10 +131,10 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
                 tv_ad_title.setText(mNativeAd.getAdTitle());
                 native_ad_call_to_action.setText(mNativeAd.getAdCallToAction());
 
-                if (mNativeAd != null && mNativeAd.getAdCoverImage() != null){
+                if (mNativeAd != null && mNativeAd.getAdCoverImage() != null) {
                     LogUtils.e("获取广告图片路径" + mNativeAd.getAdCoverImage().getUrl());
-                }else{
-                    LogUtils.e("广告图片路径为null"+mNativeAd.getAdCoverImage());
+                } else {
+                    LogUtils.e("广告图片路径为null" + mNativeAd.getAdCoverImage());
                 }
                 mediaView.setNativeAd(mNativeAd);
 
@@ -150,7 +150,7 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onAdClicked(Ad ad) {
-
+                DoAnalyticsManager.event(mContext,DoAnalyticsManager.DOT_KEY_MAIN_HOT_AD_CLICK);
             }
         });
     }
@@ -174,27 +174,46 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
         int id = v.getId();
         switch (id) {
             case R.id.id_iv_image_first:
-                setOnClickListener(image_first);
+                DmzjBeanResp.DmzjBean bean = mDmzjList.get(0);
+                if (bean != null) {
+                    onItemClickListener(bean.mobileUrl, bean.cover, bean.title);
+                }
+
 
                 break;
             case R.id.id_iv_image_second:
-                setOnClickListener(image_second);
+                DmzjBeanResp.DmzjBean bean1 = mDmzjList.get(1);
+                if (bean1 != null) {
+                    onItemClickListener(bean1.mobileUrl, bean1.cover, bean1.title);
+                }
 
                 break;
             case R.id.id_iv_image_third:
-                setOnClickListener(image_third);
+                DmzjBeanResp.DmzjBean bean2 = mDmzjList.get(2);
+                if (bean2 != null) {
+                    onItemClickListener(bean2.mobileUrl, bean2.cover, bean2.title);
+                }
 
                 break;
             case R.id.id_iv_image_four:
-                setOnClickListener(image_four);
+                DmzjBeanResp.DmzjBean bean3 = mDmzjList.get(2);
+                if (bean3 != null) {
+                    onItemClickListener(bean3.mobileUrl, bean3.cover, bean3.title);
+                }
 
                 break;
             case R.id.id_iv_image_five:
-                setOnClickListener(image_five);
+                DmzjBeanResp.DmzjBean bean4 = mDmzjList.get(2);
+                if (bean4 != null) {
+                    onItemClickListener(bean4.mobileUrl, bean4.cover, bean4.title);
+                }
 
                 break;
             case R.id.id_iv_image_six:
-                setOnClickListener(image_six);
+                DmzjBeanResp.DmzjBean bean5 = mDmzjList.get(2);
+                if (bean5 != null) {
+                    onItemClickListener(bean5.mobileUrl, bean5.cover, bean5.title);
+                }
 
                 break;
         }
@@ -217,10 +236,10 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
                 ll_ad.setVisibility(View.VISIBLE);
                 initAd();
 
-                DmzjBeanResp.DmzjBean dmzjBean3 = mDmzjList.get(3);
+                DmzjBeanResp.DmzjBean dmzjBean3 = mDmzjList.get(4);
                 dmzjBeanBindView(dmzjBean3, image_five, text_five);
 
-                DmzjBeanResp.DmzjBean dmzjBean4 = mDmzjList.get(4);
+                DmzjBeanResp.DmzjBean dmzjBean4 = mDmzjList.get(5);
                 dmzjBeanBindView(dmzjBean4, image_six, text_six);
             }
         } else {
@@ -257,7 +276,7 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
             }
             if (textView != null)
                 textView.setText(bean.title);
-            setImageViewTag(imageView, bean.mobileUrl, bean.cover, bean.title);
+//            setImageViewTag(imageView, bean.mobileUrl, bean.cover, bean.title);
         }
     }
 

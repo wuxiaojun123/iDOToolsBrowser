@@ -23,6 +23,7 @@ import com.idotools.browser.sqlite.RecordsSqliteManager;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.ActivityUtils;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.utils.GooglePlayUtils;
 import com.idotools.browser.utils.ShareUtils;
 import com.idotools.browser.utils.ShortCutUtils;
@@ -145,7 +146,7 @@ public class MainPopupWindow implements View.OnClickListener {
             enterStartAnim();
             // 显示 -emptyHeight
             popupWindow.showAsDropDown(rootView, 0, 0);
-        }else{
+        } else {
             id_ll_empty.performClick();
         }
         isShowing = popupWindow.isShowing();
@@ -183,6 +184,7 @@ public class MainPopupWindow implements View.OnClickListener {
                 } else {
                     ShareUtils.shareText((MainActivity) mContext, mWebViewManager.getCurrentTitle() + " " + mWebViewManager.getCurrentUrl());
                 }
+                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_SHARE_CLICK);
 
                 break;
             case R.id.id_records:
@@ -201,11 +203,13 @@ public class MainPopupWindow implements View.OnClickListener {
                 } else {
                     recordsPage();
                 }
+                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_SHARE_CLICK);
 
                 break;
             case R.id.id_add_shortcut:
                 //添加桌面快捷方式
                 addShortcut(mWebViewManager.getCurrentTitle(), mWebViewManager.getCurrentUrl());
+                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_SHORTCUT_CLICK);
 
                 break;
             case R.id.id_night_mode:
@@ -262,7 +266,7 @@ public class MainPopupWindow implements View.OnClickListener {
      * 更新
      */
     private void checkUpdate() {
-        GooglePlayUtils.openGooglePlay(mContext.getApplicationContext(), mContext.getPackageName());
+        GooglePlayUtils.openGooglePlayByPkg(mContext.getApplicationContext(), mContext.getPackageName());
     }
 
     /***

@@ -1,10 +1,9 @@
-package com.idotools.browser.utils;
-
-import static android.util.Patterns.GOOD_IRI_CHAR;
+package com.example;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * 判断一个text是否为真的url
@@ -33,6 +32,9 @@ public class WebAddress {
             this.response = response;
         }
     }
+
+    public static final String GOOD_IRI_CHAR =
+            "a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF";
 
     //根据正则表达式进行判断
     static Pattern sAddressPattern = Pattern.compile(

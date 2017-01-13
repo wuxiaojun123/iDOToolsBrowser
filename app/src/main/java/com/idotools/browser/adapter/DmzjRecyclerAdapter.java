@@ -30,6 +30,7 @@ import com.idotools.browser.manager.viewpager.ViewPagerManager;
 import com.idotools.browser.minterface.OnItemClickListener;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -136,7 +137,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mFragmentVPManager == null) {
             mFragmentVPManager = new FragmentViewPagerManger(mHeaderViewHolder2.vp_fragment,
                     mHeaderViewHolder2.iv_fm_first, mHeaderViewHolder2.iv_fm_second,
-                    mHeaderViewHolder2.iv_fm_third, mFragmentManager);
+                    mHeaderViewHolder2.iv_fm_third, mFragmentManager, mContext);
             mFragmentVPManager.initFragment();
             mFragmentVPManager.setTextMoreClickListener(mHeaderViewHolder2.tv_more, mContext);
         }
@@ -149,7 +150,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mBannerViewPagerManager == null) {
             mBannerViewPagerManager = new ViewPagerManager(mContext,
                     mHeaderViewHolder.id_viewpager, mHeaderViewHolder.id_ll_dot,
-                    mHeaderViewHolder.id_iv_one, mBannerBeanList, mOnItemClickListener);
+                    mHeaderViewHolder.id_iv_one, mBannerBeanList);
         } else {
             mBannerViewPagerManager.refreshAdapter(mBannerBeanList);
         }
@@ -293,6 +294,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Override
         public void onAdClicked(Ad ad) {
             // Ad clicked callback
+            DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_UPDATE_AD_CLICK);
         }
     }
 

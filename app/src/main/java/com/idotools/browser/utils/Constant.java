@@ -12,7 +12,7 @@ public class Constant {
     //动漫之家的数据接口 tagGroup.php?tag=4&order=hot&page=1&num=15
     public static final String PATH_DMZJ = "comic_info/all.php";
     //base url
-    public static final String PATH_BASE_BANNER = "http://ctrl.idourl.com:13006/";
+    public static final String PATH_BASE_BANNER = "http://ctrl.idourl.com:13008/";
     public static final String PATH_BASE_DMZJ = "http://open.dmzj.com/";
     //动漫之家最新数据
     public static final String DMZJ_TYPE_UPDATE = "update";
@@ -49,6 +49,6 @@ public class Constant {
 
 
     //表示当前是国内版本还是海外版本 true 为海外版本
-    public static final boolean VERSION_COUNTRY_GP = true;
+//    public static final boolean VERSION_COUNTRY_GP = true;
 
 }

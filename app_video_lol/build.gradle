@@ -6,7 +6,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.gpt.browser.video.lol"
+        applicationId "com.gpt.browser.video.tools"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1

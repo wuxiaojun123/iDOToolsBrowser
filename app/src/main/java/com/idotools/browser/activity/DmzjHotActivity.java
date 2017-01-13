@@ -107,7 +107,11 @@ public class DmzjHotActivity extends BaseActivity implements View.OnClickListene
      * @param flag true表示获取最新的 false表示加载更多
      */
     private void loadHotData(int page, final boolean flag) {
-        mAppHttpClient.requestDmzjHotBeanList(page, 14);
+        if (flag) {
+            mAppHttpClient.requestDmzjHotBeanList(page, 14);
+        } else {
+            mAppHttpClient.requestDmzjHotBeanList(page, 12);
+        }
         mAppHttpClient.setOnLoadDmzjHotDataListener(new OnLoadDmzjHotDataListener() {
             @Override
             public void loadDmzjDataSuccessListener(DmzjBeanResp resp) {
@@ -122,9 +126,15 @@ public class DmzjHotActivity extends BaseActivity implements View.OnClickListene
                     }
                     //加载更多
                     mDmzjAdapter.addMoreItem(list, DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
-                } else {
-                    //拉取最新
-                    list.add(5, null);
+                } else { //拉取最新
+                    int size = list.size();
+                    if (size > 5) {
+                        list.add(5, null);
+                    }
+                    LogUtils.e("长度是：" + list.size());
+                    if (list.size() >= 12) {
+                        list.add(null);
+                    }
                     mDmzjAdapter.resetAdapter(list);//刷新界面数据
                 }
                 swipeRefreshLayout.setRefreshing(false);//刷新完成
@@ -169,7 +179,7 @@ public class DmzjHotActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    @OnClick({R.id.id_iv_right,R.id.id_return_to_top})
+    @OnClick({R.id.id_iv_right, R.id.id_return_to_top})
     @Override
     public void onClick(View v) {
         int id = v.getId();

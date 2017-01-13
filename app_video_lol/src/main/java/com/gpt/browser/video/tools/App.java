@@ -1,4 +1,4 @@
-package com.gpt.browser.video.lol;
+package com.gpt.browser.video.tools;
 
 import android.app.Application;
 import android.content.Context;

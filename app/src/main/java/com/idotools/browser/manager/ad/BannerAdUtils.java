@@ -9,6 +9,7 @@ import com.facebook.ads.AdSettings;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.utils.LogUtils;
 
 /**
@@ -40,7 +41,7 @@ public class BannerAdUtils {
 
             @Override
             public void onAdClicked(Ad ad) {
-
+                DoAnalyticsManager.event(context,DoAnalyticsManager.DOT_KEY_BANNER_AD_CLICK);
             }
         });
         adView.loadAd();

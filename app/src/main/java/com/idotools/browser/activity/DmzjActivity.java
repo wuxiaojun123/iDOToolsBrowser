@@ -1,37 +1,23 @@
 package com.idotools.browser.activity;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.idotools.browser.R;
-import com.idotools.browser.adapter.DmzjFragmentPagerAdapter;
 import com.idotools.browser.adapter.DmzjRecyclerAdapter;
 import com.idotools.browser.bean.BannerResp;
 import com.idotools.browser.bean.DmzjBeanResp;
-import com.idotools.browser.fragment.BaseFragment;
-import com.idotools.browser.fragment.HotRecommendFragment;
-import com.idotools.browser.manager.FullyLinearLayoutManager;
 import com.idotools.browser.manager.http.AppHttpClient;
-import com.idotools.browser.manager.viewpager.ViewPagerManager;
 import com.idotools.browser.minterface.OnItemClickListener;
 import com.idotools.browser.minterface.OnLoadBannerDataListener;
 import com.idotools.browser.minterface.OnLoadDmzjHotDataListener;
@@ -39,11 +25,12 @@ import com.idotools.browser.minterface.OnLoadDmzjUpdateDataListener;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.Constant;
 import com.idotools.browser.utils.JsonUtils;
+import com.idotools.browser.utils.WebAddress;
 import com.idotools.browser.view.SearchEditTextView;
 import com.idotools.utils.DeviceUtil;
 import com.idotools.utils.FileUtils;
+import com.idotools.utils.InputWindowUtils;
 import com.idotools.utils.JudgeNetWork;
-import com.idotools.utils.LogUtils;
 import com.idotools.utils.SharedPreferencesHelper;
 import com.idotools.utils.ToastUtils;
 import com.igexin.sdk.PushManager;
@@ -122,7 +109,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      * 加载banner数据
      */
     private void loadBannerData() {
-        //browser00 DeviceUtil.getVersionCode(mContext)
         mAppHttpClient.requestBannerPath(DeviceUtil.getPackageName(mContext), DeviceUtil.getVersionCode(mContext));
         mAppHttpClient.setOnLoadBannerDataListener(new OnLoadBannerDataListener() {
             @Override
@@ -184,7 +170,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      * 拉取热门的动漫之家的数据
      */
     private void loadHotData() {
-        mAppHttpClient.requestDmzjHotBeanList(1, 17);
+        mAppHttpClient.requestDmzjHotBeanList(1, 18);
         mAppHttpClient.setOnLoadDmzjHotDataListener(new OnLoadDmzjHotDataListener() {
             @Override
             public void loadDmzjDataSuccessListener(DmzjBeanResp resp) {
@@ -260,7 +246,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private void initRecycler() {
         mLinearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLinearLayoutManager);
-//        recyclerView.setHasFixedSize(true);
         mDmzjBeanList = new ArrayList<>();
         mDmzjAdapter = new DmzjRecyclerAdapter(this, mDmzjBeanList);
         mDmzjAdapter.setFooterView(LayoutInflater.from(mContext).inflate(R.layout.layout_footer, recyclerView, false));
@@ -339,11 +324,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 ActivitySlideAnim.slideInAnim(DmzjActivity.this);
 
                 break;
-            /*case R.id.tv_more:
-                //更多
-                startActivity(new Intent(DmzjActivity.this, DmzjHotActivity.class));
-                ActivitySlideAnim.slideInAnim(DmzjActivity.this);
-                break;*/
         }
     }
 
@@ -353,16 +333,19 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private void searchDmzj() {
         String text = mSearchEditText.getText().toString().trim();
         if (!TextUtils.isEmpty(text)) {
-            if (Patterns.WEB_URL.matcher(text).matches()) {
-                goToMainActivity(text);
-            } else {
-                if (Constant.VERSION_COUNTRY_GP) {
+            if (text.contains(".")) { // 包含了"."的文本，先判断是否为网址，如果不是则判断是否开头为http，如果是
+                try {
+                    WebAddress webAddress = new WebAddress(text);
+                    goToMainActivity(webAddress.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
                     goToMainActivity(Constant.SEARCH_URL_DMZJ + text + ".html");
-                } else {
-                    goToMainActivity(Constant.SEARCH_URL_BAIDU + text);
                 }
-                mSearchEditText.setText(null);
+            } else {
+                goToMainActivity(Constant.SEARCH_URL_DMZJ + text + ".html");
             }
+            mSearchEditText.setText(null);
+            InputWindowUtils.closeInputWindow(mSearchEditText, mContext);
         }
     }
 

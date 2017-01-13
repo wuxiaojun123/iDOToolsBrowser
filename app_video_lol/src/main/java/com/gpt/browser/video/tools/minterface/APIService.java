@@ -1,8 +1,8 @@
-package com.gpt.browser.video.lol.minterface;
+package com.gpt.browser.video.tools.minterface;
 
-import com.gpt.browser.video.lol.bean.BannerResp;
-import com.gpt.browser.video.lol.bean.DmzjBean;
-import com.gpt.browser.video.lol.utils.Constant;
+import com.gpt.browser.video.tools.bean.BannerResp;
+import com.gpt.browser.video.tools.bean.DmzjBean;
+import com.gpt.browser.video.tools.utils.Constant;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

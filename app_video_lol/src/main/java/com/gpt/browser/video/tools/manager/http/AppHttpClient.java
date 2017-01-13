@@ -1,9 +1,9 @@
-package com.gpt.browser.video.lol.manager.http;
+package com.gpt.browser.video.tools.manager.http;
 
-import com.gpt.browser.video.lol.bean.BannerResp;
-import com.gpt.browser.video.lol.bean.DmzjBean;
-import com.gpt.browser.video.lol.minterface.APIService;
-import com.gpt.browser.video.lol.utils.Constant;
+import com.gpt.browser.video.tools.bean.BannerResp;
+import com.gpt.browser.video.tools.bean.DmzjBean;
+import com.gpt.browser.video.tools.minterface.APIService;
+import com.gpt.browser.video.tools.utils.Constant;
 
 import java.util.List;
 

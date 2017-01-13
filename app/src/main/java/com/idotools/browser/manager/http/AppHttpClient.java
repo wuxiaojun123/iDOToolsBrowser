@@ -36,7 +36,7 @@ public class AppHttpClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIService apiService = mRetrofit.create(APIService.class);
-        Call<BannerResp> bannerBeanList1 = apiService.getBannerBeanList(packageName, "browser00");
+        Call<BannerResp> bannerBeanList1 = apiService.getBannerBeanList(packageName, "browser002");
         //异步请求网络信息
         bannerBeanList1.enqueue(new Callback<BannerResp>() {
             @Override

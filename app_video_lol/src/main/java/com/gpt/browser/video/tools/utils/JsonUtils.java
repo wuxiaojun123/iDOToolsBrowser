@@ -1,4 +1,4 @@
-package com.gpt.browser.video.lol.utils;
+package com.gpt.browser.video.tools.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

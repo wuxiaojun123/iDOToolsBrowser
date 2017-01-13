@@ -1,22 +1,32 @@
 package com.idotools.browser.manager.viewpager;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.idotools.browser.R;
+import com.idotools.browser.activity.DmzjActivity;
+import com.idotools.browser.activity.MainActivity;
 import com.idotools.browser.adapter.BannerPageAdapter;
 import com.idotools.browser.bean.BannerResp;
 import com.idotools.browser.minterface.OnItemClickListener;
+import com.idotools.browser.utils.ActivitySlideAnim;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.utils.GlideUtils;
+import com.idotools.browser.utils.GooglePlayUtils;
 import com.idotools.utils.LogUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * viewpager的管理类
@@ -34,19 +44,18 @@ public class ViewPagerManager {
     private ImageView[] indicators;// 小圆点数组
     private BannerPageAdapter adapter;
     private List<ImageView> mImageViewList;
-    private OnItemClickListener mOnItemClickListener;
+    //    private OnItemClickListener mOnItemClickListener;
     private List<BannerResp.BannerBean> mBannerBeanList;
 
     public ViewPagerManager(Context context, ViewPager viewPager,
                             LinearLayout dotView, ImageView id_iv_one,
-                            List<BannerResp.BannerBean> mBannerBeanList,
-                            OnItemClickListener mOnItemClickListener) {
+                            List<BannerResp.BannerBean> mBannerBeanList) {
         this.mContext = context;
         this.viewPager = viewPager;
         this.dotView = dotView;
         this.id_iv_one = id_iv_one;
         this.mBannerBeanList = mBannerBeanList;
-        this.mOnItemClickListener = mOnItemClickListener;
+//        this.mOnItemClickListener = mOnItemClickListener;
     }
 
     /***
@@ -65,7 +74,7 @@ public class ViewPagerManager {
             viewPager.setVisibility(View.GONE);
             //只需要显示imageview一张图片即可
             GlideUtils.loadGifOrNormalImage(mContext, mBannerBeanList.get(0).iconPath, id_iv_one);
-            setOnClickListener(id_iv_one, mBannerBeanList.get(0).h5url);
+            setOnClickListener(id_iv_one, mBannerBeanList.get(0));
         } else {
             if (viewPager.getAdapter() != null) {
                 return;
@@ -139,7 +148,6 @@ public class ViewPagerManager {
      * @param list
      */
     public void refreshAdapter(List<BannerResp.BannerBean> list) {
-        LogUtils.e("重新刷新banner Adapter");
         this.mBannerBeanList = list;
         initViewPager();
     }
@@ -156,7 +164,7 @@ public class ViewPagerManager {
         }
         if (mImageViewList != null && !mImageViewList.isEmpty()) {
             for (int i = 0; i < mImageViewList.size(); i++) {
-                setOnClickListener(mImageViewList.get(i), mBannerBeanList.get(i % size).h5url);
+                setOnClickListener(mImageViewList.get(i), mBannerBeanList.get(i % size));
             }
         }
     }
@@ -189,17 +197,42 @@ public class ViewPagerManager {
      * 设置点击事件
      *
      * @param imageView 显示图片控件
-     * @param url       需要传递的参数
+     * @param bean      需要传递的参数
      */
-    private void setOnClickListener(ImageView imageView, final String url) {
+    private void setOnClickListener(ImageView imageView, final BannerResp.BannerBean bean) {
+        final String url = bean.h5url;
+        final String openType = bean.openType;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClickListener(url, null, null);
+                if (!TextUtils.isEmpty(url)) {
+                    if (openType.equals("browser")) {//浏览器打开网页
+                        if (url.startsWith("market")) {
+                            GooglePlayUtils.openGooglePlayByUri(mContext, url);
+                        } else {
+                            Intent mIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            mContext.startActivity(mIntent);
+                        }
+                    } else { // webview打开url
+                        goToMainActivity(url);
+                    }
+                    doAnalytics(url);//统计
                 }
             }
         });
+    }
+
+    private void doAnalytics(String url) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("url", url);
+        DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_BANNER_CLICK, map);
+    }
+
+    public void goToMainActivity(String url) {
+        Intent mIntent = new Intent(mContext, MainActivity.class);
+        mIntent.putExtra("url", url);
+        mContext.startActivity(mIntent);
+        ActivitySlideAnim.slideInAnim((DmzjActivity) mContext);
     }
 
     /***

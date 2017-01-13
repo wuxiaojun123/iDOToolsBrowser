@@ -1,4 +1,4 @@
-package com.gpt.browser.video.lol.bean;
+package com.gpt.browser.video.tools.bean;
 
 import java.util.List;
 
