@@ -1,5 +1,6 @@
 <resources>
 
+    <string name="app_name">浏览器</string>
     <!--热门推荐和最新更新-->
     <string name="string_hot">热门推荐</string>
     <string name="string_new_update">最新更新</string>

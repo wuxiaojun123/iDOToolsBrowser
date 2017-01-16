@@ -1,6 +1,7 @@
 package com.idotools.browser.utils;
 
 import com.idotools.browser.activity.BaseActivity;
+import com.idotools.browser.activity.DmzjActivity;
 
 import java.util.LinkedList;
 
@@ -29,6 +30,17 @@ public class ActivityUtils {
     public static void removeActivity(BaseActivity activity) {
         activities.remove(activity);
     }
+
+
+    public static BaseActivity getDmzjActivity() {
+        for (BaseActivity activity : activities) {
+            if (DmzjActivity.class.getSimpleName().equals(activity.getClass().getSimpleName())) {
+                return activity;
+            }
+        }
+        return null;
+    }
+
 
     public static int getSizie() {
         return activities.size();

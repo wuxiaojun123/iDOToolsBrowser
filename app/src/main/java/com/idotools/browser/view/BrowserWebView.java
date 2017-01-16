@@ -9,16 +9,9 @@ import android.webkit.WebView;
  */
 public class BrowserWebView extends WebView {
 
+
     public BrowserWebView(Context context) {
-        this(context,null);
-    }
-
-    public BrowserWebView(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
-    }
-
-    public BrowserWebView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        super(context);
     }
 
 }

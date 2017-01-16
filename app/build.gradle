@@ -53,10 +53,10 @@ android {
             signingConfig signingConfigs.myConfig
         }
         release_google_play {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             zipAlignEnabled true
-            debuggable false
+            debuggable true
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            buildConfigField('boolean', 'VERSION_COUNTRY_GP', 'true')

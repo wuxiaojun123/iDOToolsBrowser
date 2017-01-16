@@ -203,7 +203,7 @@ public class MainPopupWindow implements View.OnClickListener {
                 } else {
                     recordsPage();
                 }
-                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_SHARE_CLICK);
+                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_RECORDS_CLICK);
 
                 break;
             case R.id.id_add_shortcut:
@@ -216,6 +216,7 @@ public class MainPopupWindow implements View.OnClickListener {
                 //夜间模式
                 exitStartAnim();
                 isDayNightModeToogle = 1;
+                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_NIGHT_MODE_CLICK);
 
                 break;
             case R.id.id_check_update:

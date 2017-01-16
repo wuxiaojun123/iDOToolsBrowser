@@ -30,5 +30,8 @@ public class DmzjFragmentPagerAdapter extends android.support.v4.app.FragmentPag
         return list.size();
     }
 
-
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 }

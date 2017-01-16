@@ -210,8 +210,12 @@ public class ViewPagerManager {
                         if (url.startsWith("market")) {
                             GooglePlayUtils.openGooglePlayByUri(mContext, url);
                         } else {
-                            Intent mIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                            mContext.startActivity(mIntent);
+                            try {
+                                Intent mIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                mContext.startActivity(mIntent);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
                     } else { // webview打开url
                         goToMainActivity(url);

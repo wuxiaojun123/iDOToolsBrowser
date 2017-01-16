@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -34,6 +35,7 @@ import com.idotools.browser.minterface.OnReceivedErrorListener;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.ActivityUtils;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.utils.WebAddress;
 import com.idotools.browser.view.AnimatedProgressBar;
 import com.idotools.browser.view.BrowserWebView;
@@ -148,7 +150,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         mWebViewManager = new WebViewManager(this);
         mWebView = mWebViewManager.getWebView();
-//        mWebView.requestFocus();
         swipeRefreshLayout.addView(mWebView, new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
         Intent mIntent = getIntent();
         String url = mIntent.getStringExtra("url");
@@ -157,13 +158,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         } else {
             loadUrl(url);
         }
-//        loadUrl("http://m.dmzj.com/info/kuailehahajing.html");
         imgUrl = mIntent.getStringExtra("imgUrl");
         if (!TextUtils.isEmpty(imgUrl)) {
             String title = mIntent.getStringExtra("title");
         }
-
-
     }
 
     @Override
@@ -194,8 +192,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.id_iv_home:
                 isPopupShowing();
                 //回到native的首页
-                finish();
-                ActivitySlideAnim.slideOutAnim(MainActivity.this);
+                backLastActivity();
                 /*if (mWebViewManager != null && !mWebViewManager.getCurrentUrl().equals(Constant.PATH)) {
                     goHomePage();
                     loadUrl(Constant.PATH);
@@ -222,9 +219,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.id_iv_history:
                 startActivity(new Intent(MainActivity.this, HistoryAndRecordsActivity.class));
                 ActivitySlideAnim.slideInAnim(MainActivity.this);
+                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_HISTORY_CLICK);
 
                 break;
         }
+    }
+
+    /**
+     * 回到上一个页面
+     */
+    private void backLastActivity() {
+        finish();
+        ActivitySlideAnim.slideOutAnim(MainActivity.this);
     }
 
     @Override
@@ -250,7 +256,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     try {
                         WebAddress webAddress = new WebAddress(text);
                         loadUrl(webAddress.toString());
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                         loadUrl(Constant.SEARCH_URL_DMZJ + text + ".html");
                     }
@@ -274,11 +280,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 设置图标是否可以点击
      */
     public void setImgButtonEnable() {
-        if (mWebView.canGoBack()) {
+        /*if (mWebView.canGoBack()) {
             iv_back.setImageResource(R.drawable.selector_control_back_clickable);
         } else {
             iv_back.setImageResource(R.mipmap.img_back_normal);
-        }
+        }*/
         if (mWebView.canGoForward()) {
             iv_forward.setImageResource(R.drawable.selector_control_forward_click);
         } else {
@@ -333,6 +339,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             showNetworkAddressErrorLayout(false);
             showOrHiddrenLayoutNoNetwork(true);
             mWebView.goBack();
+        } else {
+            //返回上一个页面
+            backLastActivity();
         }
     }
 
@@ -459,7 +468,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_night_toogle.setScaleY(1.0f);
                 iv_night_toogle.setVisibility(View.GONE);
                 //重新启动dmzjActivity
-                ActivityUtils.activities.get(0).recreate();
+                BaseActivity activity = ActivityUtils.getDmzjActivity();
+                if (activity != null) {
+                    activity.recreate();
+                } else {
+                    LogUtils.e("dmzjActivity等于null");
+                }
                 toogleNightMode();
             }
         });
@@ -513,26 +527,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 如果当前地址和上一页地址不一样，则重新加载广告
      * 如果当前地址和上一页地址一样，则使用原来的广告
      */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void hideTitleAndBottom() {
         if (isDmzjView() && mBannerAdUtils == null) {
             mBannerAdUtils = new BannerAdUtils(mContext);
         }
-        ll_title.animate().translationY(-llTitleHeight).setDuration(DURATION_ANIM).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        ObjectAnimator titleAnim = ObjectAnimator.ofInt(ll_title, "translationY", -llTitleHeight).setDuration(DURATION_ANIM);
+        titleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue() * llTitleHeight;
+                int value = (int) animation.getAnimatedValue();
                 RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) swipeRefreshLayout.getLayoutParams();
-                lp.setMargins(0, llTitleHeight - (int) value, 0, 0);
+                lp.setMargins(0, llTitleHeight + value, 0, 0);
                 swipeRefreshLayout.requestLayout();
             }
-        }).start();
-        ll_bottom.animate().translationY(llBottomHeight).setDuration(DURATION_ANIM).setListener(new AnimatorListenerAdapter() {
+        });
+        titleAnim.start();
+
+        ObjectAnimator bottomAnim = ObjectAnimator.ofInt(ll_bottom, "translationY", 0, llBottomHeight).setDuration(DURATION_ANIM);
+        bottomAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                ll_bottom.setTranslationY(value);
+            }
+        });
+        bottomAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 //显示facebook广告
                 if (isDmzjView()) {
-                    if(!TextUtils.isEmpty(lastUrl)){
+                    if (!TextUtils.isEmpty(lastUrl)) {
                         if (!lastUrl.equals(mWebView.getUrl())) {
                             mBannerAdUtils.loadAdView();
                             AdView adView = mBannerAdUtils.getBannerAd();
@@ -550,28 +574,46 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     }
                 }
             }
-        }).start();
+        });
+        bottomAnim.start();
     }
 
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void showTitleAndBottom() {
-        ll_title.animate().translationY(0).setDuration(DURATION_ANIM).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+        ObjectAnimator titleAnim = ObjectAnimator.ofInt(ll_title, "translationY", llTitleHeight).setDuration(DURATION_ANIM);
+        titleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue() * llTitleHeight;
+                int value = (int) animation.getAnimatedValue();
                 RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) swipeRefreshLayout.getLayoutParams();
-                lp.setMargins(0, (int) value, 0, 0);
+                lp.setMargins(0, value, 0, 0);
                 swipeRefreshLayout.requestLayout();
             }
-        }).start();
-        ll_bottom.animate().translationY(0).setDuration(DURATION_ANIM).setListener(new AnimatorListenerAdapter() {
+        });
+        titleAnim.start();
+
+        ObjectAnimator bottomAnim = ObjectAnimator.ofInt(ll_bottom, "translationY", llBottomHeight, 0).setDuration(DURATION_ANIM);
+        bottomAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationEnd(Animator animation) {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                ll_bottom.setTranslationY(value);
+            }
+        });
+        bottomAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
                 //隐藏facebook广告
                 if (isDmzjView()) {
                     if (!lastUrl.equals(mWebView.getUrl())) {
                         if (ll_ad_container.getChildCount() > 0) {
+                            if (ll_ad_container.getParent() != null) {
+                                AdView adView = mBannerAdUtils.getBannerAd();
+                                if (adView != null) {
+                                    ((ViewGroup) ll_ad_container.getParent()).removeView(adView);
+                                }
+                            }
                             ll_ad_container.removeAllViews();
                         }
                     }
@@ -580,7 +622,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     ll_ad_container.setVisibility(View.GONE);
                 }
             }
-        }).start();
+        });
+        bottomAnim.start();
+
     }
 
     public boolean isDmzjView() {
@@ -616,6 +660,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         super.onDestroy();
     }
-
 
 }

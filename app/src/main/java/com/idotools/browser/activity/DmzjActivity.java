@@ -24,6 +24,7 @@ import com.idotools.browser.minterface.OnLoadDmzjHotDataListener;
 import com.idotools.browser.minterface.OnLoadDmzjUpdateDataListener;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.Constant;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.utils.JsonUtils;
 import com.idotools.browser.utils.WebAddress;
 import com.idotools.browser.view.SearchEditTextView;
@@ -31,6 +32,7 @@ import com.idotools.utils.DeviceUtil;
 import com.idotools.utils.FileUtils;
 import com.idotools.utils.InputWindowUtils;
 import com.idotools.utils.JudgeNetWork;
+import com.idotools.utils.LogUtils;
 import com.idotools.utils.SharedPreferencesHelper;
 import com.idotools.utils.ToastUtils;
 import com.igexin.sdk.PushManager;
@@ -84,7 +86,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         initView();
         initData();
         getGeTuiMsg();
-
     }
 
     /***
@@ -258,7 +259,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      * 添加滑动事件的监听，以便可以出现加载更多
      */
     private void initScrollListener() {
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -293,6 +293,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
             page = 1;
             loadUpdateData(page, false);
+            loadHotData();
             if (mDmzjAdapter != null && mBannerBeanList == null) {
                 loadBannerData();
             }
@@ -322,6 +323,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 //历史记录
                 startActivity(new Intent(DmzjActivity.this, HistoryAndRecordsActivity.class));
                 ActivitySlideAnim.slideInAnim(DmzjActivity.this);
+                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_HISTORY_CLICK);
 
                 break;
         }

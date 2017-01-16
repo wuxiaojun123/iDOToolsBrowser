@@ -116,7 +116,7 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
 
     private void initAd() {
         mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID);
-        AdSettings.addTestDevice("d5f9ab04ef516f56935528b1f59050f1");
+//        AdSettings.addTestDevice("d5f9ab04ef516f56935528b1f59050f1");
         mNativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
         mNativeAd.setAdListener(new AdListener() {
 
@@ -150,7 +150,7 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onAdClicked(Ad ad) {
-                DoAnalyticsManager.event(mContext,DoAnalyticsManager.DOT_KEY_MAIN_HOT_AD_CLICK);
+                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_MAIN_HOT_AD_CLICK);
             }
         });
     }
@@ -167,6 +167,7 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
         return view;
     }
 
+
     @OnClick({R.id.id_iv_image_first, R.id.id_iv_image_second, R.id.id_iv_image_third,
             R.id.id_iv_image_four, R.id.id_iv_image_five, R.id.id_iv_image_six})
     @Override
@@ -174,52 +175,48 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
         int id = v.getId();
         switch (id) {
             case R.id.id_iv_image_first:
-                DmzjBeanResp.DmzjBean bean = mDmzjList.get(0);
-                if (bean != null) {
-                    onItemClickListener(bean.mobileUrl, bean.cover, bean.title);
-                }
-
+                setOnClick(0);
 
                 break;
             case R.id.id_iv_image_second:
-                DmzjBeanResp.DmzjBean bean1 = mDmzjList.get(1);
-                if (bean1 != null) {
-                    onItemClickListener(bean1.mobileUrl, bean1.cover, bean1.title);
-                }
+                setOnClick(1);
 
                 break;
             case R.id.id_iv_image_third:
-                DmzjBeanResp.DmzjBean bean2 = mDmzjList.get(2);
-                if (bean2 != null) {
-                    onItemClickListener(bean2.mobileUrl, bean2.cover, bean2.title);
-                }
+                setOnClick(2);
 
                 break;
             case R.id.id_iv_image_four:
-                DmzjBeanResp.DmzjBean bean3 = mDmzjList.get(2);
-                if (bean3 != null) {
-                    onItemClickListener(bean3.mobileUrl, bean3.cover, bean3.title);
-                }
+                setOnClick(3);
 
                 break;
             case R.id.id_iv_image_five:
-                DmzjBeanResp.DmzjBean bean4 = mDmzjList.get(2);
-                if (bean4 != null) {
-                    onItemClickListener(bean4.mobileUrl, bean4.cover, bean4.title);
-                }
+                setOnClick(4);
 
                 break;
             case R.id.id_iv_image_six:
-                DmzjBeanResp.DmzjBean bean5 = mDmzjList.get(2);
-                if (bean5 != null) {
-                    onItemClickListener(bean5.mobileUrl, bean5.cover, bean5.title);
-                }
+                setOnClick(5);
 
                 break;
         }
     }
 
+    /***
+     * 设置点击事件
+     *
+     * @param position
+     */
+    private void setOnClick(int position) {
+        if (mDmzjList != null && !mDmzjList.isEmpty()) {
+            DmzjBeanResp.DmzjBean bean = mDmzjList.get(position);
+            if (bean != null) {
+                onItemClickListener(bean.mobileUrl, bean.cover, bean.title);
+            }
+        }
+    }
+
     private synchronized void bindViewData() {
+        LogUtils.e("绑定数据  bindViewData" + mDmzjList);
         if (isShowAd) {
             if (mDmzjList != null && !mDmzjList.isEmpty()) {
                 DmzjBeanResp.DmzjBean dmzjBean0 = mDmzjList.get(0);
@@ -311,6 +308,9 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
     }
 
     public synchronized void setDmzjList(List<DmzjBeanResp.DmzjBean> list) {
+        if (mDmzjList != null && !mDmzjList.isEmpty()) {
+            mDmzjList.clear();
+        }
         this.mDmzjList = list;
         if (list != null && !list.isEmpty()) {
             bindViewData();

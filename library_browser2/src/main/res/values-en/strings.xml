@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Browser</string>
     <string name="string_clean_success">Clear finish</string>
     
     <string name="string_praise">Rate us</string>

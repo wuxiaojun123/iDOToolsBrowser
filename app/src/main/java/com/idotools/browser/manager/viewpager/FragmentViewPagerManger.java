@@ -44,7 +44,7 @@ public class FragmentViewPagerManger {
 
     public FragmentViewPagerManger(ViewPager vp_fragment, ImageView iv_fm_first,
                                    ImageView iv_fm_second, ImageView iv_fm_third,
-                                   FragmentManager mFragmentManager,Context context) {
+                                   FragmentManager mFragmentManager, Context context) {
         this.vp_fragment = vp_fragment;
         this.iv_fm_first = iv_fm_first;
         this.iv_fm_second = iv_fm_second;
@@ -61,19 +61,20 @@ public class FragmentViewPagerManger {
                 context.startActivity(new Intent(context, DmzjHotActivity.class));
                 ActivitySlideAnim.slideInAnim((DmzjActivity) context);
 
-                DoAnalyticsManager.event(mContext,DoAnalyticsManager.DOT_KEY_MORE_CLICK);
+                DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_MORE_CLICK);
             }
         });
     }
 
     public void initFragment() {
+        fragmentList = null;
         fragmentList = new ArrayList<>();
         mFirstFragment = new HotRecommendFragment();
         Bundle mBundle = new Bundle();
         mBundle.putBoolean("isShowAd", true);
         mFirstFragment.setArguments(mBundle);
-        mSecondFragment = new HotRecommendFragment();
 
+        mSecondFragment = new HotRecommendFragment();
         mThirdFragment = new HotRecommendFragment();
 
         fragmentList.add(mFirstFragment);
@@ -82,9 +83,12 @@ public class FragmentViewPagerManger {
 
         vp_fragment.setOffscreenPageLimit(3);
 
+        mDmzjPagerAdapter = null;
         mDmzjPagerAdapter = new DmzjFragmentPagerAdapter(mFragmentManager, fragmentList);
         vp_fragment.setAdapter(mDmzjPagerAdapter);
         initViewPagerChangeListener();
+
+
     }
 
     public void setFragmentDmzjBeanList(List<DmzjBeanResp.DmzjBean> list) {
@@ -161,5 +165,11 @@ public class FragmentViewPagerManger {
         }
     }
 
+
+    public void refreshAdapter() {
+        if (mDmzjPagerAdapter != null) {
+            mDmzjPagerAdapter.notifyDataSetChanged();
+        }
+    }
 
 }

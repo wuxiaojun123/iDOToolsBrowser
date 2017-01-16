@@ -135,6 +135,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void bindHeadViewHolder2(Header2ViewHolder mHeaderViewHolder2) {
         if (mFragmentVPManager == null) {
+            LogUtils.e("重新绑定数据  bindHeadViewHolder2");
             mFragmentVPManager = new FragmentViewPagerManger(mHeaderViewHolder2.vp_fragment,
                     mHeaderViewHolder2.iv_fm_first, mHeaderViewHolder2.iv_fm_second,
                     mHeaderViewHolder2.iv_fm_third, mFragmentManager, mContext);
@@ -151,10 +152,10 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mBannerViewPagerManager = new ViewPagerManager(mContext,
                     mHeaderViewHolder.id_viewpager, mHeaderViewHolder.id_ll_dot,
                     mHeaderViewHolder.id_iv_one, mBannerBeanList);
+            mBannerViewPagerManager.initViewPager();
         } else {
             mBannerViewPagerManager.refreshAdapter(mBannerBeanList);
         }
-        mBannerViewPagerManager.initViewPager();
     }
 
 
@@ -425,6 +426,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void setHeadView2Data(List<DmzjBeanResp.DmzjBean> list) {
         if (mFragmentVPManager != null) {
             mFragmentVPManager.setFragmentDmzjBeanList(list);
+            mFragmentVPManager.refreshAdapter();
             notifyDataSetChanged();
         }
     }
@@ -439,6 +441,10 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void setFragmentManager(FragmentManager fm) {
         this.mFragmentManager = fm;
+    }
+
+    public void setFragmentVPManager(FragmentViewPagerManger fragmentVPManager) {
+        this.mFragmentVPManager = fragmentVPManager;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

@@ -20,6 +20,7 @@ import com.idotools.browser.manager.dialog.AlertDialog;
 import com.idotools.browser.minterface.OnPageStartedListener;
 import com.idotools.browser.minterface.OnReceivedErrorListener;
 import com.idotools.browser.view.BrowserWebView;
+import com.idotools.utils.LogUtils;
 import com.idotools.utils.ToastUtils;
 
 /**
@@ -103,7 +104,6 @@ public class WebViewManager {
         private int downY;
         private int distance;
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             mWebViewLongClickListener.downX = (int) event.getX();
@@ -119,15 +119,14 @@ public class WebViewManager {
                 case MotionEvent.ACTION_UP:
                     distance = downY - y;
                     if (distance > 0 && isShowTitleAndBottom) {
-                        //隐藏title和bottom
+                        //隐藏title和bottom----当滚动停止的时候才能执行隐藏动画
                         ((MainActivity) mContext).hideTitleAndBottom();
                         isShowTitleAndBottom = false;
-                    } else if(distance < 0 &&!isShowTitleAndBottom){
+                    } else if (distance < 0 && !isShowTitleAndBottom) {
                         //显示title和bottom
                         ((MainActivity) mContext).showTitleAndBottom();
                         isShowTitleAndBottom = true;
                     }
-
                     distance = 0;
                     break;
             }
@@ -226,30 +225,6 @@ public class WebViewManager {
         if (mWebView != null)
             return mWebView.getUrl();
         return null;
-    }
-
-    /***
-     * 清除缓存
-     *
-     * @return
-     */
-    public void cleanCache() {
-        new AlertDialog((MainActivity) mContext).builder()
-                .setMsg(R.string.string_confirm_clean_all_cache)
-                .setPositiveButton(R.string.string_confirm, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mWebView != null) {
-                            mWebView.clearCache(true);
-                            ToastUtils.show(mContext, mContext.getResources().getString(R.string.string_clean_success));
-                        }
-                    }
-                }).setNegativeButton(R.string.string_cancel, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        }).show();
     }
 
     private void checkWebviewIsNull() {

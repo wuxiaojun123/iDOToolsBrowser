@@ -24,7 +24,6 @@ public class BannerAdUtils {
     public BannerAdUtils(Context context) {
         this.context = context;
         adView = new AdView(context, Constant.FACEBOOK_PLACEMENT_ID_BANNER, AdSize.BANNER_320_50);
-        AdSettings.addTestDevice("08bb6a71da61b942148a6f86cf639ca1");
     }
 
     public void loadAdView(){
