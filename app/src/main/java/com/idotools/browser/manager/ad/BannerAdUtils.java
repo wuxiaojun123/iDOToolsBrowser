@@ -50,11 +50,12 @@ public class BannerAdUtils {
         return adView;
     }
 
-    public void refreshAdView(){
+    public AdView refreshAdView(){
         if(adView != null){
             adView.destroy();
         }
         adView = new AdView(context, Constant.FACEBOOK_PLACEMENT_ID_BANNER, AdSize.BANNER_320_50);
+        return adView;
     }
 
 }

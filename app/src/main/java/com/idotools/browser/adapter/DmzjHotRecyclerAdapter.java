@@ -72,7 +72,6 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
 
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position < (getItemCount() - 1)) {
@@ -100,6 +99,7 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                 NativeAd mNativeAd = nativeAdHashMap.get(currentPositionStr);
                 if (mNativeAd == null) {//实例化广告
+                    //这里先隐藏广告布局，等ad加载完成了再显示
                     synchronized ("loadAd") {
                         mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID);
                         mNativeAd.setAdListener(new NativeAdListener(dmzjViewHolder, mNativeAd, currentPositionStr));
@@ -204,19 +204,19 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Override
         public void onAdClicked(Ad ad) {
             // Ad clicked callback
-            DoAnalyticsManager.event(mContext,DoAnalyticsManager.DOT_KEY_ACTIVITY_HOT_AD_CLICK);
+            DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_ACTIVITY_HOT_AD_CLICK);
         }
     }
 
-    private String getTags(String[] tags){
+    private String getTags(String[] tags) {
         String str = null;
-        if(tags != null && tags.length > 0){
+        if (tags != null && tags.length > 0) {
             StringBuilder sb = new StringBuilder();
             int length = tags.length;
-            for (int i=0;i < length;i++){
-                sb.append(tags[i]+",");
+            for (int i = 0; i < length; i++) {
+                sb.append(tags[i] + ",");
             }
-            str = sb.substring(0,sb.length()-1);
+            str = sb.substring(0, sb.length() - 1);
         }
         return str;
     }

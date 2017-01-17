@@ -1,7 +1,6 @@
 package com.idotools.browser.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,8 +15,6 @@ import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
 import com.facebook.ads.NativeAd;
 import com.idotools.browser.R;
-import com.idotools.browser.activity.DmzjActivity;
-import com.idotools.browser.activity.DmzjHotActivity;
 import com.idotools.browser.adapter.viewHolder.DmzjViewHolder;
 import com.idotools.browser.adapter.viewHolder.DmzjViewHolderTypeAd;
 import com.idotools.browser.adapter.viewHolder.FooterViewHolder;
@@ -28,7 +25,6 @@ import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.manager.viewpager.FragmentViewPagerManger;
 import com.idotools.browser.manager.viewpager.ViewPagerManager;
 import com.idotools.browser.minterface.OnItemClickListener;
-import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.Constant;
 import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.utils.LogUtils;
@@ -135,7 +131,6 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void bindHeadViewHolder2(Header2ViewHolder mHeaderViewHolder2) {
         if (mFragmentVPManager == null) {
-            LogUtils.e("重新绑定数据  bindHeadViewHolder2");
             mFragmentVPManager = new FragmentViewPagerManger(mHeaderViewHolder2.vp_fragment,
                     mHeaderViewHolder2.iv_fm_first, mHeaderViewHolder2.iv_fm_second,
                     mHeaderViewHolder2.iv_fm_third, mFragmentManager, mContext);
@@ -426,7 +421,6 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void setHeadView2Data(List<DmzjBeanResp.DmzjBean> list) {
         if (mFragmentVPManager != null) {
             mFragmentVPManager.setFragmentDmzjBeanList(list);
-            mFragmentVPManager.refreshAdapter();
             notifyDataSetChanged();
         }
     }

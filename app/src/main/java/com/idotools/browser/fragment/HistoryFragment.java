@@ -19,6 +19,7 @@ import com.idotools.browser.manager.dialog.RadioButtonAlertDialog;
 import com.idotools.browser.minterface.OnItemDeleteClickListener;
 import com.idotools.browser.sqlite.SqliteManager;
 import com.idotools.browser.utils.ActivitySlideAnim;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.view.SideSlipRecyclerView;
 import com.idotools.utils.ToastUtils;
 
@@ -145,6 +146,18 @@ public class HistoryFragment extends Fragment implements View.OnClickListener, O
                 mAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DoAnalyticsManager.pageFragmentResume("HistoryFragment",mContext);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        DoAnalyticsManager.pageFragmentPause("HistoryFragment",mContext);
     }
 
     @Override

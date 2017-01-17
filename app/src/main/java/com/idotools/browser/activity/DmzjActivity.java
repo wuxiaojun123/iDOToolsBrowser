@@ -32,7 +32,6 @@ import com.idotools.utils.DeviceUtil;
 import com.idotools.utils.FileUtils;
 import com.idotools.utils.InputWindowUtils;
 import com.idotools.utils.JudgeNetWork;
-import com.idotools.utils.LogUtils;
 import com.idotools.utils.SharedPreferencesHelper;
 import com.idotools.utils.ToastUtils;
 import com.igexin.sdk.PushManager;

@@ -2,6 +2,7 @@ package com.idotools.browser.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.ViewGroup;
 
 import com.idotools.browser.fragment.BaseFragment;
 
@@ -11,17 +12,21 @@ import java.util.List;
  * Created by wuxiaojun on 17-1-10.
  */
 
-public class DmzjFragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
+public class DmzjFragmentPagerAdapter extends android.support.v4.app.FragmentStatePagerAdapter {
 
     public List<BaseFragment> list;
+    private FragmentManager fm;
 
     public DmzjFragmentPagerAdapter(FragmentManager fm, List<BaseFragment> list) {
         super(fm);
+        this.fm = fm;
         this.list = list;
     }
 
+
     @Override
     public Fragment getItem(int position) {
+
         return list.get(position);
     }
 

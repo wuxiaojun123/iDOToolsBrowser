@@ -48,13 +48,21 @@ public class DoAnalyticsManager {
         MobclickAgent.onPause(activity);
     }
 
+
+    public static void pageFragmentResume(String name, Context context) {
+        MobclickAgent.onPageStart(name); //统计页面(仅有Activity的应用中SDK自动调用，不需要单独写。"SplashScreen"为页面名称，可自定义)
+        MobclickAgent.onResume(context);
+    }
+
+    public static void pageFragmentPause(String name, Context context) {
+        MobclickAgent.onPageEnd(name); // （仅有Activity的应用中SDK自动调用，不需要单独写）保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息。"SplashScreen"为页面名称，可自定义
+        MobclickAgent.onPause(context);
+    }
+
+
     public static void event(Context context, String eventId) {
         MobclickAgent.onEvent(context, eventId);
     }
-
-    /*public static void event(Activity activity, String eventKey, String eventValue) {
-        MobclickAgent.onEvent(activity, eventKey, eventValue);
-    }*/
 
     public static void event(Context context, String eventId, HashMap<String, String> map) {
         MobclickAgent.onEvent(context, eventId, map);

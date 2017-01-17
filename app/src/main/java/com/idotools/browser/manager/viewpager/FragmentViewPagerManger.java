@@ -67,7 +67,7 @@ public class FragmentViewPagerManger {
     }
 
     public void initFragment() {
-        fragmentList = null;
+
         fragmentList = new ArrayList<>();
         mFirstFragment = new HotRecommendFragment();
         Bundle mBundle = new Bundle();
@@ -83,12 +83,14 @@ public class FragmentViewPagerManger {
 
         vp_fragment.setOffscreenPageLimit(3);
 
-        mDmzjPagerAdapter = null;
-        mDmzjPagerAdapter = new DmzjFragmentPagerAdapter(mFragmentManager, fragmentList);
-        vp_fragment.setAdapter(mDmzjPagerAdapter);
+        initAdapter();
         initViewPagerChangeListener();
 
+    }
 
+    public void initAdapter() {
+        mDmzjPagerAdapter = new DmzjFragmentPagerAdapter(mFragmentManager, fragmentList);
+        vp_fragment.setAdapter(mDmzjPagerAdapter);
     }
 
     public void setFragmentDmzjBeanList(List<DmzjBeanResp.DmzjBean> list) {
@@ -166,10 +168,10 @@ public class FragmentViewPagerManger {
     }
 
 
-    public void refreshAdapter() {
+    /*public void refreshAdapter() {
         if (mDmzjPagerAdapter != null) {
             mDmzjPagerAdapter.notifyDataSetChanged();
         }
-    }
+    }*/
 
 }

@@ -280,11 +280,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 设置图标是否可以点击
      */
     public void setImgButtonEnable() {
-        /*if (mWebView.canGoBack()) {
-            iv_back.setImageResource(R.drawable.selector_control_back_clickable);
-        } else {
-            iv_back.setImageResource(R.mipmap.img_back_normal);
-        }*/
         if (mWebView.canGoForward()) {
             iv_forward.setImageResource(R.drawable.selector_control_forward_click);
         } else {
@@ -358,7 +353,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             setImgButtonEnable();
             if (progress >= 100) {
                 swipeRefreshLayout.setRefreshing(false);
-                lastUrl = mWebView.getUrl();
             } else {
                 swipeRefreshLayout.setRefreshing(true);
             }
@@ -471,8 +465,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 BaseActivity activity = ActivityUtils.getDmzjActivity();
                 if (activity != null) {
                     activity.recreate();
-                } else {
-                    LogUtils.e("dmzjActivity等于null");
                 }
                 toogleNightMode();
             }
@@ -519,7 +511,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private int llBottomHeight = MetricsUtils.dipToPx(45);
     private static final int DURATION_ANIM = 250;
     private BannerAdUtils mBannerAdUtils;
-    private String lastUrl;
+    private boolean isFirst = true;//
 
     /***
      * 显示广告的逻辑
@@ -528,7 +520,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 如果当前地址和上一页地址一样，则使用原来的广告
      */
     public void hideTitleAndBottom() {
-        if (isDmzjView() && mBannerAdUtils == null) {
+        if (!isDmzjView()) {
+            return;
+        }
+        if (mBannerAdUtils == null) {
             mBannerAdUtils = new BannerAdUtils(mContext);
         }
         ObjectAnimator titleAnim = ObjectAnimator.ofInt(ll_title, "translationY", -llTitleHeight).setDuration(DURATION_ANIM);
@@ -555,23 +550,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onAnimationEnd(Animator animation) {
                 //显示facebook广告
-                if (isDmzjView()) {
-                    if (!TextUtils.isEmpty(lastUrl)) {
-                        if (!lastUrl.equals(mWebView.getUrl())) {
-                            mBannerAdUtils.loadAdView();
-                            AdView adView = mBannerAdUtils.getBannerAd();
-                            if (adView != null) {
-                                ll_ad_container.addView(adView);
-                                ll_ad_container.setVisibility(View.VISIBLE);
-                                LogUtils.e("加载新广告");
+                try {
+                    if (isFirst) {
+                        AdView adView = mBannerAdUtils.refreshAdView();
+                        mBannerAdUtils.loadAdView();
+                        if (adView != null) {
+                            isFirst = false;
+                            if (ll_ad_container.getParent() != null) {
+                                ll_ad_container.removeAllViews();
                             }
-                        } else {
                             if (ll_ad_container.getChildCount() > 0) {
-                                LogUtils.e("使用之前广告");
-                                ll_ad_container.setVisibility(View.VISIBLE);
+                                ll_ad_container.removeAllViews();
                             }
+                            ll_ad_container.addView(adView);
+                            ll_ad_container.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        if (ll_ad_container.getChildCount() > 0) {
+                            ll_ad_container.setVisibility(View.VISIBLE);
                         }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -580,7 +580,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
     public void showTitleAndBottom() {
+        if (!isDmzjView()) {
+            isFirst = true;
+            return;
+        }
+        showTitleAndBottomStartAnim();
+    }
 
+    private void showTitleAndBottomStartAnim() {
         ObjectAnimator titleAnim = ObjectAnimator.ofInt(ll_title, "translationY", llTitleHeight).setDuration(DURATION_ANIM);
         titleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -604,27 +611,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         bottomAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                //隐藏facebook广告
-                if (isDmzjView()) {
-                    if (!lastUrl.equals(mWebView.getUrl())) {
-                        if (ll_ad_container.getChildCount() > 0) {
-                            if (ll_ad_container.getParent() != null) {
-                                AdView adView = mBannerAdUtils.getBannerAd();
-                                if (adView != null) {
-                                    ((ViewGroup) ll_ad_container.getParent()).removeView(adView);
-                                }
-                            }
-                            ll_ad_container.removeAllViews();
-                        }
+                //隐藏facebook广告  逻辑
+                try {
+                    if (ll_ad_container.getVisibility() == View.VISIBLE) {
+                        ll_ad_container.setVisibility(View.GONE);
                     }
-                }
-                if (ll_ad_container.getVisibility() == View.VISIBLE) {
-                    ll_ad_container.setVisibility(View.GONE);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
         bottomAnim.start();
-
     }
 
     public boolean isDmzjView() {
@@ -642,6 +639,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (mPopupWindow != null && mPopupWindow.isShow()) {
                 mPopupWindow.exitStartAnim();
             } else if (mWebView != null && mWebView.canGoBack()) {
+                if (ll_ad_container.getVisibility() == View.VISIBLE) {
+                    showTitleAndBottomStartAnim();
+                    ll_ad_container.setVisibility(View.GONE);
+                }
                 back();
             } else {
                 super.onBackPressed();

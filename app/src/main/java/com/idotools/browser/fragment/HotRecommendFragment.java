@@ -114,9 +114,36 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
         }
     }
 
+    private synchronized void bindViewData() {
+        if (isShowAd) {
+            if (mDmzjList != null && !mDmzjList.isEmpty()) {
+                DmzjBeanResp.DmzjBean dmzjBean0 = mDmzjList.get(0);
+                dmzjBeanBindView(dmzjBean0, image_first, text_first);
+
+                DmzjBeanResp.DmzjBean dmzjBean1 = mDmzjList.get(1);
+                dmzjBeanBindView(dmzjBean1, image_second, text_second);
+
+                DmzjBeanResp.DmzjBean dmzjBean2 = mDmzjList.get(2);
+                dmzjBeanBindView(dmzjBean2, image_third, text_third);
+                //隐藏第四个，显示facebook广告
+                DmzjBeanResp.DmzjBean dmzjBean3 = mDmzjList.get(3);
+                dmzjBeanBindView(dmzjBean3, image_four, text_four);
+
+                DmzjBeanResp.DmzjBean dmzjBean4 = mDmzjList.get(4);
+                dmzjBeanBindView(dmzjBean4, image_five, text_five);
+
+                DmzjBeanResp.DmzjBean dmzjBean5 = mDmzjList.get(5);
+                dmzjBeanBindView(dmzjBean5, image_six, text_six);
+            }
+        } else {
+            if (mDmzjList != null && !mDmzjList.isEmpty()) {
+                bindList(mDmzjList);
+            }
+        }
+    }
+
     private void initAd() {
         mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID);
-//        AdSettings.addTestDevice("d5f9ab04ef516f56935528b1f59050f1");
         mNativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
         mNativeAd.setAdListener(new AdListener() {
 
@@ -127,7 +154,11 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onAdLoaded(Ad ad) {
-                // Set the Text.
+                // 隐藏漫画，显示广告
+                image_four.setVisibility(View.GONE);
+                text_four.setVisibility(View.GONE);
+                ll_ad.setVisibility(View.VISIBLE);
+
                 tv_ad_title.setText(mNativeAd.getAdTitle());
                 native_ad_call_to_action.setText(mNativeAd.getAdCallToAction());
 
@@ -175,27 +206,32 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
         int id = v.getId();
         switch (id) {
             case R.id.id_iv_image_first:
-                setOnClick(0);
+//                setOnClick(0);
+                setOnClickListener(image_first);
 
                 break;
             case R.id.id_iv_image_second:
-                setOnClick(1);
+//                setOnClick(1);
 
+                setOnClickListener(image_second);
                 break;
             case R.id.id_iv_image_third:
-                setOnClick(2);
-
+//                setOnClick(2);
+                setOnClickListener(image_third);
                 break;
             case R.id.id_iv_image_four:
-                setOnClick(3);
+//                setOnClick(3);
+                setOnClickListener(image_four);
 
                 break;
             case R.id.id_iv_image_five:
-                setOnClick(4);
+//                setOnClick(4);
+                setOnClickListener(image_five);
 
                 break;
             case R.id.id_iv_image_six:
-                setOnClick(5);
+//                setOnClick(5);
+                setOnClickListener(image_six);
 
                 break;
         }
@@ -211,37 +247,6 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
             DmzjBeanResp.DmzjBean bean = mDmzjList.get(position);
             if (bean != null) {
                 onItemClickListener(bean.mobileUrl, bean.cover, bean.title);
-            }
-        }
-    }
-
-    private synchronized void bindViewData() {
-        LogUtils.e("绑定数据  bindViewData" + mDmzjList);
-        if (isShowAd) {
-            if (mDmzjList != null && !mDmzjList.isEmpty()) {
-                DmzjBeanResp.DmzjBean dmzjBean0 = mDmzjList.get(0);
-                dmzjBeanBindView(dmzjBean0, image_first, text_first);
-
-                DmzjBeanResp.DmzjBean dmzjBean1 = mDmzjList.get(1);
-                dmzjBeanBindView(dmzjBean1, image_second, text_second);
-
-                DmzjBeanResp.DmzjBean dmzjBean2 = mDmzjList.get(2);
-                dmzjBeanBindView(dmzjBean2, image_third, text_third);
-                //隐藏第四个，显示facebook广告
-                image_four.setVisibility(View.GONE);
-                text_four.setVisibility(View.GONE);
-                ll_ad.setVisibility(View.VISIBLE);
-                initAd();
-
-                DmzjBeanResp.DmzjBean dmzjBean3 = mDmzjList.get(4);
-                dmzjBeanBindView(dmzjBean3, image_five, text_five);
-
-                DmzjBeanResp.DmzjBean dmzjBean4 = mDmzjList.get(5);
-                dmzjBeanBindView(dmzjBean4, image_six, text_six);
-            }
-        } else {
-            if (mDmzjList != null && !mDmzjList.isEmpty()) {
-                bindList(mDmzjList);
             }
         }
     }
@@ -273,7 +278,7 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
             }
             if (textView != null)
                 textView.setText(bean.title);
-//            setImageViewTag(imageView, bean.mobileUrl, bean.cover, bean.title);
+            setImageViewTag(imageView, bean.mobileUrl, bean.cover, bean.title);
         }
     }
 
@@ -286,9 +291,11 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
      * @param title
      */
     private void setImageViewTag(ImageView imageView, String url, String imgUrl, String title) {
-        imageView.setTag(R.string.string_tag_0, url);
-        imageView.setTag(R.string.string_tag_1, imgUrl);
-        imageView.setTag(R.string.string_tag_2, title);
+        if (imageView != null) {
+            imageView.setTag(R.string.string_tag_0, url);
+            imageView.setTag(R.string.string_tag_1, imgUrl);
+            imageView.setTag(R.string.string_tag_2, title);
+        }
     }
 
     public void onItemClickListener(String url, String imgUrl, String title) {

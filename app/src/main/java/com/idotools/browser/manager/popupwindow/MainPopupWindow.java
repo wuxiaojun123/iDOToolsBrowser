@@ -28,6 +28,7 @@ import com.idotools.browser.utils.GooglePlayUtils;
 import com.idotools.browser.utils.ShareUtils;
 import com.idotools.browser.utils.ShortCutUtils;
 import com.idotools.browser.view.ImageTextViewGroup;
+import com.idotools.utils.LogUtils;
 import com.idotools.utils.MetricsUtils;
 import com.idotools.utils.MobileScreenUtils;
 import com.idotools.utils.SharedPreferencesHelper;
@@ -142,14 +143,17 @@ public class MainPopupWindow implements View.OnClickListener {
     private boolean isShowing = false;
 
     public void showPopupWindow(View rootView) {
-        if (popupWindow != null && !isShowing) {
-            enterStartAnim();
-            // 显示 -emptyHeight
-            popupWindow.showAsDropDown(rootView, 0, 0);
-        } else {
-            id_ll_empty.performClick();
+        if(popupWindow != null){
+            if (isShowing) {
+                exitStartAnim();
+                isShowing = false;
+            } else {
+                enterStartAnim();
+                // 显示 -emptyHeight
+                popupWindow.showAsDropDown(rootView, 0, 0);
+                isShowing = true;
+            }
         }
-        isShowing = popupWindow.isShowing();
     }
 
     /**

@@ -18,6 +18,7 @@ import com.idotools.browser.manager.dialog.AlertDialog;
 import com.idotools.browser.minterface.OnItemDeleteClickListener;
 import com.idotools.browser.sqlite.RecordsSqliteManager;
 import com.idotools.browser.utils.ActivitySlideAnim;
+import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.view.SideSlipRecyclerView;
 import com.idotools.utils.ToastUtils;
 
@@ -143,6 +144,18 @@ public class RecordsFragment extends Fragment implements View.OnClickListener, O
                 mAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DoAnalyticsManager.pageFragmentResume("RecordsFragment",mContext);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        DoAnalyticsManager.pageFragmentPause("RecordsFragment",mContext);
     }
 
     @Override

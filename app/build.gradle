@@ -14,7 +14,7 @@ android {
     }
     sourceSets{
         main{
-            //manifest.srcFile 'AndroidManifest.xml'
+//            manifest.srcFile 'AndroidManifest.xml'
             //java.srcDirs = ['src']
             //res.srcDirs = ['res']
             assets.srcDirs = ['assets']
@@ -41,25 +41,14 @@ android {
 
             signingConfig signingConfigs.myConfig
         }
-        release_china {
+
+        release {
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
             debuggable false
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            buildConfigField('boolean', 'VERSION_COUNTRY_GP', 'false')
-
-            signingConfig signingConfigs.myConfig
-        }
-        release_google_play {
-            minifyEnabled false
-            shrinkResources true
-            zipAlignEnabled true
-            debuggable true
-
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            buildConfigField('boolean', 'VERSION_COUNTRY_GP', 'true')
 
             signingConfig signingConfigs.myConfig
         }
