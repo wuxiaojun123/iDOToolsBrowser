@@ -60,7 +60,7 @@ public class SplashActivity extends Activity {
     }
 
     private void startPageAnim() {
-        mHandler.sendEmptyMessageDelayed(0, 500);
+        mHandler.sendEmptyMessageDelayed(0, 2000);
     }
 
     @Override

@@ -271,7 +271,11 @@ public class MainPopupWindow implements View.OnClickListener {
      * 更新
      */
     private void checkUpdate() {
-        GooglePlayUtils.openGooglePlayByPkg(mContext.getApplicationContext(), mContext.getPackageName());
+        try {
+            GooglePlayUtils.openGooglePlayByPkg(mContext.getApplicationContext(), mContext.getPackageName());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /***

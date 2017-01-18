@@ -1,5 +1,6 @@
 package com.idotools.browser.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class GooglePlayUtils {
 
-    public static void openGooglePlayByPkg(Context context, String pkgName) {
+    public static void openGooglePlayByPkg(Context context, String pkgName) throws ActivityNotFoundException{
         Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="
                 + pkgName));
         boolean marketFound = false;
@@ -55,7 +56,7 @@ public class GooglePlayUtils {
      * @param context
      * @param uriString market://details?id=com.xxx.xxx
      */
-    public static void openGooglePlayByUri(Context context, String uriString) {
+    public static void openGooglePlayByUri(Context context, String uriString) throws ActivityNotFoundException{
         if(!TextUtils.isEmpty(uriString)){
             Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
             boolean marketFound = false;
@@ -85,10 +86,12 @@ public class GooglePlayUtils {
             if (!marketFound) {
                 //截取包名
                 String pkgName = uriString.substring(uriString.indexOf("=")+1);
-                Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://play.google.com/store/apps/details?id=" + pkgName));
-                webIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.getApplicationContext().startActivity(webIntent);
+                if(!TextUtils.isEmpty(pkgName)){
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=" + pkgName));
+                    webIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.getApplicationContext().startActivity(webIntent);
+                }
             }
         }
     }

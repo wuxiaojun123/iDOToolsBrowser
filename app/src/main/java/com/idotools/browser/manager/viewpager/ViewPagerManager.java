@@ -207,15 +207,16 @@ public class ViewPagerManager {
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(url)) {
                     if (openType.equals("browser")) {//浏览器打开网页
-                        if (url.startsWith("market")) {
-                            GooglePlayUtils.openGooglePlayByUri(mContext, url);
-                        } else {
-                            try {
+                        try {
+                            if (url.startsWith("market")) {
+                                GooglePlayUtils.openGooglePlayByUri(mContext, url);
+                            } else {
+
                                 Intent mIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                                 mContext.startActivity(mIntent);
-                            }catch (Exception e){
-                                e.printStackTrace();
                             }
+                        }catch(Exception e){
+                            e.printStackTrace();
                         }
                     } else { // webview打开url
                         goToMainActivity(url);
