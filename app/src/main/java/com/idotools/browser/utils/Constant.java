@@ -24,17 +24,19 @@ public class Constant {
     public static final String DMZJ_TOKEN = "2c112dff5be7cf360362a360b5843b42";
 
 
-    //banner和首页的json数据保存到文件中
+    // banner和首页的json数据保存到文件中
     public static final String FILE_BANNER = "browserBanner";
     public static final String FILE_UPDATE_DATA = "browserUpdateData";
     public static final String FILE_HOT_DATA = "browserHotData";
 
-    //facebook placement_id
-    public static final String FACEBOOK_PLACEMENT_ID = "1837458113187587_1837461516520580";
+    // facebook placement_id
+    public static final String FACEBOOK_PLACEMENT_ID_LATEST_UPDATE = "1837458113187587_1837461516520580";
+    public static final String FACEBOOK_PLACEMENT_ID_HOT_SINGLE = "1837458113187587_1850466941886704";
+    public static final String FACEBOOK_PLACEMENT_ID_HOT_DMZJ = "1837458113187587_1850466831886715";
     public static final String FACEBOOK_PLACEMENT_ID_BANNER = "1837458113187587_1845902922343106";
 
 
-    //webview 的解析协议等
+    // webview 的解析协议等
     public static final String HTTP = "http://";
     public static final String HTTPS = "https://";
     public static final String FILE = "file://";
@@ -42,13 +44,19 @@ public class Constant {
     public static final String FOLDER = "folder://";
     public static final String INTENT_ORIGIN = "URL_INTENT_ORIGIN";
 
-
+    // 搜索
     public static final String SEARCH_URL_GOOGLE = "https://www.google.com/search?nota=1&gws_rd=ssl&q=";
     public static final String SEARCH_URL_BAIDU = "http://www.baidu.com/#wd=";
     public static final String SEARCH_URL_DMZJ = "http://m.dmzj.com/search/";
 
-
-    //表示当前是国内版本还是海外版本 true 为海外版本
-//    public static final boolean VERSION_COUNTRY_GP = true;
+    //
+    public static final int LOAD_MORE_NO = 2;//没有更多
+    public static final int LOAD_MORE_LOADING = 0;//正在加载
+    public static final int LOAD_MORE_COMPILE = 1;//加载完成
+    public static final int VIEW_TYPE_HEADER1 = 9998;//表示当前view类型为正常viewType
+    public static final int VIEW_TYPE_HEADER2 = 9999;//表示当前view类型为正常viewType
+    public static final int VIEW_TYPE_NORMAL = 10000;//表示当前view类型为正常viewType
+    public static final int VIEW_TYPE_FOOTER = 10001;//表示当前view类型是footerView
+    public static final int VIEW_TYPE_AD = 19999;//当前类型是10005
 
 }

@@ -2,6 +2,7 @@ package com.idotools.browser.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.minterface.OnItemClickListener;
 import com.idotools.browser.utils.Constant;
 import com.idotools.browser.utils.DoAnalyticsManager;
-import com.idotools.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,13 +31,6 @@ import java.util.List;
  * Created by wuxiaojun on 16-11-9.
  */
 public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    public static final int LOAD_MORE_NO = 2;//没有更多
-    public static final int LOAD_MORE_LOADING = 0;//正在加载
-    public static final int LOAD_MORE_COMPILE = 1;//加载完成
-    private static final int VIEW_TYPE_NORMAL = 10000;//表示当前view类型为正常viewType
-    private static final int VIEW_TYPE_FOOTER = 10001;//表示当前view类型是footerView
-    private static final int VIEW_TYPE_AD = 19999;//当前类型是10005
 
     public Context mContext;
     private View footerView;//加载更多布局
@@ -63,9 +56,9 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_FOOTER) {
+        if (viewType == Constant.VIEW_TYPE_FOOTER) {
             return new FooterViewHolder(footerView);
-        } else if (viewType == VIEW_TYPE_AD) {
+        } else if (viewType == Constant.VIEW_TYPE_AD) {
             return new DmzjViewHolderTypeAd(inflater.inflate(R.layout.item_dmzj_native_ad, null));
         }
         return new DmzjViewHolder(inflater.inflate(R.layout.item_dmzj, null));
@@ -95,34 +88,20 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 });
             } else {
                 final DmzjViewHolderTypeAd dmzjViewHolder = (DmzjViewHolderTypeAd) holder;
-                String currentPositionStr = position + "";
-
-                NativeAd mNativeAd = nativeAdHashMap.get(currentPositionStr);
-                if (mNativeAd == null) {//实例化广告
-                    //这里先隐藏广告布局，等ad加载完成了再显示
-                    synchronized ("loadAd") {
-                        mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID);
-                        mNativeAd.setAdListener(new NativeAdListener(dmzjViewHolder, mNativeAd, currentPositionStr));
-                        mNativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
-                        nativeAdHashMap.put(currentPositionStr, mNativeAd);
-                    }
-                } else {
-                    //设置view上的内容
-                    setNativeAdView(dmzjViewHolder, mNativeAd, currentPositionStr);
-                }
+                bindNativeAdViewHolder(dmzjViewHolder,position);
             }
         } else {//加载更多
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
             switch (status_add_more) {
-                case LOAD_MORE_LOADING:
+                case Constant.LOAD_MORE_LOADING:
                     footerViewHolder.progressBar.showNow();
                     footerViewHolder.id_ll_footer.setVisibility(View.VISIBLE);
                     break;
-                case LOAD_MORE_COMPILE:
+                case Constant.LOAD_MORE_COMPILE:
                     footerViewHolder.progressBar.hideNow();
                     footerViewHolder.id_ll_footer.setVisibility(View.GONE);
                     break;
-                case LOAD_MORE_NO:
+                case Constant.LOAD_MORE_NO:
                     footerViewHolder.progressBar.hideNow();
                     footerViewHolder.id_ll_footer.setVisibility(View.GONE);
                     break;
@@ -130,8 +109,39 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    /***
+     * 绑定广告view
+     *
+     * @param dmzjViewHolder
+     * @param position
+     */
+    private void bindNativeAdViewHolder(DmzjViewHolderTypeAd dmzjViewHolder, int position) {
+        String currentPositionStr = position + "";
+        dmzjViewHolder.native_ad_unit.setVisibility(View.GONE);
+
+        NativeAd mNativeAd = nativeAdHashMap.get(currentPositionStr);
+        if (mNativeAd == null) {//实例化广告
+            //这里先隐藏广告布局，等ad加载完成了再显示
+            synchronized ("loadAd") {
+                mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID_HOT_DMZJ);
+                mNativeAd.setAdListener(new NativeAdListener(dmzjViewHolder, mNativeAd, currentPositionStr));
+                mNativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
+                nativeAdHashMap.put(currentPositionStr, mNativeAd);
+            }
+        } else {
+            //设置view上的内容
+            setNativeAdView(dmzjViewHolder, mNativeAd, currentPositionStr);
+        }
+    }
+
     private void setNativeAdView(DmzjViewHolderTypeAd dmzjViewHolder, NativeAd mNativeAd, String currentPosition) {
         try {
+            if (dmzjViewHolder.native_ad_unit.getVisibility() == View.GONE) {
+                if (!TextUtils.isEmpty(mNativeAd.getAdTitle())) {
+                    dmzjViewHolder.native_ad_unit.setVisibility(View.VISIBLE);
+                }
+            }
+
             mNativeAd.unregisterView();
             // Set the Text.
             dmzjViewHolder.nativeAdTitle.setText(mNativeAd.getAdTitle());
@@ -176,17 +186,20 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         public void onError(Ad ad, AdError error) {
-            LogUtils.e("加载失败:" + error.getErrorCode() + "=" + error.getErrorMessage());
+            dmzjViewHolder.native_ad_unit.setVisibility(View.GONE);
         }
 
         @Override
         public void onAdLoaded(Ad ad) {
             // Set the Text.
+            if (!TextUtils.isEmpty(mNativeAd.getAdTitle())) {
+                dmzjViewHolder.native_ad_unit.setVisibility(View.VISIBLE);
+            }
+
             dmzjViewHolder.nativeAdTitle.setText(mNativeAd.getAdTitle());
             dmzjViewHolder.nativeAdBody.setText(mNativeAd.getAdBody());
             dmzjViewHolder.nativeAdCallToAction.setText(mNativeAd.getAdCallToAction());
 
-            LogUtils.e("获取广告图片路径" + mNativeAd.getAdCoverImage().getUrl());
             dmzjViewHolder.nativeAdMedia.setNativeAd(mNativeAd);
 
             AdChoicesView adChoicesView = new AdChoicesView(mContext, mNativeAd, true);
@@ -262,7 +275,7 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public int getItemViewType(int position) {
         if (isFooterPosition(position)) {
-            return VIEW_TYPE_FOOTER;
+            return Constant.VIEW_TYPE_FOOTER;
         } else {
             return judgmentType(position);
         }
@@ -270,9 +283,9 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private int judgmentType(int position) {
         if (mList.get(position) != null) {
-            return VIEW_TYPE_NORMAL;
+            return Constant.VIEW_TYPE_NORMAL;
         } else {
-            return VIEW_TYPE_AD;
+            return Constant.VIEW_TYPE_AD;
         }
     }
 
@@ -305,8 +318,6 @@ public class DmzjHotRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
      */
     public void changeAddMoreStatus(int status) {
         this.status_add_more = status;
-        if (status_add_more == LOAD_MORE_LOADING) {
-        }
         notifyDataSetChanged();
     }
 

@@ -129,6 +129,13 @@ public class RadioButtonAlertDialog {
         return this;
     }
 
+    public boolean getRadioButtonIsChecked(){
+        if(radioButton != null){
+            return radioButton.isChecked();
+        }
+        return false;
+    }
+
     private void setLayout() {
 
         if (showMsg) {

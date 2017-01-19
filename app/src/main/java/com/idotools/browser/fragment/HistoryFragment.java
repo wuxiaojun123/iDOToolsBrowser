@@ -21,6 +21,7 @@ import com.idotools.browser.sqlite.SqliteManager;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.DoAnalyticsManager;
 import com.idotools.browser.view.SideSlipRecyclerView;
+import com.idotools.utils.LogUtils;
 import com.idotools.utils.ToastUtils;
 
 import java.util.List;
@@ -81,13 +82,14 @@ public class HistoryFragment extends Fragment implements View.OnClickListener, O
             ToastUtils.show(mContext, getString(R.string.string_no_history));
             return;
         }
-        new RadioButtonAlertDialog(getActivity()).builder()
+        final RadioButtonAlertDialog dialog = new RadioButtonAlertDialog(getActivity());
+        dialog.builder()
                 .setMsg(R.string.string_confirm_clean_all_cache)
                 .setPositiveButton(R.string.string_confirm, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //删除所有历史记录
-                        if (checked) {
+                        if (dialog.getRadioButtonIsChecked()) {
                             if (list != null && !list.isEmpty()) {
                                 if (mSqliteManager == null) {
                                     mSqliteManager = new SqliteManager(mContext);
@@ -151,13 +153,13 @@ public class HistoryFragment extends Fragment implements View.OnClickListener, O
     @Override
     public void onResume() {
         super.onResume();
-        DoAnalyticsManager.pageFragmentResume("HistoryFragment",mContext);
+        DoAnalyticsManager.pageFragmentResume("HistoryFragment", mContext);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        DoAnalyticsManager.pageFragmentPause("HistoryFragment",mContext);
+        DoAnalyticsManager.pageFragmentPause("HistoryFragment", mContext);
     }
 
     @Override

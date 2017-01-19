@@ -24,6 +24,7 @@
         android:id="@+id/id_swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dimen_control_bottom_total_height"
         android:layout_marginTop="54dp">
 
     </android.support.v4.widget.SwipeRefreshLayout>

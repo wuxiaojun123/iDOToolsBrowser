@@ -13,17 +13,13 @@ import android.widget.TextView;
 
 import com.idotools.browser.R;
 import com.idotools.browser.adapter.DmzjHotRecyclerAdapter;
-import com.idotools.browser.adapter.DmzjRecyclerAdapter;
 import com.idotools.browser.bean.DmzjBeanResp;
 import com.idotools.browser.manager.http.AppHttpClient;
 import com.idotools.browser.minterface.OnItemClickListener;
 import com.idotools.browser.minterface.OnLoadDmzjHotDataListener;
 import com.idotools.browser.utils.ActivitySlideAnim;
 import com.idotools.browser.utils.Constant;
-import com.idotools.browser.utils.JsonUtils;
-import com.idotools.utils.FileUtils;
 import com.idotools.utils.JudgeNetWork;
-import com.idotools.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,13 +121,12 @@ public class DmzjHotActivity extends BaseActivity implements View.OnClickListene
                         list.add(null);
                     }
                     //加载更多
-                    mDmzjAdapter.addMoreItem(list, DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
+                    mDmzjAdapter.addMoreItem(list, Constant.LOAD_MORE_COMPILE);
                 } else { //拉取最新
                     int size = list.size();
                     if (size > 5) {
                         list.add(5, null);
                     }
-                    LogUtils.e("长度是：" + list.size());
                     if (list.size() >= 12) {
                         list.add(null);
                     }
@@ -157,11 +152,11 @@ public class DmzjHotActivity extends BaseActivity implements View.OnClickListene
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && (lastVisiblePosition + 1) == mDmzjAdapter.getItemCount()) {
                     if (JudgeNetWork.isNetAvailable(mContext)) {
-                        mDmzjAdapter.changeAddMoreStatus(DmzjHotRecyclerAdapter.LOAD_MORE_LOADING);
+                        mDmzjAdapter.changeAddMoreStatus(Constant.LOAD_MORE_LOADING);
                         page += 1;
                         loadHotData(page, true);
                     } else {
-                        mDmzjAdapter.changeAddMoreStatus(DmzjHotRecyclerAdapter.LOAD_MORE_COMPILE);
+                        mDmzjAdapter.changeAddMoreStatus(Constant.LOAD_MORE_COMPILE);
                     }
                 }
             }

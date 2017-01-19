@@ -143,7 +143,7 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void initAd() {
-        mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID);
+        mNativeAd = new NativeAd(mContext, Constant.FACEBOOK_PLACEMENT_ID_HOT_SINGLE);
         mNativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
         mNativeAd.setAdListener(new AdListener() {
 

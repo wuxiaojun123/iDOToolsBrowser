@@ -229,8 +229,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 回到上一个页面
      */
     private void backLastActivity() {
-        finish();
-        ActivitySlideAnim.slideOutAnim(MainActivity.this);
+        try{
+            int size = ActivityUtils.activities.size();
+            for (int i = size - 1; i >= 0; i--) {
+                String simpleName = ActivityUtils.activities.get(i).getClass().getSimpleName();
+                if (!simpleName.equals(DmzjActivity.class.getSimpleName())) {
+                    ActivityUtils.activities.get(i).finish();
+                }
+            }
+            ActivitySlideAnim.slideOutAnim(MainActivity.this);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -375,7 +385,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onReceivedError(WebView view, int errorCode) {
-        if (progress_view.getProgress() < 70) {
+        if (progress_view.getProgress() < 60) {
             showNetworkAddressErrorLayout(true);
         } else {
             //重新刷新
@@ -594,7 +604,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             public void onAnimationUpdate(ValueAnimator animation) {
                 int value = (int) animation.getAnimatedValue();
                 RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) swipeRefreshLayout.getLayoutParams();
-                lp.setMargins(0, value, 0, 0);
+                if (value >= llTitleHeight) {
+                    lp.setMargins(0, value, 0, llBottomHeight);
+                } else {
+                    lp.setMargins(0, value, 0, 0);
+                }
                 swipeRefreshLayout.requestLayout();
             }
         });

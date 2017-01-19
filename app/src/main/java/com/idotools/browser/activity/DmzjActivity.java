@@ -32,12 +32,14 @@ import com.idotools.utils.DeviceUtil;
 import com.idotools.utils.FileUtils;
 import com.idotools.utils.InputWindowUtils;
 import com.idotools.utils.JudgeNetWork;
+import com.idotools.utils.LogUtils;
 import com.idotools.utils.SharedPreferencesHelper;
 import com.idotools.utils.ToastUtils;
 import com.igexin.sdk.PushManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -124,7 +126,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             @Override
             public void loadBannerDataFailedListener() {
                 if (mDmzjAdapter != null) {
-                    mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
+                    mDmzjAdapter.changeAddMoreStatus(Constant.LOAD_MORE_COMPILE);
                 }
             }
         });
@@ -147,7 +149,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         list.add(null);
                     }
                     //加载更多
-                    mDmzjAdapter.addMoreItem(list, DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
+                    mDmzjAdapter.addMoreItem(list, Constant.LOAD_MORE_COMPILE);
                 } else {
                     //拉取最新
                     FileUtils.saveFile(mContext, Constant.FILE_UPDATE_DATA, JsonUtils.toJsonFromList(list));
@@ -161,7 +163,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public void loadDmzjDataFailedListener() {
                 id_swiperefresh.setRefreshing(false);//刷新完成
                 if (flag)
-                    mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
+                    mDmzjAdapter.changeAddMoreStatus(Constant.LOAD_MORE_COMPILE);
             }
         });
     }
@@ -263,11 +265,11 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && (lastVisiblePosition + 1) == mDmzjAdapter.getItemCount()) {
                     if (JudgeNetWork.isNetAvailable(mContext)) {
-                        mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_LOADING);
+                        mDmzjAdapter.changeAddMoreStatus(Constant.LOAD_MORE_LOADING);
                         page += 1;
                         loadUpdateData(page, true);
                     } else {
-                        mDmzjAdapter.changeAddMoreStatus(DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
+                        mDmzjAdapter.changeAddMoreStatus(Constant.LOAD_MORE_COMPILE);
                     }
                 }
             }
