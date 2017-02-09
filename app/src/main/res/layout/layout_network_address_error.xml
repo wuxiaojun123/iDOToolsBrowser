@@ -31,7 +31,7 @@
         android:background="@color/color_d7" />
 
 
-    <com.idotools.browser.view.FlowViewGroup
+    <com.manga.browser.view.FlowViewGroup
         android:id="@+id/id_flow_viewgroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

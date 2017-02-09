@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">動漫瀏覽器</string>
-    <string name="string_main_title">動漫瀏覽器</string>
+    <string name="app_name">漫畫瀏覽器</string>
+    <string name="string_main_title">漫畫瀏覽器</string>
 
     <!--热门推荐和最新更新-->
     <string name="string_hot">熱門推薦</string>
@@ -65,6 +65,11 @@
     <string name="string_download_fail">下載失敗</string>
     <string name="string_look">查看</string>
     <string name="string_request_write_external_storage_permission">請求下載文件權限</string>
+    <string name="string_adorable_station">萌站</string>
+    <string name="string_main_secret">有妖氣</string>
+    <string name="string_main_tencent_comics">騰訊漫畫</string>
+    <string name="string_main_read_comics">快看漫畫</string>
+    <string name="string_main_neteast_comics">尚漫</string>
     <!--搜索-->
     <string name="string_cartoon_or_author">漫畫名或作者</string>
     <string name="string_more">更多</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.idotools.browser">
+    package="com.manga.browser">
 
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -41,14 +41,14 @@
 
 
     <application
-        android:name="com.idotools.browser.App"
+        android:name="com.manga.browser.App"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true">
 
         <activity
-            android:name="com.idotools.browser.activity.SplashActivity"
+            android:name="com.manga.browser.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/style_BaseAppTheme">
             <intent-filter>
@@ -59,32 +59,33 @@
         </activity>
 
         <activity
-            android:name="com.idotools.browser.activity.DmzjActivity"
+            android:name="com.manga.browser.activity.DmzjActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/style_BaseAppTheme"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".activity.DmzjHotActivity"
+            android:name="com.manga.browser.activity.DmzjHotActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/style_splash" />
 
         <activity
-            android:name="com.idotools.browser.activity.MainActivity"
+            android:name="com.manga.browser.activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/style_splash"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name="com.manga.browser.activity.HistoryAndRecordsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/style_splash" />
 
         <activity
-            android:name="com.idotools.browser.activity.HistoryAndRecordsActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/style_splash" />
-
-        <activity
-            android:name="com.idotools.browser.activity.AboutActivity"
+            android:name="com.manga.browser.activity.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/style_splash" />
 
@@ -92,104 +93,11 @@
         <!-- 国内 key -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5825333945297d16fa0024a8" />
+            android:value="589c3a08bbea8302c30005a3" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="111" />
         <!-- 友盟 END -->
-
-
-        <!-- 个推SDK配置开始 -->
-        <!-- 配置的第三方参数属性 -->
-        <meta-data
-            android:name="PUSH_APPID"
-            android:value="GZNLCvRiEZ8ucGl5gFAEd9" />
-        <!-- 替换为第三方应用的APPID -->
-        <meta-data
-            android:name="PUSH_APPKEY"
-            android:value="Ao8XXUKzyQ65GQtw51Kgt7" />
-        <!-- 替换为第三方应用的APPKEY -->
-        <meta-data
-            android:name="PUSH_APPSECRET"
-            android:value="lY0YJNNUve9c2bWTpYclc3" />
-        <!-- 替换为第三方应用的APPSECRET -->
-        <!-- 配置SDK核心服务 -->
-        <service
-            android:name="com.igexin.sdk.PushService"
-            android:exported="true"
-            android:label="NotificationCenter"
-            android:process=":pushservice">
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.service.message" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name="com.igexin.sdk.PushServiceUser"
-            android:exported="true"
-            android:label="NotificationCenterUser">
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.user.message" />
-            </intent-filter>
-        </service>
-
-        <receiver android:name="com.igexin.sdk.PushReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="com.igexin.sdk.action.refreshls" />
-                <!-- 以下三项为可选的action声明，可大大提高service存活率和消息到达速度 -->
-                <action android:name="android.intent.action.MEDIA_MOUNTED" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.igexin.sdk.PushManagerReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.pushmanager" />
-            </intent-filter>
-        </receiver>
-
-        <activity
-            android:name="com.igexin.sdk.PushActivity"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:process=":pushservice"
-            android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name="com.igexin.sdk.GActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:process=":pushservice"
-            android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <service
-            android:name="com.igexin.download.DownloadService"
-            android:process=":pushservice" />
-        <receiver android:name="com.igexin.download.DownloadReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <provider
-            android:name="com.igexin.download.DownloadProvider"
-            android:authorities="downloads.com.idotools.browser"
-            android:exported="true"
-            android:process=":pushservice" />
-
-        <receiver
-            android:name="com.idotools.browser.receiver.GeTuiPushReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.GZNLCvRiEZ8ucGl5gFAEd9" />
-            </intent-filter>
-        </receiver>
-        <!-- 个推SDK配置结束 -->
 
         <!--facebook广告 start-->
         <meta-data

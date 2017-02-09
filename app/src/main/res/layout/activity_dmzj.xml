@@ -25,15 +25,16 @@
         android:id="@+id/id_swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/id_layout_title">
+        android:layout_below="@id/id_layout_title"
+        android:layout_marginBottom="@dimen/dimen_control_bottom_total_height">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/id_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/color_while" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
     <FrameLayout
         android:id="@+id/id_fl_mask"
@@ -44,16 +45,30 @@
         android:background="@color/color_black"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/id_layout_bottom"
+        layout="@layout/layout_control_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_control_bottom_total_height"
+        android:layout_alignParentBottom="true" />
+
     <ImageView
         android:id="@+id/id_return_to_top"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/id_layout_bottom"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="50dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="20dp"
         android:src="@drawable/selector_return_to_top"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/id_iv_night_toogle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/img_night_mode"
+        android:visibility="gone" />
 
 </RelativeLayout>

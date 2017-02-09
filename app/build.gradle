@@ -6,7 +6,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.idotools.browser"
+        applicationId "com.manga.browser"
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
@@ -84,7 +84,7 @@ dependencies {
     //glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
     //个推
-    compile project(":library_getui")
+//    compile project(":library_getui")
     //compile 'com.android.support:support-v4:19.1.0'
     //rxjava和retrofit框架
 //    compile 'io.reactivex:rxandroid:1.2.1'

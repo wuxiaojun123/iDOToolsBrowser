@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.idotools.browser.view.SideSlipRecyclerView
+    <com.manga.browser.view.SideSlipRecyclerView
         android:id="@+id/id_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

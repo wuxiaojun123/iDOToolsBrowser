@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">动漫浏览器</string>
-    <string name="string_main_title">动漫浏览器</string>
+    <string name="app_name">漫画浏览器</string>
+    <string name="string_main_title">漫画浏览器</string>
 
     <!--热门推荐和最新更新-->
     <string name="string_hot">热门推荐</string>
@@ -63,6 +63,11 @@
     <string name="string_download_fail">下载失败</string>
     <string name="string_look">查看</string>
     <string name="string_request_write_external_storage_permission">请求下载文件权限</string>
+    <string name="string_adorable_station">萌站</string>
+    <string name="string_main_secret">有妖气</string>
+    <string name="string_main_tencent_comics">腾讯漫画</string>
+    <string name="string_main_read_comics">快看漫画</string>
+    <string name="string_main_neteast_comics">尚漫</string>
     
     <!--搜索-->
     <string name="string_cartoon_or_author">漫画名或作者</string>
@@ -70,6 +75,7 @@
     
     <!--热门推荐-->
     <string name="string_hot_recommend">热门推荐</string>
+
 
     <!--设置view的tab-->
     <string type="id" name="string_tag_0" />
@@ -86,6 +92,6 @@
     <drawable name="color_pressed_day">#e8e8e8</drawable>
 
     <!--facebook的广告-->
-    <string name="facebook_app_id">1837458113187587</string>
+    <string name="facebook_app_id">656610601208619</string>
 
 </resources>
