@@ -9,7 +9,9 @@ import com.manga.browser.minterface.OnLoadDmzjUpdateDataListener;
 import com.manga.browser.utils.Constant;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,11 +31,19 @@ public class AppHttpClient {
      * @param versionCode
      */
     public void requestBannerPath(String packageName, int versionCode) {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+
         Retrofit mRetrofit = new Retrofit
                 .Builder()
                 .baseUrl(Constant.PATH_BASE_BANNER)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
+
         APIService apiService = mRetrofit.create(APIService.class);
         Call<BannerResp> bannerBeanList1 = apiService.getBannerBeanList(packageName, "comic001");
         //异步请求网络信息

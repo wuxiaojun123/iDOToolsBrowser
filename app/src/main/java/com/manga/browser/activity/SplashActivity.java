@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.idotools.utils.SharedPreferencesHelper;
 import com.manga.browser.R;
 import com.manga.browser.utils.ActivitySlideAnim;
 
@@ -41,9 +43,18 @@ public class SplashActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
+        initNightMode();
         //获取推送数据
         getGeTuiMsg();
+    }
 
+    private void initNightMode() {
+        boolean modeNight = SharedPreferencesHelper.getInstance(getApplicationContext()).getBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, false);
+        if (modeNight) { // 夜间模式
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     public void getGeTuiMsg() {

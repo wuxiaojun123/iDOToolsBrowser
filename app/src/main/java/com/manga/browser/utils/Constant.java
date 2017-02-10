@@ -65,5 +65,7 @@ public class Constant {
     public static final String URL_COMICS_READ = "http://link.idourl.com:16030/05899029f4384171911f824a25a10baf";
     public static final String URL_COMICS_BOOK = "http://link.idourl.com:16030/eb5f1dfb2ed34b2788cd1af9556ede2a";
 
+//    public static final String URL_COMICS_BOOK = "https://h5.manhua.163.com/?comic_site=MOBILE";
+
 
 }

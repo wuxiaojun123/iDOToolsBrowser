@@ -32,13 +32,11 @@ import com.manga.browser.bean.BannerResp;
 import com.manga.browser.bean.DmzjBeanResp;
 import com.manga.browser.manager.http.AppHttpClient;
 import com.manga.browser.manager.popupwindow.DmzjPopupWindow;
-import com.manga.browser.manager.popupwindow.MainPopupWindow;
 import com.manga.browser.minterface.OnItemClickListener;
 import com.manga.browser.minterface.OnLoadBannerDataListener;
 import com.manga.browser.minterface.OnLoadDmzjHotDataListener;
 import com.manga.browser.minterface.OnLoadDmzjUpdateDataListener;
 import com.manga.browser.utils.ActivitySlideAnim;
-import com.manga.browser.utils.ActivityUtils;
 import com.manga.browser.utils.Constant;
 import com.manga.browser.utils.DoAnalyticsManager;
 import com.manga.browser.utils.JsonUtils;
@@ -63,7 +61,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @BindView(R.id.id_layout_bottom)
     LinearLayout ll_bottom;// 底部布局
     @BindView(R.id.id_iv_night_toogle)
-    ImageView iv_night_toogle;// 夜间模式切换
+    public ImageView iv_night_toogle;// 夜间模式切换
     @BindView(R.id.id_layout_title)
     LinearLayout ll_title;//标题布局
 
@@ -76,8 +74,8 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     RecyclerView recyclerView;
     @BindView(R.id.id_return_to_top)
     ImageView id_return_to_top;
-    @BindView(R.id.id_layout_no_network)
-    LinearLayout id_layout_no_network;
+    //    @BindView(R.id.id_layout_no_network)
+//    LinearLayout id_layout_no_network;
     @BindView(R.id.id_fl_mask)
     FrameLayout id_fl_mask;
 
@@ -121,9 +119,13 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         setSwipeBackEnable(false);
         ButterKnife.bind(this);
 
-        initView();
-        initData();
-        getGeTuiMsg();
+        String url = getIntent().getStringExtra("url");
+        if (!TextUtils.isEmpty(url)) {
+            goToMainActivity(url);
+        }else{
+            initView();
+            initData();
+        }
     }
 
     /***
@@ -135,15 +137,15 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         initCacheData();
         mAppHttpClient = new AppHttpClient();
         if (JudgeNetWork.isNetAvailable(mContext)) {
-            id_layout_no_network.setVisibility(View.GONE);
+//            id_layout_no_network.setVisibility(View.GONE);
             id_swiperefresh.setRefreshing(true);
             loadUpdateData(page, false);
             loadBannerData();
             loadHotData();
 
         } else {
-            if (mBannerBeanList == null)
-                id_layout_no_network.setVisibility(View.VISIBLE);
+//            if (mBannerBeanList == null)
+//                id_layout_no_network.setVisibility(View.VISIBLE);
         }
     }
 
@@ -212,13 +214,21 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      * 拉取热门的动漫之家的数据
      */
     private void loadHotData() {
-        mAppHttpClient.requestDmzjHotBeanList(1, 18);
+        mAppHttpClient.requestDmzjHotBeanList(1, 19);
         mAppHttpClient.setOnLoadDmzjHotDataListener(new OnLoadDmzjHotDataListener() {
             @Override
-            public void loadDmzjDataSuccessListener(DmzjBeanResp resp) {
-                //拉取热门的数据
-                FileUtils.saveFile(mContext, Constant.FILE_HOT_DATA, JsonUtils.toJsonFromList(resp.comics));
-                mDmzjAdapter.setHeadView2Data(resp.comics);
+            public void loadDmzjDataSuccessListener(DmzjBeanResp resp) { // 拉取热门的数据
+                // 手动删除一拳超人漫画 id为9949
+                List<DmzjBeanResp.DmzjBean> comics = resp.comics;
+                int size = comics.size();
+                for (int i = 0; i < size; i++) {
+                    if ("9949".equals(comics.get(i).id)) {
+                        comics.remove(i);
+                        break;
+                    }
+                }
+                FileUtils.saveFile(mContext, Constant.FILE_HOT_DATA, JsonUtils.toJsonFromList(comics));
+                mDmzjAdapter.setHeadView2Data(comics);
             }
 
             @Override
@@ -240,6 +250,15 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     mDmzjAdapter.setBannerBeanList(mBannerBeanList);
                 }
             }
+
+            String hotData = FileUtils.readFile(mContext, Constant.FILE_HOT_DATA);
+            if (!TextUtils.isEmpty(hotData)) { //mDmzjAdapter.setHeadView2Data(comics);
+                List<DmzjBeanResp.DmzjBean> list = JsonUtils.fromJsonArray(hotData, DmzjBeanResp.DmzjBean.class);
+                if (list != null && !list.isEmpty()) {
+                    mDmzjAdapter.setHeadView2Data(list);
+                }
+            }
+
             String mainData = FileUtils.readFile(mContext, Constant.FILE_UPDATE_DATA);
             if (!TextUtils.isEmpty(mainData)) {
                 List<DmzjBeanResp.DmzjBean> list = JsonUtils.fromJsonArray(mainData, DmzjBeanResp.DmzjBean.class);
@@ -258,7 +277,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      * 初始化view
      */
     private void initView() {
-        initNightMode();
         initRecycler();
         initScrollListener();
         // 设置下拉刷新样式
@@ -276,18 +294,6 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         iv_back.setImageResource(R.mipmap.img_back_normal);
         iv_forward.setImageResource(R.mipmap.img_forward_normal);
         iv_home.setImageResource(R.mipmap.img_home_normal);
-
-    }
-
-    private void initNightMode() {
-        boolean modeNight = SharedPreferencesHelper.getInstance(mContext).getBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, false);
-        if (modeNight) { // 夜间模式
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            iv_night_toogle.setImageResource(R.mipmap.img_day_mode);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            iv_night_toogle.setImageResource(R.mipmap.img_night_mode);
-        }
     }
 
     /**
@@ -345,9 +351,9 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
     public void refresh() {
         if (JudgeNetWork.isNetAvailable(mContext)) {
-            if (id_layout_no_network.getVisibility() == View.VISIBLE) {
+            /*if (id_layout_no_network.getVisibility() == View.VISIBLE) {
                 id_layout_no_network.setVisibility(View.GONE);
-            }
+            }*/
             page = 1;
             loadUpdateData(page, false);
             loadHotData();
@@ -403,8 +409,15 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     /***
      * 开始执行夜间模式的切换动画
+     *
+     * @param isNightMode true 表示为夜间模式  false  表示白天模式
      */
-    public void startDayNightModeToogleAnim() {
+    public void startDayNightModeToogleAnim(boolean isNightMode) {
+        if (isNightMode) {
+            iv_night_toogle.setImageResource(R.mipmap.img_day_mode);
+        } else {
+            iv_night_toogle.setImageResource(R.mipmap.img_night_mode);
+        }
         iv_night_toogle.setVisibility(View.VISIBLE);
         ObjectAnimator mTranslationYObjectAnimator = ObjectAnimator.ofFloat(iv_night_toogle, "translationY",
                 screentHeight, nightModeTranslationY);

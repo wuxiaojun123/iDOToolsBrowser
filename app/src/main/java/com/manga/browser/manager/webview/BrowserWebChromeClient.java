@@ -55,8 +55,10 @@ public class BrowserWebChromeClient extends WebChromeClient {
                 view.loadUrl(bottomSb2.toString());
             } else if (url.contains("dmzj")) {
                 view.loadUrl(bottomSb2.toString());
+
             } else if(url.equals("http://m.kuaikanmanhua.com/")){
                 view.loadUrl(kuaikanSb.toString());
+
             } else if(url.startsWith("http://m.kuaikanmanhua.com/mobile")){
                 view.loadUrl(kuaikanSb2.toString());
 
@@ -68,9 +70,9 @@ public class BrowserWebChromeClient extends WebChromeClient {
                 view.loadUrl(tencentSb2.toString());
             } else if(url.startsWith("http://m.ac.qq.com/chapter/index/id")){
                 view.loadUrl(tencentSb2.toString());
-            } else if(url.equals("http://h5.ishangman.com/") || url.startsWith("https://h5.manhua.163.com/reader/")
+            }else if(url.equals("http://h5.ishangman.com/") || url.startsWith("https://h5.manhua.163.com/reader/")
                     || url.startsWith("https://h5.manhua.163.com/source")){
-                view.loadUrl(wangyiSb.toString());
+//                view.loadUrl(wangyiSb.toString());
             }
         }
     }

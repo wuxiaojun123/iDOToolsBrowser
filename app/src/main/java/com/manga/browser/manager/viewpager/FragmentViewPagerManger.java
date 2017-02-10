@@ -29,7 +29,7 @@ import java.util.List;
  * Created by wuxiaojun on 17-1-12.
  */
 
-public class FragmentViewPagerManger implements View.OnClickListener{
+public class FragmentViewPagerManger implements View.OnClickListener {
 
     private Header2ViewHolder mHeaderViewHolder2;
     private List<BaseFragment> fragmentList;
@@ -51,7 +51,7 @@ public class FragmentViewPagerManger implements View.OnClickListener{
     /***
      * 初始化点击事件
      */
-    public void initEvent(){
+    public void initEvent() {
         mHeaderViewHolder2.tv_more.setOnClickListener(this);
         mHeaderViewHolder2.tv_main_secret.setOnClickListener(this);
         mHeaderViewHolder2.tv_main_tencent.setOnClickListener(this);
@@ -62,7 +62,7 @@ public class FragmentViewPagerManger implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
+        switch (id) {
             case R.id.tv_more:
                 mContext.startActivity(new Intent(mContext, DmzjHotActivity.class));
                 ActivitySlideAnim.slideInAnim((DmzjActivity) mContext);
@@ -132,43 +132,46 @@ public class FragmentViewPagerManger implements View.OnClickListener{
     }
 
     public void setFragmentDmzjBeanList(List<DmzjBeanResp.DmzjBean> list) {
-        List<DmzjBeanResp.DmzjBean> mDmzjList = new ArrayList<>(6);
-        if (mDmzjList == null) {
-            mDmzjList = new ArrayList<>();
-        } else {
-            mDmzjList.clear();
-        }
-        for (int i = 0; i < 6; i++) {
-            if (list.get(i) != null) {
-                mDmzjList.add(list.get(i));
-            }
-        }
-        mFirstFragment.setDmzjList(mDmzjList);
+        if (list != null && !list.isEmpty()) {
 
-        if (mDmzjList == null) {
-            mDmzjList = new ArrayList<>();
-        } else {
-            mDmzjList.clear();
-        }
-        for (int i = 6; i < 12; i++) {
-            if (list.get(i) != null) {
-                mDmzjList.add(list.get(i));
+            List<DmzjBeanResp.DmzjBean> mDmzjList = new ArrayList<>(6);
+            if (mDmzjList == null) {
+                mDmzjList = new ArrayList<>();
+            } else {
+                mDmzjList.clear();
             }
-        }
-        mSecondFragment.setDmzjList(mDmzjList);
+            for (int i = 0; i < 6; i++) {
+                if (list.get(i) != null) {
+                    mDmzjList.add(list.get(i));
+                }
+            }
+            mFirstFragment.setDmzjList(mDmzjList);
 
-        if (mDmzjList == null) {
-            mDmzjList = new ArrayList<>();
-        } else {
-            mDmzjList.clear();
-        }
-        int size = list.size();
-        for (int i = 12; i < size; i++) {
-            if (list.get(i) != null) {
-                mDmzjList.add(list.get(i));
+            if (mDmzjList == null) {
+                mDmzjList = new ArrayList<>();
+            } else {
+                mDmzjList.clear();
             }
+            for (int i = 6; i < 12; i++) {
+                if (list.get(i) != null) {
+                    mDmzjList.add(list.get(i));
+                }
+            }
+            mSecondFragment.setDmzjList(mDmzjList);
+
+            if (mDmzjList == null) {
+                mDmzjList = new ArrayList<>();
+            } else {
+                mDmzjList.clear();
+            }
+            int size = list.size();
+            for (int i = 12; i < size; i++) {
+                if (list.get(i) != null) {
+                    mDmzjList.add(list.get(i));
+                }
+            }
+            mThirdFragment.setDmzjList(mDmzjList);
         }
-        mThirdFragment.setDmzjList(mDmzjList);
     }
 
     private void initViewPagerChangeListener() {

@@ -98,6 +98,36 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
     private NativeAd mNativeAd;//ad
     private List<DmzjBeanResp.DmzjBean> mDmzjList;
 
+    protected boolean isVisible; // 是否显示
+    protected boolean isPrepared; // 是否初始化
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(getUserVisibleHint()){ // 当前fragment正在显示
+            isVisible = true;
+            onVisible();
+        }else {
+            isVisible = false;
+            onInVisible();
+        }
+    }
+
+    protected void onVisible(){
+        lazyLoad();
+    }
+
+    protected void lazyLoad(){
+        if(!isVisible || !isPrepared){
+            return;
+        }
+        // 加载数据
+    }
+
+    protected void onInVisible(){
+
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +141,55 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
         }
     }
 
-    private synchronized void bindViewData() {
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_dmzj_hot_recommend, null);
+        }
+        ButterKnife.bind(this, view);
+
+        isPrepared = true;
+        lazyLoad();
+
+        return view;
+    }
+
+
+    @OnClick({R.id.id_iv_image_first, R.id.id_iv_image_second, R.id.id_iv_image_third,
+            R.id.id_iv_image_four, R.id.id_iv_image_five, R.id.id_iv_image_six})
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.id_iv_image_first:
+                setOnClickListener(image_first);
+
+                break;
+            case R.id.id_iv_image_second:
+                setOnClickListener(image_second);
+
+                break;
+            case R.id.id_iv_image_third:
+                setOnClickListener(image_third);
+
+                break;
+            case R.id.id_iv_image_four:
+                setOnClickListener(image_four);
+
+                break;
+            case R.id.id_iv_image_five:
+                setOnClickListener(image_five);
+
+                break;
+            case R.id.id_iv_image_six:
+                setOnClickListener(image_six);
+
+                break;
+        }
+    }
+
+    private void bindViewData() {
         if (isShowAd) {
             if (mDmzjList != null && !mDmzjList.isEmpty()) {
                 DmzjBeanResp.DmzjBean dmzjBean0 = mDmzjList.get(0);
@@ -183,71 +261,6 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.fragment_dmzj_hot_recommend, null);
-        }
-        ButterKnife.bind(this, view);
-
-        return view;
-    }
-
-
-    @OnClick({R.id.id_iv_image_first, R.id.id_iv_image_second, R.id.id_iv_image_third,
-            R.id.id_iv_image_four, R.id.id_iv_image_five, R.id.id_iv_image_six})
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.id_iv_image_first:
-//                setOnClick(0);
-                setOnClickListener(image_first);
-
-                break;
-            case R.id.id_iv_image_second:
-//                setOnClick(1);
-
-                setOnClickListener(image_second);
-                break;
-            case R.id.id_iv_image_third:
-//                setOnClick(2);
-                setOnClickListener(image_third);
-                break;
-            case R.id.id_iv_image_four:
-//                setOnClick(3);
-                setOnClickListener(image_four);
-
-                break;
-            case R.id.id_iv_image_five:
-//                setOnClick(4);
-                setOnClickListener(image_five);
-
-                break;
-            case R.id.id_iv_image_six:
-//                setOnClick(5);
-                setOnClickListener(image_six);
-
-                break;
-        }
-    }
-
-    /***
-     * 设置点击事件
-     *
-     * @param position
-     */
-    private void setOnClick(int position) {
-        if (mDmzjList != null && !mDmzjList.isEmpty()) {
-            DmzjBeanResp.DmzjBean bean = mDmzjList.get(position);
-            if (bean != null) {
-                onItemClickListener(bean.mobileUrl, bean.cover, bean.title);
-            }
-        }
-    }
-
     private void bindList(List<DmzjBeanResp.DmzjBean> list) {
         int size = list.size();
         for (int i = 0; i < size; i++) {
@@ -311,7 +324,7 @@ public class HotRecommendFragment extends BaseFragment implements View.OnClickLi
         onItemClickListener(url, imgUrl, title);
     }
 
-    public synchronized void setDmzjList(List<DmzjBeanResp.DmzjBean> list) {
+    public void setDmzjList(List<DmzjBeanResp.DmzjBean> list) {
         if (mDmzjList != null && !mDmzjList.isEmpty()) {
             mDmzjList.clear();
         }

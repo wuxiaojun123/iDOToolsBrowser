@@ -242,10 +242,10 @@ public class DmzjPopupWindow implements View.OnClickListener {
      * @param isNightMode
      */
     public void toogleNightMode(boolean isNightMode) {
-        if (isNightMode) {
-            //夜间模式
+        if (isNightMode) { // 夜间模式
             id_night_mode.setImageResource(R.mipmap.img_day_normal);
             id_night_mode.setTextResource(R.string.string_night_day_mode);
+            id_night_mode.setTag("night");
 
             id_night_mode.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
             id_share.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
@@ -255,10 +255,10 @@ public class DmzjPopupWindow implements View.OnClickListener {
             id_feedback.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
             id_about.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
             id_exit.setBackgroundResource(R.drawable.selector_bg_popupwindow_night);
-        } else {
-            //白天模式
+        } else { // 白天模式
             id_night_mode.setImageResource(R.mipmap.img_night_normal);
             id_night_mode.setTextResource(R.string.string_night_mode);
+            id_night_mode.setTag("day");
 
             id_night_mode.setBackgroundResource(R.drawable.selector_bg_popupwindow);
             id_share.setBackgroundResource(R.drawable.selector_bg_popupwindow);
@@ -338,7 +338,12 @@ public class DmzjPopupWindow implements View.OnClickListener {
                     // 等待动画执行完毕关闭popupwindow
                     popupWindow.dismiss();
                     if (isDayNightModeToogle > 0) {
-                        ((DmzjActivity) mContext).startDayNightModeToogleAnim();
+                        String nightModeTag = (String) id_night_mode.getTag();
+                        if("night".equals(nightModeTag)){
+                            ((DmzjActivity) mContext).startDayNightModeToogleAnim(true);
+                        }else{
+                            ((DmzjActivity) mContext).startDayNightModeToogleAnim(false);
+                        }
                     }
                 }
             });

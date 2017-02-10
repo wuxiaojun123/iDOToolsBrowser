@@ -1,7 +1,6 @@
 package com.manga.browser.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -20,9 +19,6 @@ import com.facebook.ads.AdListener;
 import com.facebook.ads.NativeAd;
 import com.idotools.utils.LogUtils;
 import com.manga.browser.R;
-import com.manga.browser.activity.DmzjActivity;
-import com.manga.browser.activity.DmzjHotActivity;
-import com.manga.browser.activity.MainActivity;
 import com.manga.browser.adapter.viewHolder.DmzjViewHolder;
 import com.manga.browser.adapter.viewHolder.DmzjViewHolderTypeAd;
 import com.manga.browser.adapter.viewHolder.FooterViewHolder;
@@ -33,7 +29,6 @@ import com.manga.browser.bean.DmzjBeanResp;
 import com.manga.browser.manager.viewpager.FragmentViewPagerManger;
 import com.manga.browser.manager.viewpager.ViewPagerManager;
 import com.manga.browser.minterface.OnItemClickListener;
-import com.manga.browser.utils.ActivitySlideAnim;
 import com.manga.browser.utils.Constant;
 import com.manga.browser.utils.DoAnalyticsManager;
 
@@ -129,18 +124,15 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
     private void toogleNightModeByDmzj(DmzjViewHolder dmzjViewHolder) {
         if (modeNightFlag > 0) {
             if (modeNightFlag == 1) { // 白天模式
-
-                dmzjViewHolder.id_tv_title.setTextColor(ContextCompat.getColor(mContext,R.color.color_about_text));
-                dmzjViewHolder.id_tv_tag.setTextColor(ContextCompat.getColor(mContext,R.color.color_46));
+                dmzjViewHolder.id_tv_title.setTextColor(ContextCompat.getColor(mContext, R.color.color_about_text));
+                dmzjViewHolder.id_tv_tag.setTextColor(ContextCompat.getColor(mContext, R.color.color_46));
                 dmzjViewHolder.view_line.setBackgroundResource(R.color.color_e8);
             } else { // 夜间模式
-
-                dmzjViewHolder.id_tv_title.setTextColor(ContextCompat.getColor(mContext,R.color.color_9));
-                dmzjViewHolder.id_tv_tag.setTextColor(ContextCompat.getColor(mContext,R.color.color_c8));
+                dmzjViewHolder.id_tv_title.setTextColor(ContextCompat.getColor(mContext, R.color.color_9));
+                dmzjViewHolder.id_tv_tag.setTextColor(ContextCompat.getColor(mContext, R.color.color_c8));
                 dmzjViewHolder.view_line.setBackgroundResource(R.color.color_63);
             }
         }
@@ -176,12 +168,18 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    private boolean isLoad = false;
 
     private void bindHeadViewHolder2(Header2ViewHolder mHeaderViewHolder2) {
         if (mFragmentVPManager == null) {
             mFragmentVPManager = new FragmentViewPagerManger(mHeaderViewHolder2, mFragmentManager, mContext);
             mFragmentVPManager.initFragment();
             mFragmentVPManager.initEvent();
+        } else {
+            if (!isLoad && hotRecommendList != null) {
+                mFragmentVPManager.setFragmentDmzjBeanList(hotRecommendList);
+                isLoad = true;
+            }
         }
     }
 
@@ -398,7 +396,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return mList.size() + 2;
+        return mList.size() + 3;
     }
 
     @Override
@@ -467,16 +465,19 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return false;
     }
 
+    private List<DmzjBeanResp.DmzjBean> hotRecommendList;
+
     /***
      * 设置fragment里面的数据
      *
      * @param list
      */
     public void setHeadView2Data(List<DmzjBeanResp.DmzjBean> list) {
+        this.hotRecommendList = list;
         if (mFragmentVPManager != null) {
             mFragmentVPManager.setFragmentDmzjBeanList(list);
-            notifyDataSetChanged();
         }
+        notifyDataSetChanged();
     }
 
     private int modeNightFlag;
