@@ -294,6 +294,7 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         iv_back.setImageResource(R.mipmap.img_back_normal);
         iv_forward.setImageResource(R.mipmap.img_forward_normal);
         iv_home.setImageResource(R.mipmap.img_home_normal);
+
     }
 
     /**

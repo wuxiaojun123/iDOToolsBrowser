@@ -168,7 +168,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private boolean isLoad = false;
+    private boolean isLoadedHeadView2 = false;
 
     private void bindHeadViewHolder2(Header2ViewHolder mHeaderViewHolder2) {
         if (mFragmentVPManager == null) {
@@ -176,9 +176,9 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mFragmentVPManager.initFragment();
             mFragmentVPManager.initEvent();
         } else {
-            if (!isLoad && hotRecommendList != null) {
+            if (!isLoadedHeadView2 && hotRecommendList != null) {
                 mFragmentVPManager.setFragmentDmzjBeanList(hotRecommendList);
-                isLoad = true;
+                isLoadedHeadView2 = true;
             }
         }
     }
@@ -476,6 +476,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.hotRecommendList = list;
         if (mFragmentVPManager != null) {
             mFragmentVPManager.setFragmentDmzjBeanList(list);
+            isLoadedHeadView2 = true;
         }
         notifyDataSetChanged();
     }

@@ -5,7 +5,10 @@ import com.manga.browser.bean.DmzjBeanResp;
 import com.manga.browser.utils.Constant;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -14,10 +17,11 @@ import retrofit2.http.Query;
 public interface APIService {
 
     //请求banner页的数据
-    @GET(Constant.PATH_BANNER)
+    @FormUrlEncoded
+    @POST(Constant.PATH_BANNER)
     Call<BannerResp> getBannerBeanList(
-            @Query("packageName") String packageName,
-            @Query("wzCode") String wzCode
+            @Field("packageName") String packageName,
+            @Field("wzCode") String wzCode
     );
 
     //请求热门的数据

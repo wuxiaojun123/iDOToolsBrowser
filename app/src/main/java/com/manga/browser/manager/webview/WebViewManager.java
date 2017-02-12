@@ -179,9 +179,11 @@ public class WebViewManager {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
 
+
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);
+//        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccess(true);
         if (API >= Build.VERSION_CODES.JELLY_BEAN) {

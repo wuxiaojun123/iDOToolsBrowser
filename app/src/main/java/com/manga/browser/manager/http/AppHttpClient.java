@@ -1,5 +1,6 @@
 package com.manga.browser.manager.http;
 
+import com.idotools.utils.LogUtils;
 import com.manga.browser.bean.BannerResp;
 import com.manga.browser.bean.DmzjBeanResp;
 import com.manga.browser.minterface.APIService;
@@ -32,9 +33,9 @@ public class AppHttpClient {
      */
     public void requestBannerPath(String packageName, int versionCode) {
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
                 .build();
 
         Retrofit mRetrofit = new Retrofit
@@ -55,15 +56,17 @@ public class AppHttpClient {
                     List<BannerResp.BannerData> data = response.body().data;
                     if (data != null && !data.isEmpty()) {
                         cons = data.get(0).cons;
+                        for (int i = 0; i < cons.size(); i++) {
+                        }
                     }
                 }
-                loadBannerDataFailedListener(cons, true);
+                loadBannerDataResultListener(cons, true);
             }
 
             @Override
             public void onFailure(Call<BannerResp> call, Throwable t) {
                 t.printStackTrace();
-                loadBannerDataFailedListener(null, false);
+                loadBannerDataResultListener(null, false);
             }
         });
     }
@@ -74,7 +77,7 @@ public class AppHttpClient {
         this.mOnLoadBannerDataListener = listener;
     }
 
-    private void loadBannerDataFailedListener(List<BannerResp.BannerBean> cons, boolean result) {
+    private void loadBannerDataResultListener(List<BannerResp.BannerBean> cons, boolean result) {
         if (mOnLoadBannerDataListener != null) {
             if (result)
                 mOnLoadBannerDataListener.loadBannerDataSuccessListener(cons);
@@ -82,7 +85,6 @@ public class AppHttpClient {
                 mOnLoadBannerDataListener.loadBannerDataFailedListener();
         }
     }
-
 
 
     /***
@@ -124,7 +126,7 @@ public class AppHttpClient {
         }
     }
 
-    public void requestDmzjHotBeanList(int page,int num){
+    public void requestDmzjHotBeanList(int page, int num) {
         Retrofit mRetrofit = new Retrofit.Builder().baseUrl(Constant.PATH_BASE_DMZJ).addConverterFactory(GsonConverterFactory.create()).build();
         APIService apiService = mRetrofit.create(APIService.class);
         //update 表示最新，hot表示最热
@@ -147,7 +149,7 @@ public class AppHttpClient {
 
     private OnLoadDmzjHotDataListener mOnLoadDmzjHotDataListener;
 
-    public void setOnLoadDmzjHotDataListener(OnLoadDmzjHotDataListener listener){
+    public void setOnLoadDmzjHotDataListener(OnLoadDmzjHotDataListener listener) {
         this.mOnLoadDmzjHotDataListener = listener;
     }
 

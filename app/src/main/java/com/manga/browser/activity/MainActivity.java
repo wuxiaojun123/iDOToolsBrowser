@@ -5,13 +5,17 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -145,6 +149,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         mWebViewManager = new WebViewManager(this);
         mWebView = mWebViewManager.getWebView();
+
         swipeRefreshLayout.addView(mWebView, new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
         Intent mIntent = getIntent();
         String url = mIntent.getStringExtra("url");
@@ -157,6 +162,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (!TextUtils.isEmpty(imgUrl)) {
             String title = mIntent.getStringExtra("title");
         }
+
     }
 
     @Override
@@ -224,7 +230,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 回到上一个页面
      */
     private void backLastActivity() {
-        try{
+        try {
             int size = ActivityUtils.activities.size();
             for (int i = size - 1; i >= 0; i--) {
                 String simpleName = ActivityUtils.activities.get(i).getClass().getSimpleName();
@@ -233,7 +239,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }
             }
             ActivitySlideAnim.slideOutAnim(MainActivity.this);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
