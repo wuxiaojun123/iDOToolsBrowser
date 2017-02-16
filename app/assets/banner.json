@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "name": "banner",
+      "code": "comic001",
+      "adType": "icon",
+      "cons": [
+        {
+          "openType": "webview",
+          "h5url": "http://link.idourl.com:16030/863b319090e14680a15ffba1f0db7dbe",
+          "adType": "icon",
+          "iconPath": "http://link.idourl.com:16030/e14a494398ba4c709689675f2d8e3e65",
+          "isgif": 0
+        },
+        {
+          "openType": "webview",
+          "h5url": "http://link.idourl.com:16030/a7087dfa657d482eb3bfb5b2ac21969d",
+          "adType": "icon",
+          "iconPath": "http://link.idourl.com:16030/cba8a6c6fe93459798d4e9c88f2049c5",
+          "isgif": 0
+        },
+        {
+          "openType": "webview",
+          "h5url": "http://link.idourl.com:16030/9cc78307e5b14632b2130385cc9bf80d",
+          "adType": "icon",
+          "iconPath": "http://link.idourl.com:16030/4b8407383eba44f482264f9a49321c5b",
+          "isgif": 0
+        }
+      ]
+    }
+  ]
+}

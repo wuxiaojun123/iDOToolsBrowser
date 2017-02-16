@@ -32,17 +32,15 @@ public class AppHttpClient {
      * @param versionCode
      */
     public void requestBannerPath(String packageName, int versionCode) {
-        OkHttpClient client = new OkHttpClient.Builder()
+        /*OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
-                .build();
-
+                .build(); .client(client) */
         Retrofit mRetrofit = new Retrofit
                 .Builder()
                 .baseUrl(Constant.PATH_BASE_BANNER)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
                 .build();
 
         APIService apiService = mRetrofit.create(APIService.class);
@@ -56,8 +54,8 @@ public class AppHttpClient {
                     List<BannerResp.BannerData> data = response.body().data;
                     if (data != null && !data.isEmpty()) {
                         cons = data.get(0).cons;
-                        for (int i = 0; i < cons.size(); i++) {
-                        }
+                        /*for (int i = 0; i < cons.size(); i++) {
+                        }*/
                     }
                 }
                 loadBannerDataResultListener(cons, true);

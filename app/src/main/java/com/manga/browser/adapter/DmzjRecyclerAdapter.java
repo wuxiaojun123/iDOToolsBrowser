@@ -476,7 +476,6 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.hotRecommendList = list;
         if (mFragmentVPManager != null) {
             mFragmentVPManager.setFragmentDmzjBeanList(list);
-            isLoadedHeadView2 = true;
         }
         notifyDataSetChanged();
     }

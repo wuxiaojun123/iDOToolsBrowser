@@ -159,10 +159,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             loadUrl(url);
         }
         imgUrl = mIntent.getStringExtra("imgUrl");
-        if (!TextUtils.isEmpty(imgUrl)) {
+        /*if (!TextUtils.isEmpty(imgUrl)) {
             String title = mIntent.getStringExtra("title");
-        }
-
+        }*/
     }
 
     @Override

@@ -29,9 +29,8 @@ import com.idotools.utils.ToastUtils;
  */
 public class WebViewManager {
 
-    private Context mContext;
-    private BrowserWebView mWebView;
-    private GestureDetector mGestureDetector;
+    public Context mContext;
+    public BrowserWebView mWebView;
     private static final int API = android.os.Build.VERSION.SDK_INT;
 
 
@@ -41,7 +40,7 @@ public class WebViewManager {
         initWebView(mActivity);
     }
 
-    private void initWebView(Activity mActivity) {
+    protected void initWebView(Activity mActivity) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
             mWebView.setId(View.generateViewId());
         }
@@ -72,9 +71,6 @@ public class WebViewManager {
         //长按事件
         mWebViewLongClickListener = new WebViewLongClickListener(mContext);
         mWebView.setOnLongClickListener(mWebViewLongClickListener);
-        //触摸事件
-        mGestureDetector = new GestureDetector(mContext, new CustomGestureListener());
-        mWebView.setOnTouchListener(new CustomTouchListener());
         initializeSettings();
     }
 
@@ -97,51 +93,7 @@ public class WebViewManager {
 
     }
 
-    private static final int SCROLL_UP_THRESHOLD = MetricsUtils.dipToPx(5);
-    private boolean titleVisible = true;//true 表示标题显示
 
-    private class CustomTouchListener implements View.OnTouchListener {
-
-        float mLocation;
-        float mY;
-        int mAction;
-
-        @SuppressLint("ClickableViewAccessibility")
-        @Override
-        public boolean onTouch(@Nullable View view, @NonNull MotionEvent arg1) {
-            mWebViewLongClickListener.downX = (int) arg1.getX();
-            mWebViewLongClickListener.downY = (int) arg1.getY();
-            /*if (view == null)
-                return false;
-            if (!view.hasFocus()) {
-                view.requestFocus();
-            }
-            mAction = arg1.getAction();
-            mY = arg1.getY();
-            if (mAction == MotionEvent.ACTION_DOWN) {
-                mLocation = mY;
-            } else if (mAction == MotionEvent.ACTION_UP) {
-                final float distance = (mY - mLocation);
-                LogUtils.e("距离是:" + distance + "--scrollY=" + mWebView.getScrollY());
-                if (!titleVisible && view.getScrollY() == 0) {//禁止swipeRefresh滑动
-                    mWebView.requestDisallowInterceptTouchEvent(true);
-                }
-                if (distance > SCROLL_UP_THRESHOLD && view.getScrollY() < SCROLL_UP_THRESHOLD) {
-                    //显示头部和底部
-                    ((MainActivity) mContext).showTitleAndBottom();
-                    titleVisible = true;
-                } else if (distance < -SCROLL_UP_THRESHOLD) {
-                    //隐藏头部和底部
-                    ((MainActivity) mContext).hideTitleAndBottom();
-                    titleVisible = false;
-                }
-                mLocation = 0;
-            }*/
-            mGestureDetector.onTouchEvent(arg1);
-            return false;
-        }
-
-    }
 
     private class CustomDownloadListener implements android.webkit.DownloadListener {
 

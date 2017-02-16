@@ -6,7 +6,9 @@
 
     <color name="color_while">@android:color/white</color>
     <color name="color_black">@android:color/black</color>
-    <color name="color_main_title">#fcc100</color>
+    <color name="color_main_title">#ae00ee</color>
+
+    <color name="color_main_light">#d18df5</color>
 
     <color name="color_line">#e8e8e8</color>
 

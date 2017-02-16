@@ -26,10 +26,10 @@
             android:id="@+id/id_tablayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:tabIndicatorColor="#ffc300"
+            app:tabIndicatorColor="@color/color_main_title"
             app:tabIndicatorHeight="2dp"
-            app:tabSelectedTextColor="#ffc300"
-            app:tabTextColor="#ffdb8d" />
+            app:tabSelectedTextColor="@color/color_main_title"
+            app:tabTextColor="@color/color_main_light" />
     </LinearLayout>
 
     <View

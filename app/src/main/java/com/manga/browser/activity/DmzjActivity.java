@@ -31,6 +31,7 @@ import com.manga.browser.adapter.DmzjRecyclerAdapter;
 import com.manga.browser.bean.BannerResp;
 import com.manga.browser.bean.DmzjBeanResp;
 import com.manga.browser.manager.http.AppHttpClient;
+import com.manga.browser.manager.http.BannerDataAssets;
 import com.manga.browser.manager.popupwindow.DmzjPopupWindow;
 import com.manga.browser.minterface.OnItemClickListener;
 import com.manga.browser.minterface.OnLoadBannerDataListener;
@@ -167,6 +168,13 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
             @Override
             public void loadBannerDataFailedListener() {
+                BannerDataAssets mBannerDataAssets = new BannerDataAssets();
+                List<BannerResp.BannerBean> list = mBannerDataAssets.parseJsonToBanner(mContext);
+                if (list != null && !list.isEmpty()) {
+                    mBannerBeanList = list;
+                    mDmzjAdapter.setBannerBeanList(mBannerBeanList);
+                    FileUtils.saveFile(mContext, Constant.FILE_BANNER, JsonUtils.toJsonFromList(list));
+                }
                 if (mDmzjAdapter != null) {
                     mDmzjAdapter.changeAddMoreStatus(Constant.LOAD_MORE_COMPILE);
                 }

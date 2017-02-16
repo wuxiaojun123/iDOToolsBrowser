@@ -16,13 +16,20 @@ import retrofit2.http.Query;
  */
 public interface APIService {
 
-    //请求banner页的数据
+    //请求banner页的数据 post请求
+    @GET(Constant.PATH_BANNER)
+    Call<BannerResp> getBannerBeanList(
+            @Query("packageName") String packageName,
+            @Query("wzCode") String wzCode
+    );
+
+    /*//请求banner页的数据 post请求
     @FormUrlEncoded
     @POST(Constant.PATH_BANNER)
     Call<BannerResp> getBannerBeanList(
             @Field("packageName") String packageName,
             @Field("wzCode") String wzCode
-    );
+    );*/
 
     //请求热门的数据
     @GET(Constant.PATH_DMZJ)

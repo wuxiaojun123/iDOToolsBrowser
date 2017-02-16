@@ -157,15 +157,21 @@ public class MainPopupWindow implements View.OnClickListener {
     private boolean isShowing = false;
 
     public void showPopupWindow(View rootView) {
-        if (popupWindow != null && !isShowing) {
-            enterStartAnim();
-            // 显示 -emptyHeight
-            popupWindow.showAsDropDown(rootView, 0, 0);
-            isShowing = true;
-        } else {
-            id_ll_empty.performClick();
-            isShowing = false;
+        if(popupWindow != null){
+            if (isShowing) {
+                exitStartAnim();
+                isShowing = false;
+            } else {
+                enterStartAnim();
+                // 显示 -emptyHeight
+                popupWindow.showAsDropDown(rootView, 0, 0);
+                isShowing = true;
+            }
         }
+    }
+
+    public void setIsShowing(){
+        this.isShowing = !isShowing;
     }
 
     /**
@@ -262,7 +268,7 @@ public class MainPopupWindow implements View.OnClickListener {
      * 更新
      */
     private void checkUpdate() {
-        GooglePlayUtils.openGooglePlay(mContext.getApplicationContext(), mContext.getPackageName());
+        GooglePlayUtils.openGooglePlayByPkg(mContext.getApplicationContext(), mContext.getPackageName());
     }
 
     /***
@@ -348,6 +354,7 @@ public class MainPopupWindow implements View.OnClickListener {
     public void exitStartAnim() {
         mContentHiddrenAnim.start();
         mHeadHiddrenAnim.start();
+        setIsShowing();
     }
 
     /***

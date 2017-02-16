@@ -15,7 +15,7 @@
         android:id="@+id/progress_view"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@id/id_layout_title"
+        android:layout_marginTop="@dimen/dimen_title_height"
         android:background="@android:color/darker_gray"
         custom:bidirectionalAnimate="false"
         custom:progressColor="?attr/colorAccent" />
@@ -24,7 +24,9 @@
         android:id="@+id/id_swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/progress_view">
+        android:layout_marginBottom="@dimen/dimen_control_bottom_total_height"
+        android:layout_marginTop="54dp"
+        >
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -61,6 +63,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_control_bottom_total_height"
         android:layout_alignParentBottom="true" />
+
+    <LinearLayout
+        android:id="@+id/ll_ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/id_iv_night_toogle"

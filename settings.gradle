@@ -3,6 +3,7 @@ include ':library_getui'
 include ':testjava'
 include ':browser_demo'
 include ':app_video'
+include ':app_video_dance'
 
 include ':library_analyticsone'
 include ':library_base'

@@ -49,12 +49,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     ImageView iv_more;
     ImageView id_iv_history;
 
-    SwipeRefreshLayout swipeRefreshLayout;
+    public LinearLayout ll_ad_container;
+
+
+    public SwipeRefreshLayout swipeRefreshLayout;
     protected FrameLayout id_fl_mask;
     AnimatedProgressBar progress_view;
     ImageView iv_night_toogle;
-    LinearLayout ll_title;//标题布局
-    LinearLayout ll_bottom;//底部布局
+    public LinearLayout ll_title;//标题布局
+    public LinearLayout ll_bottom;//底部布局
     protected SearchEditTextView mSearchEditText;//搜索按钮
     ImageView iv_go;//前往地址
     LinearLayout id_layout_no_network;//无网络状况下显示
@@ -64,7 +67,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     //底部导航管理
     protected MainPopupWindow mPopupWindow;
     //webview管理
-    private WebViewManager mWebViewManager;
+    protected WebViewManager mWebViewManager;
     protected BrowserWebView mWebView;
     //屏幕高度
     private int screentHeight;
@@ -105,6 +108,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         iv_go = (ImageView) findViewById(R.id.id_iv_go);
         id_layout_no_network = (LinearLayout) findViewById(R.id.id_layout_no_network);
         id_layout_network_error = (LinearLayout) findViewById(R.id.id_layout_network_error);
+        ll_ad_container = (LinearLayout) findViewById(R.id.ll_ad_container);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.color_main_title);
         //添加蒙版
@@ -136,7 +140,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         } else {
             setNightMode();
         }
-        mWebViewManager = new WebViewManager(this);
+        initWebViewManager();
         mWebView = mWebViewManager.getWebView();
 
         swipeRefreshLayout.addView(mWebView, new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
@@ -151,6 +155,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (!TextUtils.isEmpty(imgUrl)) {
             String title = mIntent.getStringExtra("title");
         }
+    }
+
+    protected void initWebViewManager(){
+        mWebViewManager = new WebViewManager(this);
     }
 
     @Override
@@ -168,7 +176,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         int id = v.getId();
         if (id == R.id.id_iv_back) {
             isPopupShowing();
-            back();
+            backLastActivity();
 
         } else if (id == R.id.id_iv_forward) {
             isPopupShowing();
@@ -177,12 +185,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         } else if (id == R.id.id_iv_home) {
             isPopupShowing();
             //回到native的首页
-            /*Intent mIntent = new Intent();
-            mIntent.setClassName(MainActivity.this,className);
-            startActivity(mIntent);*/
-//            finish();
-//            ActivitySlideAnim.slideOutAnim(MainActivity.this);
-            loadUrl("http://wp.cgameclub.com/category/mvideo/");
+            backLastActivity();
 
         } else if (id == R.id.id_iv_refresh) {
             isPopupShowing();
@@ -226,11 +229,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 if (Patterns.WEB_URL.matcher(searchEditText).matches()) {
                     loadUrl(searchEditText);
                 } else {
-                    //if (BaseConstant.VERSION_COUNTRY_GP) {
                     loadUrl(BaseConstant.SEARCH_URL_GOOGLE + searchEditText + ".html");
-                    /*} else {
-                        loadUrl(BaseConstant.SEARCH_URL_BAIDU + searchEditText);
-                    }*/
                 }
             }
         }
@@ -249,11 +248,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 设置图标是否可以点击
      */
     public void setImgButtonEnable() {
-        if (mWebView.canGoBack()) {
-            iv_back.setImageResource(R.drawable.selector_control_back_clickable);
-        } else {
-            iv_back.setImageResource(R.mipmap.img_back_normal);
-        }
         if (mWebView.canGoForward()) {
             iv_forward.setImageResource(R.drawable.selector_control_forward_click);
         } else {
@@ -442,7 +436,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     /***
      * 夜间模式
      */
-    private void toogleNightMode() {
+    protected void toogleNightMode() {
         boolean modeNight = SharedPreferencesHelper.getInstance(mContext).getBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, false);
         if (modeNight) {
             setDayMode();
@@ -454,7 +448,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     //白天模式
-    private void setDayMode() {
+    protected void setDayMode() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         //设置底部和标题为白天底色
         ll_bottom.setBackgroundResource(R.color.color_popup_bg);
@@ -465,7 +459,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     //使用夜间模式
-    private void setNightMode() {
+    protected void setNightMode() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         //设置底部和标题为夜间颜色
         ll_bottom.setBackgroundResource(R.color.color_while_night);
@@ -476,6 +470,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
+    /**
+     * 回到上一个页面
+     */
+    protected void backLastActivity() {
+        /*try {
+            int size = ActivityUtils.activities.size();
+            for (int i = size - 1; i >= 0; i--) {
+                String simpleName = ActivityUtils.activities.get(i).getClass().getSimpleName();
+                if (!simpleName.equals("com.gp.browser.video.dance.activity.DmzjActivity")) {
+                    ActivityUtils.activities.get(i).finish();
+                }
+            }
+            ActivitySlideAnim.slideOutAnim(MainActivity.this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -483,16 +496,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             mWebViewManager.mWebViewLongClickListener.popupWindow.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
-    /*public void hideTitleAndBottom() {
-        ll_title.setVisibility(View.GONE);
-        ll_bottom.setVisibility(View.GONE);
-    }
-
-    public void showTitleAndBottom() {
-        ll_title.setVisibility(View.VISIBLE);
-        ll_bottom.setVisibility(View.VISIBLE);
-    }*/
 
     @Override
     public void onBackPressed() {
