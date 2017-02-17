@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">漫画浏览器</string>
-    <string name="string_main_title">漫画浏览器</string>
+    <!--<string name="app_name">漫画浏览器</string>
+    <string name="string_main_title">漫画浏览器</string>-->
+    <string name="app_name">动漫浏览器</string>
+    <string name="string_main_title">动漫浏览器</string>
 
     <!--热门推荐和最新更新-->
     <string name="string_hot">热门推荐</string>

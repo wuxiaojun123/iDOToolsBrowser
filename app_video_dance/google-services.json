@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "691989071992",
+    "firebase_url": "https://topfans-video.firebaseio.com",
+    "project_id": "topfans-video",
+    "storage_bucket": "topfans-video.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691989071992:android:64f7ac23b0339b28",
+        "android_client_info": {
+          "package_name": "com.gp.browser.video.dance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691989071992-trk1a7ambsmfb1aer4e2s3dns5pu9pr5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5NqVVv9ZBM1Y3-MRQC9FurWbjWQj1hOk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -72,4 +72,4 @@ dependencies {
     compile project(':library_browser2')
 
 }
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'

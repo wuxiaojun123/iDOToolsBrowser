@@ -285,17 +285,18 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 totalPage = bean.pages;
                 List<DmzjBean.PostsBean> list = bean.posts;
                 if (flag) { // 加载更多
-                    /*if (list.size() / 7 >= 1) {
+                    if (list.size() / 7 >= 1) {
                         list.add(7, null);
                     }
                     if (list.size() / 7 == 2) {
                         list.add(null);
-                    }*/
+                    }
                     mDmzjAdapter.addMoreItem(list, DmzjRecyclerAdapter.LOAD_MORE_COMPILE);
 
                 } else { // 拉取最新
                     FileUtils.saveFile(mContext, Constant.FILE_MAIN_DATA, JsonUtils.toJsonFromList(list));
-//                    list.add(7, null);
+                    list.add(7, null);
+                    list.add(null);
                     mDmzjAdapter.resetAdapter(list);//刷新界面数据
                     id_swiperefresh.setRefreshing(false);//刷新完成
                 }

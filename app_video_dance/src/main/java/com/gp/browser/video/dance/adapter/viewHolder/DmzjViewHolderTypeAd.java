@@ -3,6 +3,7 @@ package com.gp.browser.video.dance.adapter.viewHolder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,12 +25,10 @@ public class DmzjViewHolderTypeAd extends RecyclerView.ViewHolder {
     public TextView nativeAdTitle;
     @BindView(R.id.native_ad_media)
     public MediaView nativeAdMedia;
-    @BindView(R.id.native_ad_body)
-    public TextView nativeAdBody;
     @BindView(R.id.native_ad_call_to_action)
     public Button nativeAdCallToAction;
-    @BindView(R.id.ad_choices_container)
-    public LinearLayout adChoicesContainer;
+    @BindView(R.id.id_ll_mediaview)
+    public LinearLayout ll_mediaview;
 
 
     public DmzjViewHolderTypeAd(View itemView) {

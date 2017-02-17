@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">漫畫瀏覽器</string>
-    <string name="string_main_title">漫畫瀏覽器</string>
+    <!--<string name="app_name">漫畫瀏覽器</string>
+    <string name="string_main_title">漫畫瀏覽器</string>-->
+    <string name="app_name">動漫瀏覽器</string>
+    <string name="string_main_title">動漫瀏覽器</string>
 
     <!--热门推荐和最新更新-->
     <string name="string_hot">熱門推薦</string>

@@ -172,27 +172,37 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void setNativeAdView(DmzjViewHolderTypeAd dmzjViewHolder, NativeAd mNativeAd, String currentPosition) {
-        mNativeAd.unregisterView();
-        // Set the Text.
-        dmzjViewHolder.nativeAdTitle.setText(mNativeAd.getAdTitle());
-        dmzjViewHolder.nativeAdBody.setText(mNativeAd.getAdBody());
-        dmzjViewHolder.nativeAdCallToAction.setText(mNativeAd.getAdCallToAction());
-        dmzjViewHolder.nativeAdMedia.setNativeAd(mNativeAd);
-        AdChoicesView adChoicesView = mNativeAdChoicesMap.get(currentPosition);
-        if (adChoicesView != null) {
-            /*if (adChoicesView.getParent() != null) {
-                ((ViewGroup) adChoicesView.getParent()).removeView(adChoicesView);
-            }*/
-            dmzjViewHolder.adChoicesContainer.removeAllViews();
-            dmzjViewHolder.adChoicesContainer.addView(adChoicesView);
-        }
+        try {
+            if (dmzjViewHolder.native_ad_unit.getVisibility() == View.GONE) {
+                if (!TextUtils.isEmpty(mNativeAd.getAdTitle())) {
+                    dmzjViewHolder.native_ad_unit.setVisibility(View.VISIBLE);
+                }
+            }
 
-        // Register the Title and CTA button to listen for clicks.
-        List<View> clickableViews = mNativeClickViewMap.get(currentPosition);
-        if (clickableViews != null) {
-            clickableViews.add(dmzjViewHolder.nativeAdTitle);
-            clickableViews.add(dmzjViewHolder.nativeAdCallToAction);
-            mNativeAd.registerViewForInteraction(dmzjViewHolder.native_ad_unit, clickableViews);
+            mNativeAd.unregisterView();
+            // Set the Text.
+            dmzjViewHolder.nativeAdTitle.setText(mNativeAd.getAdTitle());
+//            dmzjViewHolder.nativeAdBody.setText(mNativeAd.getAdBody());
+            dmzjViewHolder.nativeAdCallToAction.setText(mNativeAd.getAdCallToAction());
+            dmzjViewHolder.nativeAdMedia.setNativeAd(mNativeAd);
+            AdChoicesView adChoicesView = mNativeAdChoicesMap.get(currentPosition);
+            /*if (adChoicesView != null) {
+                if (adChoicesView.getParent() != null) {
+                    ((ViewGroup) adChoicesView.getParent()).removeView(adChoicesView);
+                }
+                dmzjViewHolder.adChoicesContainer.removeAllViews();
+                dmzjViewHolder.adChoicesContainer.addView(adChoicesView);
+            }*/
+
+            // Register the Title and CTA button to listen for clicks.
+            List<View> clickableViews = mNativeClickViewMap.get(currentPosition);
+            if (clickableViews != null) {
+                clickableViews.add(dmzjViewHolder.nativeAdTitle);
+                clickableViews.add(dmzjViewHolder.nativeAdCallToAction);
+                mNativeAd.registerViewForInteraction(dmzjViewHolder.native_ad_unit, clickableViews);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -213,27 +223,31 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onError(Ad ad, AdError error) {
-            LogUtils.e("加载失败:" + error.getErrorCode() + "=" + error.getErrorMessage());
+//            LogUtils.e("加载失败:" + error.getErrorCode() + "=" + error.getErrorMessage());
+            dmzjViewHolder.native_ad_unit.setVisibility(View.GONE);
         }
 
         @Override
         public void onAdLoaded(Ad ad) {
-            // Set the Text.
+            // Set the Text.  显示广告
+            if (!TextUtils.isEmpty(mNativeAd.getAdTitle())) {
+                dmzjViewHolder.native_ad_unit.setVisibility(View.VISIBLE);
+            }
             dmzjViewHolder.nativeAdTitle.setText(mNativeAd.getAdTitle());
-            dmzjViewHolder.nativeAdBody.setText(mNativeAd.getAdBody());
+//            dmzjViewHolder.nativeAdBody.setText(mNativeAd.getAdBody());
             dmzjViewHolder.nativeAdCallToAction.setText(mNativeAd.getAdCallToAction());
-
-            LogUtils.e("获取广告图片路径" + mNativeAd.getAdCoverImage().getUrl());
             dmzjViewHolder.nativeAdMedia.setNativeAd(mNativeAd);
 
             AdChoicesView adChoicesView = new AdChoicesView(mContext, mNativeAd, true);
-            dmzjViewHolder.adChoicesContainer.addView(adChoicesView);
+//            dmzjViewHolder.adChoicesContainer.addView(adChoicesView);
             mNativeAdChoicesMap.put(currentPosition, adChoicesView);
 
             // Register the Title and CTA button to listen for clicks.
             List<View> clickableViews = new ArrayList<>();
             clickableViews.add(dmzjViewHolder.nativeAdTitle);
             clickableViews.add(dmzjViewHolder.nativeAdCallToAction);
+            clickableViews.add(dmzjViewHolder.ll_mediaview);
+
             mNativeAd.registerViewForInteraction(dmzjViewHolder.native_ad_unit, clickableViews);
             mNativeClickViewMap.put(currentPosition, clickableViews);
         }
@@ -253,7 +267,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void initViewHolderType2(DmzjViewHolderType2 dmzjViewHolder, int currentPosition) {
         final DmzjBean.PostsBean bean = mList.get(currentPosition);
         if (bean != null) {
-            String imgUrl = getVideoFirstFrame(bean.content);
+            String imgUrl = getImgUrlFromHtmlContent(bean.content);
             loadImage(imgUrl, dmzjViewHolder.id_iv_img);
             //设置信息
             dmzjViewHolder.id_tv_title.setText(Html.fromHtml(bean.title));
@@ -367,7 +381,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      * 初始化头部布局样式2的控件内容
      */
     private void initHeader2Content(TextView textview, ImageView imageview, String content, String title, String url) {
-        String imgUrl = getVideoFirstFrame(content);
+        String imgUrl = getImgUrlFromHtmlContent(content);
         loadImage(imgUrl, imageview);
         textview.setText(Html.fromHtml(title));
         setOnClickListener(imageview, url, imgUrl, title);
@@ -378,7 +392,32 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      *
      * @param content
      */
-    private String getVideoFirstFrame(String content) {
+    private String getImgUrlFromHtmlContent(String content) {
+        try {
+            Document parse = Jsoup.parse(content);
+            Elements imgElements = parse.select("img");
+            if (imgElements != null && !imgElements.isEmpty()) {
+                String videoUrl = imgElements.attr("src");
+                if (!TextUtils.isEmpty(videoUrl)) {
+                    /*String imgUrl1 = videoUrl.substring(videoUrl.lastIndexOf("/") + 1);
+                    StringBuilder sb = new StringBuilder("https://img.youtube.com/vi/");
+                    sb.append(imgUrl1);
+                    sb.append("/hqdefault.jpg");
+                    return sb.toString();*/
+                    return videoUrl;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /***
+     * 显示视频第一帧
+     *
+     */
+    /*private String getVideoFirstFrame(String content) {
         try {
             Document parse = Jsoup.parse(content);
             Elements imgElements = parse.select("iframe");
@@ -396,7 +435,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
 
     private void loadImage(String imgUrl, ImageView imageview) {

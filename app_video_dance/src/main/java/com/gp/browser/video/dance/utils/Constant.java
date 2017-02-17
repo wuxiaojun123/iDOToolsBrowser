@@ -16,8 +16,8 @@ public class Constant {
     public static final String PATH_WORDPRESS_BASE = "http://wp.cgameclub.com/";
 
     //banner和首页的json数据保存到文件中
-    public static final String FILE_BANNER = "browserBanner";
-    public static final String FILE_MAIN_DATA = "browserMainData";
+    public static final String FILE_BANNER = "topfansBanner";
+    public static final String FILE_MAIN_DATA = "topfansMainData";
 
     //facebook placement_id
     public static final String FACEBOOK_PLACEMENT_ID = "276736496093340_276736816093308";
