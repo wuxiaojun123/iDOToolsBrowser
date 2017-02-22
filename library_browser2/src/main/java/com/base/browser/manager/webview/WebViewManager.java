@@ -139,6 +139,9 @@ public class WebViewManager {
             settings.setDatabasePath(getFilePath("databaseCache"));
         }
 
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);

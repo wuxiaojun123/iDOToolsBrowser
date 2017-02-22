@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/dimen_item_dmzj_head2_layout_height"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/native_ad_unit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_item_dmzj_head2_img_height"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        >
+
+        <com.facebook.ads.MediaView
+            android:id="@+id/native_ad_media"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_item_dmzj_head2_img_height"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:id="@+id/ad_choices_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="right"
+            android:orientation="horizontal" />
+
+        <Button
+            android:id="@+id/native_ad_call_to_action"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:background="#000000"
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_ad_title"
+        style="@style/style_header2_textview"
+        android:text="广告标题" />
+
+</LinearLayout>

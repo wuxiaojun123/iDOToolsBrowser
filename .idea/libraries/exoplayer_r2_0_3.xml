@@ -2,7 +2,7 @@
   <library name="exoplayer-r2.0.3">
     <ANNOTATIONS>
       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer/r2.0.3/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/app_video/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer/r2.0.3/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/app_dmzj_yinyangshi/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer/r2.0.3/annotations.zip!/" />
       <root url="jar://$PROJECT_DIR$/app_video_dance/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer/r2.0.3/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>

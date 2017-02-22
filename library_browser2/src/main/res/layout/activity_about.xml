@@ -68,10 +68,36 @@
     </RelativeLayout>
 
     <View
+        android:id="@+id/view_line2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_line_height_min"
         android:layout_below="@id/id_rl_praize"
         android:background="@color/color_line" />
+
+    <RelativeLayout
+        android:id="@+id/id_rl_private_policy"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/view_line2"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/string_private_policy"
+            android:textColor="@color/color_about_good_text"
+            android:textSize="@dimen/dimen_about_text_praise" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/img_allow_right" />
+
+    </RelativeLayout>
 
     <!--<LinearLayout
         android:layout_width="match_parent"

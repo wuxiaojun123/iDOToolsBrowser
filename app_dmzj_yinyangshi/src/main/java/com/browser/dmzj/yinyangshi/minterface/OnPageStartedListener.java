@@ -1,0 +1,11 @@
+package com.browser.dmzj.yinyangshi.minterface;
+
+/**
+ * Created by wuxiaojun on 16-10-19.
+ */
+public interface OnPageStartedListener {
+
+
+    void onPageStarted(String url);
+
+}

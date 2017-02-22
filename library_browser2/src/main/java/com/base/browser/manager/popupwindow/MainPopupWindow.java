@@ -23,6 +23,7 @@ import com.base.browser.sqlite.RecordsSqliteManager;
 import com.base.browser.utils.ActivitySlideAnim;
 import com.base.browser.utils.ActivityUtils;
 import com.base.browser.utils.BaseConstant;
+import com.base.browser.utils.DoAnalyticsManager;
 import com.base.browser.utils.GooglePlayUtils;
 import com.base.browser.utils.ShareUtils;
 import com.base.browser.utils.ShortCutUtils;
@@ -198,6 +199,7 @@ public class MainPopupWindow implements View.OnClickListener {
             } else {
                 ShareUtils.shareText((MainActivity) mContext, mWebViewManager.getCurrentTitle() + " " + mWebViewManager.getCurrentUrl());
             }
+            DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_SHARE_CLICK);
 
         } else if (id == R.id.id_records) {//收藏
             exitStartAnim();
@@ -214,14 +216,15 @@ public class MainPopupWindow implements View.OnClickListener {
             } else {
                 recordsPage();
             }
-
+            DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_RECORDS_CLICK);
         } else if (id == R.id.id_add_shortcut) {//添加桌面快捷方式
             addShortcut(mWebViewManager.getCurrentTitle(), mWebViewManager.getCurrentUrl(), className);
+            DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_SHORTCUT_CLICK);
 
         } else if (id == R.id.id_night_mode) {//夜间模式
             exitStartAnim();
             isDayNightModeToogle = 1;
-
+            DoAnalyticsManager.event(mContext, DoAnalyticsManager.DOT_KEY_NIGHT_MODE_CLICK);
 
         } else if (id == R.id.id_check_update) {//检查更新
             checkUpdate();

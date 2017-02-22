@@ -62,7 +62,11 @@
     <string name="string_download_fail">下载失败</string>
     <string name="string_look">查看</string>
     <string name="string_request_write_external_storage_permission">请求下载文件权限</string>
-    
+
+    <string name="string_private_policy">隐私政策</string>
+    <!-- google play 隐私政策-->
+    <string name="string_google_private_policy">Privacy Policy</string>
+
     <!--搜索-->
     <!--<string name="string_cartoon_or_author">漫画名或作者</string>-->
     <string name="string_hint">Search or type URL</string>

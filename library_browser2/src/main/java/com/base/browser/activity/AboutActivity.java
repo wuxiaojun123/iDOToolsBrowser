@@ -22,7 +22,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     TextView id_tv_title;
     RelativeLayout id_rl_praize;
     TextView tv_app_name_version;
-
+    RelativeLayout id_rl_private_policy;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,11 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         id_iv_right = (ImageButton) findViewById(R.id.id_iv_right);
         id_rl_praize = (RelativeLayout) findViewById(R.id.id_rl_praize);
         tv_app_name_version = (TextView) findViewById(R.id.id_tv_app_name_version);
+        id_rl_private_policy = (RelativeLayout) findViewById(R.id.id_rl_private_policy);
 
         id_iv_right.setOnClickListener(this);
         id_rl_praize.setOnClickListener(this);
+        id_rl_private_policy.setOnClickListener(this);
     }
 
     @Override
@@ -55,6 +57,11 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
 
         } else if (id == R.id.id_rl_praize) {//给个好评
             praise();
+
+        } else if (id == R.id.id_rl_private_policy) { // 隐私政策
+            Intent mIntent = new Intent(AboutActivity.this, PrivatePolicyActivity.class);
+            startActivity(mIntent);
+            ActivitySlideAnim.slideInAnim(AboutActivity.this);
 
         }
     }

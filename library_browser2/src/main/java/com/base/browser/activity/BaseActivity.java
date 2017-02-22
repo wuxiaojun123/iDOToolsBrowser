@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.base.browser.utils.ActivitySlideAnim;
 import com.base.browser.utils.ActivityUtils;
+import com.base.browser.utils.DoAnalyticsManager;
 
 import nsu.edu.com.library.SwipeBackActivity;
 
@@ -26,13 +27,13 @@ public class BaseActivity extends SwipeBackActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        DoAnalyticsManager.pageResume(this);
+        DoAnalyticsManager.pageResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        DoAnalyticsManager.pagePause(this);
+        DoAnalyticsManager.pagePause(this);
     }
 
     @Override

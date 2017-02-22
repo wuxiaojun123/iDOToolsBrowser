@@ -56,6 +56,8 @@
 
     <string name="string_remove_all_history">刪除所有歷史記錄</string>
 
+    <string name="string_private_policy">隱私政策</string>
+
     <!--保存图片-->
     <string name="string_download_image">下載圖片</string>
     <string name="string_finish">下載完成</string>

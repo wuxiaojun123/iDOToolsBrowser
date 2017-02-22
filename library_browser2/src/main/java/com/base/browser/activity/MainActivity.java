@@ -39,7 +39,7 @@ import com.idotools.utils.MobileScreenUtils;
 import com.idotools.utils.SharedPreferencesHelper;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, WebviewInteface, OnPageStartedListener, OnReceivedErrorListener, SwipeRefreshLayout.OnRefreshListener {
+public abstract class MainActivity extends BaseActivity implements View.OnClickListener, WebviewInteface, OnPageStartedListener, OnReceivedErrorListener, SwipeRefreshLayout.OnRefreshListener {
 
     RelativeLayout id_rl_main;
     ImageView iv_back;
@@ -130,7 +130,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    private void initData() {
+    protected void initData() {
 
         screentHeight = MobileScreenUtils.getScreenHeight(mContext);
         nightModeTranslationY = (screentHeight - MetricsUtils.dipToPx(100)) / 2;
@@ -176,7 +176,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         int id = v.getId();
         if (id == R.id.id_iv_back) {
             isPopupShowing();
-            backLastActivity();
+            if (mWebView != null && mWebView.canGoBack()) {
+                back();
+            } else {
+                backLastActivity();
+            }
 
         } else if (id == R.id.id_iv_forward) {
             isPopupShowing();
@@ -321,8 +325,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             } else {
                 swipeRefreshLayout.setRefreshing(true);
             }
+            showInterstitialAd(progress);
         }
     }
+
+    protected abstract void showInterstitialAd(int progress);
 
     @Override
     public void onPageStarted(String url) {
@@ -427,7 +434,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_night_toogle.setScaleY(1.0f);
                 iv_night_toogle.setVisibility(View.GONE);
                 //重新启动dmzjActivity
-//                ActivityUtils.activities.get(0).recreate();
                 toogleNightMode();
             }
         });
@@ -437,14 +443,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 夜间模式
      */
     protected void toogleNightMode() {
-        boolean modeNight = SharedPreferencesHelper.getInstance(mContext).getBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, false);
+        /*boolean modeNight = SharedPreferencesHelper.getInstance(mContext).getBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, false);
         if (modeNight) {
             setDayMode();
         } else {
             setNightMode();
         }
         mPopupWindow.toogleNightMode(!modeNight);
-        SharedPreferencesHelper.getInstance(mContext).putBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, !modeNight);
+        SharedPreferencesHelper.getInstance(mContext).putBoolean(SharedPreferencesHelper.SP_KEY_MODE_NIGHT, !modeNight);*/
     }
 
     //白天模式
@@ -473,8 +479,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     /**
      * 回到上一个页面
      */
-    protected void backLastActivity() {
-        /*try {
+    protected abstract void backLastActivity();
+    /*{
+        try {
             int size = ActivityUtils.activities.size();
             for (int i = size - 1; i >= 0; i--) {
                 String simpleName = ActivityUtils.activities.get(i).getClass().getSimpleName();
@@ -485,8 +492,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             ActivitySlideAnim.slideOutAnim(MainActivity.this);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
-    }
+        }
+    }*/
 
 
     @Override
@@ -498,19 +505,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void onBackPressed() {
-        if (id_fl_mask.getVisibility() == View.VISIBLE) {
-            mSearchEditText.backKey();
-        } else {
-            if (mPopupWindow != null && mPopupWindow.isShow()) {
-                mPopupWindow.exitStartAnim();
-            } else if (mWebView != null && mWebView.canGoBack()) {
-                back();
-            } else {
-                super.onBackPressed();
-            }
+    public void onBackPressed(){
+        if(backpressed()){
+            super.onBackPressed();
         }
     }
+
+    public abstract boolean backpressed();
 
     @Override
     protected void onDestroy() {

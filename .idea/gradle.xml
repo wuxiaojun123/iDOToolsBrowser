@@ -10,16 +10,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/app_video" />
+            <option value="$PROJECT_DIR$/app_dmzj_yinyangshi" />
             <option value="$PROJECT_DIR$/app_video_dance" />
-            <option value="$PROJECT_DIR$/app_video_lol" />
-            <option value="$PROJECT_DIR$/browser_demo" />
             <option value="$PROJECT_DIR$/easypermissions" />
             <option value="$PROJECT_DIR$/library_OneSDK" />
             <option value="$PROJECT_DIR$/library_analyticsone" />
             <option value="$PROJECT_DIR$/library_auto_update" />
             <option value="$PROJECT_DIR$/library_base" />
-            <option value="$PROJECT_DIR$/library_browser" />
             <option value="$PROJECT_DIR$/library_browser2" />
             <option value="$PROJECT_DIR$/library_getui" />
             <option value="$PROJECT_DIR$/library_swipeback" />

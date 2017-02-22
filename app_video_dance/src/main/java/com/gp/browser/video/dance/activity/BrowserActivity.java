@@ -32,6 +32,11 @@ public class BrowserActivity extends MainActivity {
         mWebViewManager = new MyWebViewManager(this);
     }
 
+    @Override
+    protected void showInterstitialAd(int progress) {
+
+    }
+
     protected void backLastActivity() {
         try {
             int size = ActivityUtils.activities.size();
@@ -45,6 +50,26 @@ public class BrowserActivity extends MainActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean backpressed() {
+        boolean result = false;
+        if (id_fl_mask.getVisibility() == View.VISIBLE) {
+            mSearchEditText.backKey();
+        } else {
+            if (mPopupWindow != null && mPopupWindow.isShow()) {
+                mPopupWindow.exitStartAnim();
+            } else if (mWebView != null && mWebView.canGoBack()) {
+                if (ll_ad_container.getVisibility() == View.VISIBLE) {
+                    showTitleAndBottomStartAnim();
+                }
+                back();
+            } else {
+                result = true;
+            }
+        }
+        return result;
     }
 
     /***

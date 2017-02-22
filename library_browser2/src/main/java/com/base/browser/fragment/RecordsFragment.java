@@ -118,7 +118,8 @@ public class RecordsFragment extends Fragment implements View.OnClickListener, O
         //打开url
         RecordsBean bean = list.get(position);
         if (bean != null) {
-            Intent mIntent = new Intent(getActivity(), MainActivity.class);
+            Intent mIntent = new Intent();
+            mIntent.setClassName(mContext.getPackageName(),mContext.getPackageName()+".activity.BrowserActivity");
             mIntent.putExtra("url", bean.url);
             startActivity(mIntent);
 

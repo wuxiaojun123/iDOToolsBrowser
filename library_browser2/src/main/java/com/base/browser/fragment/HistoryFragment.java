@@ -20,6 +20,7 @@ import com.base.browser.minterface.OnItemDeleteClickListener;
 import com.base.browser.sqlite.SqliteManager;
 import com.base.browser.utils.ActivitySlideAnim;
 import com.base.browser.view.SideSlipRecyclerView;
+import com.idotools.utils.LogUtils;
 import com.idotools.utils.ToastUtils;
 
 import java.util.List;
@@ -117,7 +118,8 @@ public class HistoryFragment extends Fragment implements View.OnClickListener, O
         //打开url
         CartoonDetailsBean bean = list.get(position);
         if (bean != null) {
-            Intent mIntent = new Intent(getActivity(), MainActivity.class);
+            Intent mIntent = new Intent();
+            mIntent.setClassName(mContext.getPackageName(),mContext.getPackageName()+".activity.BrowserActivity");
             mIntent.putExtra("url", bean.url);
             startActivity(mIntent);
 

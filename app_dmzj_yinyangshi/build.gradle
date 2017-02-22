@@ -1,0 +1,102 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+        applicationId "com.browser.dmzj.yinyangshi"
+        minSdkVersion 14
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    sourceSets{
+        main{
+//            manifest.srcFile 'AndroidManifest.xml'
+            //java.srcDirs = ['src']
+            //res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    signingConfigs {
+        myConfig {
+            storeFile file("17sy-keystore.keystore")
+            storePassword "c88076a26001612bd0da718ed62f1df4"
+            keyAlias "17sy"
+            keyPassword "c88076a26001612bd0da718ed62f1df4"
+        }
+        /*myConfig {
+            storeFile file("browser.keystore")
+            storePassword "broWser@doT#20161102"
+            keyAlias "browser"
+            keyPassword "broWser@doT#20161102"
+        }*/
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+
+            signingConfig signingConfigs.myConfig
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            debuggable false
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.myConfig
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.android.support:design:24.2.0'//design风格
+    //基本工具类
+    compile project(':library_base')
+    //右滑finishActivity
+    compile project(':library_swipeback')
+    //个推
+    compile project(":library_getui")
+    //umeng统计
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    //解析html工具类
+    compile 'org.jsoup:jsoup:1.9.2'
+    //butterknife
+    compile 'com.jakewharton:butterknife:8.0.1'
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    //glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //rxjava和retrofit框架
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+
+//    compile 'com.google.firebase:firebase-ads:10.0.1'//google admob广告
+//    compile 'com.google.firebase:firebase-core:10.0.1' //google firebase 统计
+//    compile 'com.google.firebase:firebase-analytics:10.0.1'
+
+    //facebook 广告
+    compile 'com.facebook.android:audience-network-sdk:4.+'
+    //权限处理
+    compile project(':easypermissions')
+    //依赖browserLibrary2
+    compile project(':library_browser2')
+}
+//apply plugin: 'com.google.gms.google-services'
