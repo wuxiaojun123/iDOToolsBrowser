@@ -2,6 +2,8 @@ package com.manga.country.utils;
 
 /**
  * Created by wuxiaojun on 16-10-2.
+ *
+ * http://open.dmzj.com/comic_info/all.php?token=c9fec612f669b52499315c4137b04ed7&order=hot&num=10&page=1
  */
 public class Constant {
 
