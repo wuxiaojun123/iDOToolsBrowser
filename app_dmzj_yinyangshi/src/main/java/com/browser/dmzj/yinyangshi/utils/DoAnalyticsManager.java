@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 
+import com.idotools.utils.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;

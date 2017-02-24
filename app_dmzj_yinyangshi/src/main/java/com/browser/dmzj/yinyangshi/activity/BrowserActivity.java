@@ -46,6 +46,18 @@ public class BrowserActivity extends MainActivity {
         loadInterstitialAd();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DoAnalyticsManager.pageResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DoAnalyticsManager.pagePause(this);
+    }
+
     private void loadInterstitialAd() { // 加载插屏ad
         interstitialAd = new InterstitialAd(mContext, Constant.FACEBOOK_PLACEMENT_ID_TABLE_PLAQUE);
         interstitialAd.setAdListener(new InterstitialAdListener() {

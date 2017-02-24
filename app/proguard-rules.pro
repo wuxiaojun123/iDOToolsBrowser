@@ -64,14 +64,14 @@
     public static final android.os.Parcelable$Creator *;
 }
 
--keep public class com.manga.browser.R$*{
+-keep public class com.manga.country.R$*{
     public static final int *;
 }
 
 #####################自定义view还有和js交互的类 不混淆 ##############
--keep class com.manga.browser.view.** { *; }
--keep class com.manga.browser.bean.** { *; }
--keep class com.manga.browser.manager.webview.BrowserJsInterface { *; }
+-keep class com.manga.country.view.** { *; }
+-keep class com.manga.country.bean.** { *; }
+-keep class com.manga.country.manager.webview.BrowserJsInterface { *; }
 #-keep class AppHttpClient {*;}
 #####################自定义view 不混淆 ############################
 
@@ -101,7 +101,7 @@
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
 }
--keep public class com.manga.browser.R$*{
+-keep public class com.manga.country.R$*{
 public static final int *;
 }
 -keepclassmembers enum * {

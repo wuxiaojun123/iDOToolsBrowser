@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.browser.activity.BaseActivity;
+import com.browser.dmzj.yinyangshi.utils.DoAnalyticsManager;
 import com.idotools.utils.JudgeNetWork;
 import com.browser.dmzj.yinyangshi.R;
 import com.browser.dmzj.yinyangshi.adapter.DmzjHotRecyclerAdapter;
@@ -189,6 +190,17 @@ public class DmzjHotActivity extends BaseActivity implements View.OnClickListene
         loadHotData(page, false);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DoAnalyticsManager.pageResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DoAnalyticsManager.pagePause(this);
+    }
 
     @Override
     public void onItemClickListener(String url, String imgUrl, String title) {

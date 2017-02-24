@@ -27,7 +27,7 @@
         android:background="@drawable/shape_search_bg"
         android:orientation="horizontal">
 
-        <com.manga.browser.view.SearchEditTextView
+        <com.manga.country.view.SearchEditTextView
             android:id="@+id/id_et_search"
             android:layout_width="0dp"
             android:layout_height="32dp"

@@ -232,8 +232,7 @@ public class DmzjRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 mNativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
                 nativeAdHashMap.put(currentPositionStr, mNativeAd);
             }
-        } else {
-            //设置view上的内容
+        } else { // 设置view上的内容
             setNativeAdView(dmzjViewHolder, mNativeAd, currentPositionStr);
         }
     }

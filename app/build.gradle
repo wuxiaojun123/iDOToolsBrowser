@@ -6,7 +6,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.manga.browser"
+        applicationId "com.manga.country"
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
@@ -74,6 +74,8 @@ dependencies {
 //    compile project(':library_auto_update')
     //右滑finishActivity
     compile project(':library_swipeback')
+    //个推
+    compile project(":library_getui")
     //umeng统计
     compile 'com.umeng.analytics:analytics:latest.integration'
     //解析html工具类

@@ -78,7 +78,7 @@
 
     <!--热门推荐-->
     <string name="string_hot_recommend">熱門推薦</string>
-
+    <string name="string_private_policy">隱私政策</string>
 
     <!--设置view的tab-->
     <string type="id" name="string_tag_0" />

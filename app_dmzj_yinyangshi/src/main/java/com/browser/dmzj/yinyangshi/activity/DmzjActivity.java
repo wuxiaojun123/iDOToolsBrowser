@@ -546,6 +546,18 @@ public class DmzjActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        DoAnalyticsManager.pageResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DoAnalyticsManager.pagePause(this);
+    }
+
+    @Override
     public void onBackPressed() {
         if (id_fl_mask.getVisibility() == View.VISIBLE) {
             mSearchEditText.backKey();

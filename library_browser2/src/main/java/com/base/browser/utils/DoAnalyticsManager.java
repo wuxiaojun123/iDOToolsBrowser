@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 
+import com.idotools.utils.LogUtils;
+
 import java.util.HashMap;
 
 /**
@@ -23,14 +25,17 @@ public class DoAnalyticsManager {
     public static final String DOT_KEY_HISTORY_CLICK = "key_history_click";
 
 
-    public  static void pageResume(Activity activity){
+    public static void pageResume(Activity activity) {
     }
 
+    ;
 
     public static void pagePause(Activity activity) {
     }
+
     public static void pageFragmentResume(String name, Context context) {
     }
+
     public static void pageFragmentPause(String name, Context context) {
     }
 
